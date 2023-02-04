@@ -54,10 +54,11 @@ namespace GGJ_Ideas_and_Monogame_trials
                 IsFullScreen = false,
                 PreferredBackBufferWidth = DEFAULT_VIEWPORT_WIDTH,
                 PreferredBackBufferHeight = DEFAULT_VIEWPORT_HEIGHT,
-                PreferredBackBufferFormat = SurfaceFormat.Color,
+                // PreferredBackBufferFormat = SurfaceFormat.Color,
                 PreferMultiSampling = true,
-                // PreferredDepthStencilFormat = DepthFormat.None,
+                PreferredDepthStencilFormat = DepthFormat.Depth24,
                 SynchronizeWithVerticalRetrace = true,
+                // SynchronizeWithVerticalRetrace = false,
             };
 
             int screenWidth = Window.ClientBounds.Width;

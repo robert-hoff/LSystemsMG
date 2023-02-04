@@ -5,16 +5,13 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
 {
     class DrawLine
     {
-        // private GraphicsDevice graphicsDevice;
         private CameraTransforms cameraTransforms;
         private BasicEffect basicEffect;
 
         public DrawLine(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms)
         {
-            // this.graphicsDevice = graphicsDevice;
             this.cameraTransforms = cameraTransforms;
             this.basicEffect = new BasicEffect(graphicsDevice);
-
             // -- enable per-polygon vertex colors
             basicEffect.VertexColorEnabled = true;
         }
@@ -24,8 +21,8 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
             VertexPositionColor[] vertexList = new VertexPositionColor[2];
             vertexList[0] = new VertexPositionColor(vertices[0], color);
             vertexList[1] = new VertexPositionColor(vertices[1], color);
-            basicEffect.CurrentTechnique.Passes[0].Apply();
             ApplyCameraTransform();
+            basicEffect.CurrentTechnique.Passes[0].Apply();
             graphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, vertexList, 0, 1);
         }
 
@@ -74,10 +71,6 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
             DrawLinePrimitive(graphicsDevice, negativeZ, Color.Black);
 
         }
-
-
-
-
     }
 }
 
