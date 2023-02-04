@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
  *
  * <remarks>constructor</remarks>
  * - `new GraphicsDeviceManager(this)` attaches itself to this.GraphicsDevice
+ * - removed 'spritebatch' (refer to template)
  *
  * <remarks>method Update(GameTime gameTime)</remarks>
  * Called on each game-loop
@@ -22,20 +24,15 @@ using Microsoft.Xna.Framework.Input;
  *
  *
  *
- *
- *
  */
 namespace GGJ_Ideas_and_Monogame_trials
 {
     public class Game1 : Game
     {
-        // SpriteBatch spriteBatch;
-
         private Model model;
         private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
         private Matrix view = Matrix.CreateLookAt(new Vector3(0, 0, 5), new Vector3(0, 0, 0), Vector3.UnitY);
         private Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathF.PI / 4, 1.6f, 0.1f, 100f);
-
 
         public Game1()
         {
@@ -43,6 +40,7 @@ namespace GGJ_Ideas_and_Monogame_trials
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             Window.AllowUserResizing = true;
+            Window.Title = "Rotating Spaceship";
         }
 
         protected override void Initialize()
@@ -52,10 +50,9 @@ namespace GGJ_Ideas_and_Monogame_trials
 
         protected override void LoadContent()
         {
-            // spriteBatch - related to textures?
-            _ = new SpriteBatch(GraphicsDevice);
             Content = new ContentManager(this.Services, "Content");
-            model = Content.Load<Model>("ship-no-texture");
+            // model = Content.Load<Model>("ship-no-texture");
+            model = Content.Load<Model>("ship-with-texture");
         }
 
         protected override void Update(GameTime gameTime)
@@ -65,6 +62,7 @@ namespace GGJ_Ideas_and_Monogame_trials
                 Exit();
             }
             world = Matrix.CreateRotationY((float) gameTime.TotalGameTime.TotalSeconds);
+            // Debug.WriteLine($"{gameTime.TotalGameTime.TotalSeconds}");
             base.Update(gameTime);
         }
 
