@@ -107,6 +107,14 @@ namespace GGJ_Ideas_and_Monogame_trials
             {
                 cameraTransforms.IncrementCameraOrbitDegrees(-3);
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                cameraTransforms.OrbitUp();
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                cameraTransforms.OrbitDown();
+            }
 
             // TESTING ONLY, print camera position
             if (Keyboard.GetState().IsKeyDown(Keys.P))
@@ -149,8 +157,6 @@ namespace GGJ_Ideas_and_Monogame_trials
 
             // -- render game components
             // DrawModel(spaceshipModel, world, view, projection);
-
-
 
 
             DrawModel2(spaceshipModel, world, view, projection, 0, 1, 2, Color.Tomato.ToVector3());

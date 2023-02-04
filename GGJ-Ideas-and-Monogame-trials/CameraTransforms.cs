@@ -12,7 +12,7 @@ namespace GGJ_Ideas_and_Monogame_trials
     class CameraTransforms
     {
         public Vector3 cameraPosition = new Vector3(3f, 3f, 7f);
-        public float cameraRotation = MathHelper.ToRadians(75);
+        public float cameraRotation = MathHelper.ToRadians(85);
         private int viewportWidth;
         private int viewportHeight;
 
@@ -54,17 +54,29 @@ namespace GGJ_Ideas_and_Monogame_trials
         }
         public void ZoomIn()
         {
-            // cameraPosition.Multiply(0.9);
             cameraPosition = Vector3.Multiply(cameraPosition, 0.9f);
-            // cameraZ *= 0.9f;
             CalculateViewMatrix();
         }
         public void ZoomOut()
         {
             cameraPosition = Vector3.Multiply(cameraPosition, 1.1f);
-            // cameraZ *= 1.1f;
             CalculateViewMatrix();
         }
+        // instead of "orbit up" just raise the height
+        public void OrbitUp()
+        {
+            float cameraHeight = cameraPosition.Y + 0.2f;
+            cameraPosition = new Vector3(cameraPosition.X, cameraHeight, cameraPosition.Z);
+            CalculateViewMatrix();
+        }
+
+        public void OrbitDown()
+        {
+            float cameraHeight = cameraPosition.Y - 0.2f;
+            cameraPosition = new Vector3(cameraPosition.X, cameraHeight, cameraPosition.Z);
+            CalculateViewMatrix();
+        }
+
 
         //
         // -- Projection matrix and related updates
