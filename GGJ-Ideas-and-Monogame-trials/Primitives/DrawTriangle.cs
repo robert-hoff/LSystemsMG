@@ -14,16 +14,17 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
             this.cameraTransforms = cameraTransforms;
             this.basicEffect = new BasicEffect(graphicsDevice);
 
-            basicEffect.AmbientLightColor = Vector3.One;
-            basicEffect.DirectionalLight0.Enabled = true;
-            basicEffect.DirectionalLight0.DiffuseColor = Vector3.One;
-            basicEffect.DirectionalLight0.Direction = Vector3.Normalize(Vector3.One);
+            // FIXME - experiement if time allows
+            //basicEffect.AmbientLightColor = Vector3.One;
+            //basicEffect.DirectionalLight0.Enabled = true;
+            //basicEffect.DirectionalLight0.DiffuseColor = Vector3.One;
+            //basicEffect.DirectionalLight0.Direction = Vector3.Normalize(Vector3.One);
 
             // -- enable per-polygon vertex colors
             basicEffect.VertexColorEnabled = true;
         }
 
-        public void Draw(GraphicsDevice graphicsDevice, Vector3[] vertices, Color color)
+        public void DrawTrianglePrimitive(GraphicsDevice graphicsDevice, Vector3[] vertices, Color color)
         {
             VertexPositionColor[] vertexList = new VertexPositionColor[3];
             vertexList[0] = new VertexPositionColor(vertices[0], color);
@@ -42,19 +43,19 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
             basicEffect.Projection = cameraTransforms.GetProjectionMatrix();
         }
 
-        public void DrawTestPolygon(GraphicsDevice graphicsDevice)
+        public void DrawTestTriangle(GraphicsDevice graphicsDevice)
         {
             Vector3[] vertices = new Vector3[3];
             // x,y plane
             vertices[0] = new Vector3(0,0,0);
-            vertices[1] = new Vector3(0,10f,0);
-            vertices[2] = new Vector3(10f,10f,0);
+            vertices[1] = new Vector3(0,1f,0);
+            vertices[2] = new Vector3(1f,1f,0);
 
             // x,z plane (horizontal plane)
             vertices[0] = new Vector3(0, 0, 0);
-            vertices[1] = new Vector3(0, 0, 10f);
-            vertices[2] = new Vector3(10f, 0, 10f);
-            Draw(graphicsDevice, vertices, Color.Green);
+            vertices[1] = new Vector3(0, 0, 1f);
+            vertices[2] = new Vector3(1f, 0, 1f);
+            DrawTrianglePrimitive(graphicsDevice, vertices, Color.Green);
         }
     }
 }

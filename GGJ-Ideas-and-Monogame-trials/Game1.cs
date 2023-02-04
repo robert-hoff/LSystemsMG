@@ -1,6 +1,4 @@
-using System;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using GGJ_Ideas_and_Monogame_trials.Primitives;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -41,6 +39,7 @@ namespace GGJ_Ideas_and_Monogame_trials
 
         private Model spaceshipModel;
         private DrawTriangle drawTriangle;
+        private DrawLine drawLine;
 
         public Game1()
         {
@@ -51,7 +50,6 @@ namespace GGJ_Ideas_and_Monogame_trials
 
             _ = new GraphicsDeviceManager(this)
             {
-                // TODO - check over graphics options
                 IsFullScreen = false,
                 PreferredBackBufferWidth = DEFAULT_VIEWPORT_WIDTH,
                 PreferredBackBufferHeight = DEFAULT_VIEWPORT_HEIGHT,
@@ -69,32 +67,23 @@ namespace GGJ_Ideas_and_Monogame_trials
         protected override void Initialize()
         {
             // enable these lines if using SpriteBatch
-            GraphicsDevice.BlendState = BlendState.Opaque;
-            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+            // GraphicsDevice.BlendState = BlendState.Opaque;
+            // GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            // GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
             // polygon winding, render both faces
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-
-
-            // -- create 'basicEffect' definition for rendering primitives via buffers
-            // basicEffect = new BasicEffect(GraphicsDevice);
-            // basicEffect.World = world;
-            // basicEffect.View = view;
-            // basicEffect.Projection = projection;
-            // -- enable per-polygon vertex colors
-            // basicEffect.VertexColorEnabled = true;
-
-            drawTriangle = new DrawTriangle(GraphicsDevice, cameraTransforms);
-
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
+            drawTriangle = new DrawTriangle(GraphicsDevice, cameraTransforms);
+            drawLine = new DrawLine(GraphicsDevice, cameraTransforms);
+
             Content = new ContentManager(this.Services, "Content");
-            // model = Content.Load<Model>("ship-no-texture");
-            spaceshipModel = Content.Load<Model>("ship-with-texture");
+            spaceshipModel = Content.Load<Model>("ship-no-texture");
+            // spaceshipModel = Content.Load<Model>("ship-with-texture");
         }
 
 
@@ -142,13 +131,6 @@ namespace GGJ_Ideas_and_Monogame_trials
                 cameraTransforms.ZoomIn();
             }
             previousMouseScroll = currentMouseScroll;
-
-
-            // -- for the 'primitives' stuff
-            // basicEffect.World = world;
-            // basicEffect.Projection = projection;
-
-
             base.Update(gameTime);
         }
 
@@ -162,11 +144,11 @@ namespace GGJ_Ideas_and_Monogame_trials
             GraphicsDevice.Clear(Color.CornflowerBlue);
             // GraphicsDevice.Clear(Color.Black);
             // GraphicsDevice.Clear(Color.White);
+
+            // -- render game components
             DrawModel(spaceshipModel, world, view, projection);
-
-            drawTriangle.DrawTestPolygon(GraphicsDevice);
-
-
+            drawTriangle.DrawTestTriangle(GraphicsDevice);
+            drawLine.DrawAxis(GraphicsDevice);
             base.Draw(gameTime);
         }
 

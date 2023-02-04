@@ -11,7 +11,7 @@ namespace GGJ_Ideas_and_Monogame_trials
      */
     class CameraTransforms
     {
-        public Vector3 cameraPosition = new Vector3(13.5f, 13.5f, 34f);
+        public Vector3 cameraPosition = new Vector3(3f, 3f, 7f);
         private float cameraRotation = MathHelper.ToRadians(-45);
         private int viewportWidth;
         private int viewportHeight;
