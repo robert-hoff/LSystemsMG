@@ -33,14 +33,14 @@ namespace GGJ_Ideas_and_Monogame_trials
         {
             worldMatrix = Matrix.CreateRotationZ(cameraRotation);
         }
-        public void SetCameraOrbitDegrees(float cameraRotationDegrees)
+        public void SetCameraOrbitDegrees(float rotateDeg)
         {
-            this.cameraRotation = MathHelper.ToRadians(cameraRotationDegrees);
+            this.cameraRotation = MathHelper.ToRadians(rotateDeg);
             CalculateWorldMatrix();
         }
-        public void IncrementCameraOrbitDegrees(float cameraRotationDegrees)
+        public void IncrementCameraOrbitDegrees(float rotateDeg)
         {
-            this.cameraRotation += MathHelper.ToRadians(cameraRotationDegrees);
+            this.cameraRotation += MathHelper.ToRadians(rotateDeg);
             CalculateWorldMatrix();
         }
 
@@ -61,15 +61,15 @@ namespace GGJ_Ideas_and_Monogame_trials
             CalculateViewMatrix();
         }
         // instead of "orbit up" just raise the height (hacky)
-        public void OrbitUp()
+        public void OrbitUp(float raise)
         {
-            float cameraHeight = cameraPosition.Z + 0.2f;
+            float cameraHeight = cameraPosition.Z + raise;
             cameraPosition = new Vector3(cameraPosition.X, cameraPosition.Y, cameraHeight);
             CalculateViewMatrix();
         }
-        public void OrbitDown()
+        public void OrbitDown(float lower)
         {
-            float cameraHeight = cameraPosition.Z - 0.2f;
+            float cameraHeight = cameraPosition.Z - lower;
             cameraPosition = new Vector3(cameraPosition.X, cameraPosition.Y, cameraHeight);
             CalculateViewMatrix();
         }
@@ -94,20 +94,5 @@ namespace GGJ_Ideas_and_Monogame_trials
                 CalculateProjectionMatrix();
             }
         }
-
-        // -- get the camera transforms (world, view and projection)
-        /*
-        public Matrix GetWorldMatrix()
-        {
-            return worldMatrix;
-        }
-        public Matrix GetViewMatrix()
-        {
-            return viewMatrix;
-        }
-        public Matrix GetProjectionMatrix()
-        {
-            return projectionMatrix;
-        }*/
     }
 }

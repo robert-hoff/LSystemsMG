@@ -88,31 +88,13 @@ namespace GGJ_Ideas_and_Monogame_trials
         }
 
         private int previousMouseScroll = 0;
+        private int mouseDragX = 0;
+        private int mouseDragY = 0;
+        private bool leftMouseIsReleased = true;
+
         protected override void Update(GameTime gameTime)
         {
             cameraTransforms.UpdateViewportDimensions(Window.ClientBounds.Width, Window.ClientBounds.Height);
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                Exit();
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                cameraTransforms.IncrementCameraOrbitDegrees(3);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                cameraTransforms.IncrementCameraOrbitDegrees(-3);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
-            {
-                cameraTransforms.OrbitUp();
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                cameraTransforms.OrbitDown();
-            }
 
             // TESTING ONLY, print camera position
             if (Keyboard.GetState().IsKeyDown(Keys.P))
@@ -121,11 +103,31 @@ namespace GGJ_Ideas_and_Monogame_trials
                 Debug.WriteLine($"rotation {MathHelper.ToDegrees(cameraTransforms.cameraRotation)}");
             }
 
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
 
-            // -- needs implementation (orbit)
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
-                // Debug.WriteLine($"mouse down");
+                if (leftMouseIsReleased)
+                {
+                    leftMouseIsReleased = false;
+                    mouseDragX = Mouse.GetState().X;
+                    mouseDragY = Mouse.GetState().Y;
+                } else
+                {
+                    float diffX = Mouse.GetState().X - mouseDragX;
+                    float diffY = Mouse.GetState().Y - mouseDragY;
+                    cameraTransforms.IncrementCameraOrbitDegrees(diffX/4);
+                    cameraTransforms.OrbitUp(diffY / 20);
+                    mouseDragX = Mouse.GetState().X;
+                    mouseDragY = Mouse.GetState().Y;
+                }
+            }
+            if (Mouse.GetState().LeftButton == ButtonState.Released)
+            {
+                leftMouseIsReleased = true;
             }
 
             int currentMouseScroll = Mouse.GetState().ScrollWheelValue;
@@ -139,6 +141,7 @@ namespace GGJ_Ideas_and_Monogame_trials
                 cameraTransforms.ZoomIn();
                 previousMouseScroll = currentMouseScroll;
             }
+
             base.Update(gameTime);
         }
 
