@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using GGJ_Ideas_and_Monogame_trials.Primitives;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,15 +37,16 @@ namespace GGJ_Ideas_and_Monogame_trials
     {
         private const int DEFAULT_VIEWPORT_WIDTH = 800;
         private const int DEFAULT_VIEWPORT_HEIGHT = 600;
-        private const float CAMERA_HEIGHT = 10f;
+        private const float CAMERA_HEIGHT = 30f;
         private CameraTransforms cameraTransforms;
 
         private Model spaceshipModel;
+        private DrawTriangle drawTriangle;
 
         public Game1()
         {
             Content.RootDirectory = "Content";
-            Window.Title = "Rotating Spaceship";
+            Window.Title = "Monogame Trials";
             IsMouseVisible = true;
             Window.AllowUserResizing = true;
 
@@ -65,8 +67,6 @@ namespace GGJ_Ideas_and_Monogame_trials
             cameraTransforms = new CameraTransforms(screenWidth, screenHeight, initialCameraZ: CAMERA_HEIGHT);
         }
 
-        private BasicEffect basicEffect;
-
         protected override void Initialize()
         {
             // enable these lines if using SpriteBatch
@@ -86,10 +86,7 @@ namespace GGJ_Ideas_and_Monogame_trials
             // -- enable per-polygon vertex colors
             // basicEffect.VertexColorEnabled = true;
 
-            // basicEffect.AmbientLightColor = Vector3.One;
-            // basicEffect.DirectionalLight0.Enabled = true;
-            // basicEffect.DirectionalLight0.DiffuseColor = Vector3.One;
-            // basicEffect.DirectionalLight0.Direction = Vector3.Normalize(Vector3.One);
+            drawTriangle = new DrawTriangle(GraphicsDevice, cameraTransforms);
 
             base.Initialize();
         }
@@ -115,11 +112,11 @@ namespace GGJ_Ideas_and_Monogame_trials
 
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                cameraTransforms.IncrementCameraOrbitDegrees(-3);
+                cameraTransforms.IncrementCameraOrbitDegrees(3);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                cameraTransforms.IncrementCameraOrbitDegrees(3);
+                cameraTransforms.IncrementCameraOrbitDegrees(-3);
             }
 
             // -- needs implementation (orbit)
@@ -156,23 +153,13 @@ namespace GGJ_Ideas_and_Monogame_trials
             Matrix view = cameraTransforms.GetViewMatrix();
             Matrix projection = cameraTransforms.GetProjectionMatrix();
 
-
-            // GraphicsDevice.Clear(Color.CornflowerBlue);
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            // GraphicsDevice.Clear(Color.Black);
+            // GraphicsDevice.Clear(Color.White);
             DrawModel(spaceshipModel, world, view, projection);
 
+            drawTriangle.DrawTestPolygon(GraphicsDevice);
 
-            // -- drawing primitives
-            /*
-            // -- key method, set the context with basicEffect definition
-            basicEffect.CurrentTechnique.Passes[0].Apply();
-
-            VertexPositionColor[] vertexList = new VertexPositionColor[3];
-            vertexList[0] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Green);
-            vertexList[1] = new VertexPositionColor(new Vector3(0, 10f, 0), Color.Green);
-            vertexList[2] = new VertexPositionColor(new Vector3(10f, 10f, 0), Color.Green);
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, vertexList, 0, 1);
-            */
 
             base.Draw(gameTime);
         }
