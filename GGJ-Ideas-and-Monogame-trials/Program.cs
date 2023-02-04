@@ -1,6 +1,4 @@
 using System;
-using System.Diagnostics;
-using Microsoft.Xna.Framework;
 
 namespace GGJ_Ideas_and_Monogame_trials
 {
@@ -11,13 +9,6 @@ namespace GGJ_Ideas_and_Monogame_trials
         {
             using Game1 game = new();
             game.Run();
-
-
         }
     }
 }
-
-
-
-
-

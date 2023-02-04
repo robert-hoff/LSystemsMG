@@ -4,12 +4,31 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-
+/**
+ *
+ * <remarks>constructor</remarks>
+ * - `new GraphicsDeviceManager(this)` attaches itself to this.GraphicsDevice
+ *
+ * <remarks>method Update(GameTime gameTime)</remarks>
+ * Called on each game-loop
+ * - Target FPS (default) = 60
+ * - gameTime.TotalGameTime = global clock
+ * - gameTime.ElapsedTime, time since last update (1/60 seconds)
+ *
+ * <remarks>method Draw(GameTime gameTime)</remarks>
+ * Same as Update. Called immediately after (on the execution thread)
+ * - attaching an object of type `DrawableGameComponent`
+ *   will have its Draw(GameTime gametime) method implicitly called at this step (needs to be registered)
+ *
+ *
+ *
+ *
+ *
+ */
 namespace GGJ_Ideas_and_Monogame_trials
 {
     public class Game1 : Game
     {
-        // GraphicsDeviceManager graphics;
         // SpriteBatch spriteBatch;
 
         private Model model;
@@ -20,7 +39,6 @@ namespace GGJ_Ideas_and_Monogame_trials
 
         public Game1()
         {
-            // R: this doesn't need to be assigned
             _ = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -34,63 +52,25 @@ namespace GGJ_Ideas_and_Monogame_trials
 
         protected override void LoadContent()
         {
-            // spriteBatch - needed to draw textures?
+            // spriteBatch - related to textures?
             _ = new SpriteBatch(GraphicsDevice);
-
             Content = new ContentManager(this.Services, "Content");
             model = Content.Load<Model>("ship-no-texture");
         }
 
-
-
-        /*
-         *
-         * Notes
-         * -----
-         * Called on each game-loop
-         * Target fps (default) = 60
-         *
-         * gameTime.TotalGameTime = global clock
-         * gameTime.ElapsedTime, time since last update (= 1/60 seconds)
-         *
-         *
-         *
-         */
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
-
             world = Matrix.CreateRotationY((float) gameTime.TotalGameTime.TotalSeconds);
             base.Update(gameTime);
         }
 
-
-        /*
-         * Notes
-         * -----
-         * Same as Update. Called immediately after on the same thread
-         *
-         * attaching an object of type
-         *
-         *      DrawableGameComponent
-         *
-         *
-         * will have its Draw(GameTime gametime) method implicitly called at this step (needs to be registered)
-         *
-         *
-         *
-         *
-         *
-         */
         protected override void Draw(GameTime gameTime)
         {
-            // GraphicsDevice.Clear(Color.Black);
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            // GraphicsDevice and graphics.GraphicsDevice is the same method
-            // graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
             DrawModel(model, world, view, projection);
             base.Draw(gameTime);
         }
@@ -99,23 +79,15 @@ namespace GGJ_Ideas_and_Monogame_trials
         {
             foreach (ModelMesh mesh in model.Meshes)
             {
-                foreach (BasicEffect effect in mesh.Effects)
+                foreach (Effect effect in mesh.Effects)
                 {
-                    effect.World = world;
-                    effect.View = view;
-                    effect.Projection = projection;
+                    BasicEffect basicEffect = (BasicEffect) effect;
+                    basicEffect.World = world;
+                    basicEffect.View = view;
+                    basicEffect.Projection = projection;
                 }
                 mesh.Draw();
             }
         }
-
-
-        // 'using' statement in Program.cs ensures call to Dispose(..) at application close
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-            // Debug.WriteLine($"disposed was called");
-        }
-
     }
 }
