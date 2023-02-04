@@ -45,9 +45,15 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
         public void DrawTestPolygon(GraphicsDevice graphicsDevice)
         {
             Vector3[] vertices = new Vector3[3];
+            // x,y plane
             vertices[0] = new Vector3(0,0,0);
             vertices[1] = new Vector3(0,10f,0);
             vertices[2] = new Vector3(10f,10f,0);
+
+            // x,z plane (horizontal plane)
+            vertices[0] = new Vector3(0, 0, 0);
+            vertices[1] = new Vector3(0, 0, 10f);
+            vertices[2] = new Vector3(10f, 0, 10f);
             Draw(graphicsDevice, vertices, Color.Green);
         }
     }

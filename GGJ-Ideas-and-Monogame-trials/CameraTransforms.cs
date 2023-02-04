@@ -6,6 +6,8 @@ namespace GGJ_Ideas_and_Monogame_trials
 {
     class CameraTransforms
     {
+        private Vector3 cameraPosition = new Vector3(4f, 4f, 10f);
+
         private Vector3 cameraFoci = new Vector3(0, 0, 0);
         private float cameraRotation = 0;
         private float cameraZ;
@@ -48,23 +50,27 @@ namespace GGJ_Ideas_and_Monogame_trials
         // -- View matrix and related updates
         private void CalculateViewMatrix()
         {
-            // Matrix.CreateLookAt(new Vector3(0, 0, 10), new Vector3(0, 0, 0), Vector3.UnitY);
-            viewMatrix = Matrix.CreateLookAt(new Vector3(0, 0, cameraZ), new Vector3(0, 0, 0), Vector3.UnitY);
+            // viewMatrix = Matrix.CreateLookAt(new Vector3(0, 0, cameraZ), new Vector3(0, 0, 0), Vector3.UnitY);
+            viewMatrix = Matrix.CreateLookAt(cameraPosition, new Vector3(0, 0, 0), Vector3.UnitY);
         }
         public void ZoomIn()
         {
-            cameraZ *= 0.9f;
+            // cameraPosition.Multiply(0.9);
+            cameraPosition = Vector3.Multiply(cameraPosition, 0.9f);
+            // cameraZ *= 0.9f;
             CalculateViewMatrix();
         }
         public void ZoomOut()
         {
-            cameraZ *= 1.1f;
+            cameraPosition = Vector3.Multiply(cameraPosition, 1.1f);
+            // cameraZ *= 1.1f;
             CalculateViewMatrix();
         }
 
         //
         // -- Projection matrix and related updates
-        private const float FOV = MathF.PI / 4;
+        private const float FOV = MathF.PI / 4; // 45 degrees
+        // private const float FOV = 1.16937f; // 67 degrees
         private const float NEAR_CLIP = 0.1f;
         private const float FAR_CLIP = 100f;
 
