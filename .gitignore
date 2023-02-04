@@ -1,10 +1,14 @@
 
 
+# ignore directories or files leading with _
+_*
 
+# visual studio compiled files
 /.vs/
-/GGJ-Ideas-and-Monogame-trials/obj/
 /GGJ-Ideas-and-Monogame-trials/bin/
-/GGJ-Ideas-and-Monogame-trials/Content/
+/GGJ-Ideas-and-Monogame-trials/obj/
+/GGJ-Ideas-and-Monogame-trials/Content/bin/
+/GGJ-Ideas-and-Monogame-trials/Content/obj/
 
 
 
