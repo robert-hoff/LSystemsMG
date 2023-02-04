@@ -32,10 +32,11 @@ namespace GGJ_Ideas_and_Monogame_trials
         private Model model;
         private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
         private Matrix view = Matrix.CreateLookAt(new Vector3(0, 0, 5), new Vector3(0, 0, 0), Vector3.UnitY);
-
-        private int viewportWidth = 800;
-        private int viewportHeight = 600;
         private Matrix projection;
+
+        private int DEFAULT_VIEWPORT_WIDTH = 800;
+        private int DEFAULT_VIEWPORT_HEIGHT = 600;
+
 
         public Game1()
         {
@@ -48,8 +49,8 @@ namespace GGJ_Ideas_and_Monogame_trials
             {
                 // TODO - check over graphics options
                 IsFullScreen = false,
-                PreferredBackBufferWidth = viewportWidth,
-                PreferredBackBufferHeight = viewportHeight,
+                PreferredBackBufferWidth = DEFAULT_VIEWPORT_WIDTH,
+                PreferredBackBufferHeight = DEFAULT_VIEWPORT_HEIGHT,
                 PreferredBackBufferFormat = SurfaceFormat.Color,
                 PreferMultiSampling = true,
                 // PreferredDepthStencilFormat = DepthFormat.None,
@@ -59,7 +60,7 @@ namespace GGJ_Ideas_and_Monogame_trials
 
         private float ViewportAspectRatio()
         {
-            return (float) viewportWidth / viewportHeight;
+            return (float) Window.ClientBounds.Width / Window.ClientBounds.Height;
         }
 
         protected override void Initialize()
@@ -76,15 +77,10 @@ namespace GGJ_Ideas_and_Monogame_trials
 
         protected override void Update(GameTime gameTime)
         {
-            // get window dimensions in case of resize
-            viewportWidth = Window.ClientBounds.Width;
-            viewportHeight = Window.ClientBounds.Height;
-
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
-
             world = Matrix.CreateRotationY((float) gameTime.TotalGameTime.TotalSeconds);
             projection = Matrix.CreatePerspectiveFieldOfView(MathF.PI / 4, ViewportAspectRatio(), 0.1f, 100f);
             base.Update(gameTime);
