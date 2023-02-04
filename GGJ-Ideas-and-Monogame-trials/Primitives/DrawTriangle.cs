@@ -26,8 +26,7 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
         {
             this.cameraTransforms = cameraTransforms;
             this.basicEffect = new BasicEffect(graphicsDevice);
-            // this is necessary to enable coloration
-            basicEffect.VertexColorEnabled = true;
+            basicEffect.VertexColorEnabled = true; // enables apply color to the vertices
         }
 
         public void DrawTrianglePrimitive(GraphicsDevice graphicsDevice, Vector3[] vertices, float r, float g, float b)
@@ -48,26 +47,17 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
 
         private void ApplyCameraTransform()
         {
-            basicEffect.World = cameraTransforms.GetWorldMatrix();
-            basicEffect.View = cameraTransforms.GetViewMatrix();
-            basicEffect.Projection = cameraTransforms.GetProjectionMatrix();
+            basicEffect.World = cameraTransforms.worldMatrix;
+            basicEffect.View = cameraTransforms.viewMatrix;
+            basicEffect.Projection = cameraTransforms.projectionMatrix;
         }
 
-        public void DrawTestTriangle1(GraphicsDevice graphicsDevice)
+        public void DrawTestTriangle(GraphicsDevice graphicsDevice)
         {
             Vector3[] vertices = new Vector3[3];
             vertices[0] = new Vector3(-1, -1, 0);
             vertices[1] = new Vector3(-1, -2, 0);
             vertices[2] = new Vector3(-2, -2, 0);
-            DrawTrianglePrimitive(graphicsDevice, vertices, Color.Green);
-        }
-
-        public void DrawTestTriangle2(GraphicsDevice graphicsDevice)
-        {
-            Vector3[] vertices = new Vector3[3];
-            vertices[0] = new Vector3(-1, -1, 0);
-            vertices[1] = new Vector3(-2, -2, 0);
-            vertices[2] = new Vector3(-2, -1, 0);
             DrawTrianglePrimitive(graphicsDevice, vertices, Color.Green);
         }
 
@@ -82,14 +72,11 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
          */
         public void DrawTestSquare(GraphicsDevice graphicsDevice, int xOffset = 0, int yOffset = 0)
         {
-            // shade of green
+            // a shade of green
             // #008C23
             float r = 0x00 / 256f;
             float g = 0x8c / 256f;
             float b = 0x23 / 256f;
-
-            Debug.WriteLine($"r,g,b = {r},{g},{b}");
-
             Vector3[] vertices1 = new Vector3[3];
             vertices1[0] = new Vector3(-1 + xOffset, -1 + yOffset, 0);
             vertices1[1] = new Vector3(-1 + xOffset, -2 + yOffset, 0);
@@ -103,4 +90,3 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
         }
     }
 }
-

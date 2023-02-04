@@ -11,16 +11,13 @@ namespace GGJ_Ideas_and_Monogame_trials
      */
     class CameraTransforms
     {
-        // public Vector3 cameraPosition = new Vector3(3f, -3f, 7f);
         public Vector3 cameraPosition = new Vector3(3f, -7f, 3f);
-        // public float cameraRotation = MathHelper.ToRadians(85);
         public float cameraRotation = MathHelper.ToRadians(0);
         private int viewportWidth;
         private int viewportHeight;
-
-        private Matrix worldMatrix;
-        private Matrix viewMatrix;
-        private Matrix projectionMatrix;
+        public Matrix worldMatrix { get; private set; }
+        public Matrix viewMatrix { get; private set; }
+        public Matrix projectionMatrix { get; private set; }
 
         public CameraTransforms(int viewportWidth, int viewportHeight) {
             this.viewportWidth = viewportWidth;
@@ -51,8 +48,6 @@ namespace GGJ_Ideas_and_Monogame_trials
         // -- View matrix and related updates
         private void CalculateViewMatrix()
         {
-            // viewMatrix = Matrix.CreateLookAt(new Vector3(0, 0, cameraZ), new Vector3(0, 0, 0), Vector3.UnitY);
-            // viewMatrix = Matrix.CreateLookAt(cameraPosition, new Vector3(0, 0, 0), Vector3.UnitY);
             viewMatrix = Matrix.CreateLookAt(cameraPosition, new Vector3(0, 0, 0), Vector3.UnitZ);
         }
         public void ZoomIn()
@@ -65,14 +60,13 @@ namespace GGJ_Ideas_and_Monogame_trials
             cameraPosition = Vector3.Multiply(cameraPosition, 1.1f);
             CalculateViewMatrix();
         }
-        // instead of "orbit up" just raise the height
+        // instead of "orbit up" just raise the height (hacky)
         public void OrbitUp()
         {
             float cameraHeight = cameraPosition.Z + 0.2f;
             cameraPosition = new Vector3(cameraPosition.X, cameraPosition.Y, cameraHeight);
             CalculateViewMatrix();
         }
-
         public void OrbitDown()
         {
             float cameraHeight = cameraPosition.Z - 0.2f;
@@ -80,14 +74,12 @@ namespace GGJ_Ideas_and_Monogame_trials
             CalculateViewMatrix();
         }
 
-
         //
         // -- Projection matrix and related updates
         private const float FOV = MathF.PI / 4; // 45 degrees
-        // private const float FOV = 1.16937f; // 67 degrees
+        // private const float FOV = 1.16937f; // 67 degrees was used in a previous version
         private const float NEAR_CLIP = 0.1f;
         private const float FAR_CLIP = 100f;
-
         private void CalculateProjectionMatrix()
         {
             float viewPortAspectRatio = (float) viewportWidth / viewportHeight;
@@ -103,7 +95,8 @@ namespace GGJ_Ideas_and_Monogame_trials
             }
         }
 
-        // -- get the world,view and projection camera transforms
+        // -- get the camera transforms (world, view and projection)
+        /*
         public Matrix GetWorldMatrix()
         {
             return worldMatrix;
@@ -115,6 +108,6 @@ namespace GGJ_Ideas_and_Monogame_trials
         public Matrix GetProjectionMatrix()
         {
             return projectionMatrix;
-        }
+        }*/
     }
 }

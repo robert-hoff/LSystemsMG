@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using GGJ_Ideas_and_Monogame_trials.Primitives;
 using Microsoft.Xna.Framework;
@@ -88,9 +87,7 @@ namespace GGJ_Ideas_and_Monogame_trials
             spaceshipModel = Content.Load<Model>("ship-with-texture");
         }
 
-
         private int previousMouseScroll = 0;
-
         protected override void Update(GameTime gameTime)
         {
             cameraTransforms.UpdateViewportDimensions(Window.ClientBounds.Width, Window.ClientBounds.Height);
@@ -131,7 +128,6 @@ namespace GGJ_Ideas_and_Monogame_trials
                 // Debug.WriteLine($"mouse down");
             }
 
-            // -- needs implementation (zoom)
             int currentMouseScroll = Mouse.GetState().ScrollWheelValue;
             if (previousMouseScroll > currentMouseScroll)
             {
@@ -146,12 +142,11 @@ namespace GGJ_Ideas_and_Monogame_trials
             base.Update(gameTime);
         }
 
-
         protected override void Draw(GameTime gameTime)
         {
-            Matrix world = cameraTransforms.GetWorldMatrix();
-            Matrix view = cameraTransforms.GetViewMatrix();
-            Matrix projection = cameraTransforms.GetProjectionMatrix();
+            Matrix world = cameraTransforms.worldMatrix;
+            Matrix view = cameraTransforms.viewMatrix;
+            Matrix projection = cameraTransforms.projectionMatrix;
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
             // GraphicsDevice.Clear(Color.Black);
@@ -162,9 +157,7 @@ namespace GGJ_Ideas_and_Monogame_trials
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 2, Color.Tomato.ToVector3());
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 1, Color.Plum.ToVector3());
 
-            // drawTriangle.DrawTestTriangle1(GraphicsDevice);
-            // drawTriangle.DrawTestTriangle2(GraphicsDevice);
-
+            // drawTriangle.DrawTestTriangle(GraphicsDevice);
 
             drawTriangle.DrawTestSquare(GraphicsDevice);
             drawTriangle.DrawTestSquare(GraphicsDevice, -1, 0);
@@ -210,7 +203,5 @@ namespace GGJ_Ideas_and_Monogame_trials
                 mesh.Draw();
             }
         }
-
-
     }
 }

@@ -28,9 +28,9 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
 
         private void ApplyCameraTransform()
         {
-            basicEffect.World = cameraTransforms.GetWorldMatrix();
-            basicEffect.View = cameraTransforms.GetViewMatrix();
-            basicEffect.Projection = cameraTransforms.GetProjectionMatrix();
+            basicEffect.World = cameraTransforms.worldMatrix;
+            basicEffect.View = cameraTransforms.viewMatrix;
+            basicEffect.Projection = cameraTransforms.projectionMatrix;
         }
 
         public void DrawTestLine(GraphicsDevice graphicsDevice)
