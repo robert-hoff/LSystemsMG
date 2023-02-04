@@ -15,11 +15,18 @@ namespace GGJ_Ideas_and_Monogame_trials
         public float cameraRotation = MathHelper.ToRadians(0);
         private int viewportWidth;
         private int viewportHeight;
+
+        private float MIN_ZOOM_DISTANCE = 2f;
+        private float MAX_ZOOM_DISTANCE = 30f;
+        private float MIN_HEIGHT_DEGREES = -35;
+        private float MAX_HEIGHT_DEGREES = 45;
+
         public Matrix worldMatrix { get; private set; }
         public Matrix viewMatrix { get; private set; }
         public Matrix projectionMatrix { get; private set; }
 
-        public CameraTransforms(int viewportWidth, int viewportHeight) {
+        public CameraTransforms(int viewportWidth, int viewportHeight)
+        {
             this.viewportWidth = viewportWidth;
             this.viewportHeight = viewportHeight;
             CalculateWorldMatrix();
@@ -52,26 +59,39 @@ namespace GGJ_Ideas_and_Monogame_trials
         }
         public void ZoomIn()
         {
+            if (ZoomDistance() < MIN_ZOOM_DISTANCE)
+            { return; }
             cameraPosition = Vector3.Multiply(cameraPosition, 0.9f);
             CalculateViewMatrix();
         }
         public void ZoomOut()
         {
+            if (ZoomDistance() > MAX_ZOOM_DISTANCE)
+            { return; }
             cameraPosition = Vector3.Multiply(cameraPosition, 1.1f);
             CalculateViewMatrix();
         }
-        // instead of "orbit up" just raise the height (hacky)
-        public void OrbitUp(float raise)
+        private float ZoomDistance()
         {
-            float cameraHeight = cameraPosition.Z + raise;
+            return Vector3.Distance(cameraPosition, new Vector3(0, 0, 0));
+        }
+
+        // instead of "orbit up" just raise the height (hacky)
+        public void OrbitUpDown(float amount)
+        {
+            float cameraHeight = cameraPosition.Z + amount * ScalarProjXY(cameraPosition) / 5;
+            float heightDegrees = MathHelper.ToDegrees(MathF.Atan(cameraPosition.Z / ScalarProjXY(cameraPosition)));
+            if ((amount > 0 && heightDegrees > MAX_HEIGHT_DEGREES) ||
+                ((amount < 0 && heightDegrees < MIN_HEIGHT_DEGREES)))
+            {
+                return;
+            }
             cameraPosition = new Vector3(cameraPosition.X, cameraPosition.Y, cameraHeight);
             CalculateViewMatrix();
         }
-        public void OrbitDown(float lower)
+        private float ScalarProjXY(Vector3 v)
         {
-            float cameraHeight = cameraPosition.Z - lower;
-            cameraPosition = new Vector3(cameraPosition.X, cameraPosition.Y, cameraHeight);
-            CalculateViewMatrix();
+            return MathF.Sqrt(v.X*v.X+v.Y*v.Y);
         }
 
         //

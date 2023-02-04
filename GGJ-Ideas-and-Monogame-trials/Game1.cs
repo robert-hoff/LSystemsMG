@@ -72,7 +72,7 @@ namespace GGJ_Ideas_and_Monogame_trials
             // GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             // GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
-            // polygon winding, render both faces
+            // don't cull polygon backsides (probably set this on a per-model bases)
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             base.Initialize();
         }
@@ -101,6 +101,7 @@ namespace GGJ_Ideas_and_Monogame_trials
             {
                 Debug.WriteLine($"camera position {cameraTransforms.cameraPosition}");
                 Debug.WriteLine($"rotation {MathHelper.ToDegrees(cameraTransforms.cameraRotation)}");
+                Debug.WriteLine($"distance from origin {Vector3.Distance(cameraTransforms.cameraPosition, new Vector3(0,0,0))}");
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -120,7 +121,7 @@ namespace GGJ_Ideas_and_Monogame_trials
                     float diffX = Mouse.GetState().X - mouseDragX;
                     float diffY = Mouse.GetState().Y - mouseDragY;
                     cameraTransforms.IncrementCameraOrbitDegrees(diffX/4);
-                    cameraTransforms.OrbitUp(diffY / 20);
+                    cameraTransforms.OrbitUpDown(diffY / 20);
                     mouseDragX = Mouse.GetState().X;
                     mouseDragY = Mouse.GetState().Y;
                 }
