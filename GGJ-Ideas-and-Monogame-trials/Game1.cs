@@ -110,7 +110,8 @@ namespace GGJ_Ideas_and_Monogame_trials
             // TESTING ONLY, print camera position
             if (Keyboard.GetState().IsKeyDown(Keys.P))
             {
-                Debug.WriteLine($"{cameraTransforms.cameraPosition}");
+                Debug.WriteLine($"camera position {cameraTransforms.cameraPosition}");
+                Debug.WriteLine($"rotation {MathHelper.ToDegrees(cameraTransforms.cameraRotation)}");
             }
 
 
@@ -162,6 +163,10 @@ namespace GGJ_Ideas_and_Monogame_trials
                     basicEffect.World = world;
                     basicEffect.View = view;
                     basicEffect.Projection = projection;
+
+                    Matrix.CreateTranslation(1f, 1f, 0, out Matrix translation);
+                    basicEffect.World = Matrix.Multiply(translation, basicEffect.World);
+
                 }
                 mesh.Draw();
             }
