@@ -129,6 +129,12 @@ namespace GGJ_Ideas_and_Monogame_trials
             // world = Matrix.CreateRotationY((float) gameTime.TotalGameTime.TotalSeconds);
             world = Matrix.CreateRotationY(Deg(30));
             projection = Matrix.CreatePerspectiveFieldOfView(FOV, ViewportAspectRatio(), NEAR_CLIP, FAR_CLIP);
+
+
+            basicEffect.World = Matrix.CreateRotationY(Deg(30));
+            basicEffect.Projection = Matrix.CreatePerspectiveFieldOfView(FOV, ViewportAspectRatio(), NEAR_CLIP, FAR_CLIP);
+
+
             base.Update(gameTime);
         }
 
@@ -137,25 +143,21 @@ namespace GGJ_Ideas_and_Monogame_trials
         {
             // GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.Clear(Color.Black);
-            DrawModel(model, world, view, projection);
+            // DrawModel(model, world, view, projection);
 
 
 
             basicEffect.CurrentTechnique.Passes[0].Apply();
-
-
             VertexPositionColor[] vertexList = new VertexPositionColor[3];
             vertexList[0].Position = new Vector3(-0.5f, -0.5f, 0f);
-            vertexList[0].Color = Color.Red;
+            vertexList[0].Color = Color.Green;
             vertexList[1].Position = new Vector3(0, 0.5f, 0f);
             vertexList[1].Color = Color.Green;
             vertexList[2].Position = new Vector3(0.5f, -0.5f, 0f);
-            vertexList[2].Color = Color.Yellow;
-
-            // draw a vertex-buffer
-            VertexBuffer vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), 4, BufferUsage.None);
-            vertexBuffer.SetData<VertexPositionColor>(vertexList);
-            GraphicsDevice.SetVertexBuffer(vertexBuffer);
+            vertexList[2].Color = Color.Green;
+            // VertexBuffer vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), 4, BufferUsage.None);
+            // vertexBuffer.SetData<VertexPositionColor>(vertexList);
+            // GraphicsDevice.SetVertexBuffer(vertexBuffer);
             GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, vertexList, 0, 1);
 
 
