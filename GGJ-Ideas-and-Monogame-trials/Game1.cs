@@ -32,15 +32,34 @@ namespace GGJ_Ideas_and_Monogame_trials
         private Model model;
         private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
         private Matrix view = Matrix.CreateLookAt(new Vector3(0, 0, 5), new Vector3(0, 0, 0), Vector3.UnitY);
-        private Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathF.PI / 4, 1.6f, 0.1f, 100f);
+
+        private int viewportWidth = 800;
+        private int viewportHeight = 600;
+        private Matrix projection;
 
         public Game1()
         {
-            _ = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Window.Title = "Rotating Spaceship";
             IsMouseVisible = true;
             Window.AllowUserResizing = true;
-            Window.Title = "Rotating Spaceship";
+
+            _ = new GraphicsDeviceManager(this)
+            {
+                // TODO - check over graphics options
+                IsFullScreen = false,
+                PreferredBackBufferWidth = viewportWidth,
+                PreferredBackBufferHeight = viewportHeight,
+                PreferredBackBufferFormat = SurfaceFormat.Color,
+                PreferMultiSampling = true,
+                // PreferredDepthStencilFormat = DepthFormat.None,
+                SynchronizeWithVerticalRetrace = true,
+            };
+        }
+
+        private float ViewportAspectRatio()
+        {
+            return (float) viewportWidth / viewportHeight;
         }
 
         protected override void Initialize()
@@ -57,17 +76,23 @@ namespace GGJ_Ideas_and_Monogame_trials
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            // get window dimensions in case of resize
+            viewportWidth = Window.ClientBounds.Width;
+            viewportHeight = Window.ClientBounds.Height;
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
+
             world = Matrix.CreateRotationY((float) gameTime.TotalGameTime.TotalSeconds);
-            // Debug.WriteLine($"{gameTime.TotalGameTime.TotalSeconds}");
+            projection = Matrix.CreatePerspectiveFieldOfView(MathF.PI / 4, ViewportAspectRatio(), 0.1f, 100f);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
             DrawModel(model, world, view, projection);
             base.Draw(gameTime);
