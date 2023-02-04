@@ -161,8 +161,11 @@ namespace GGJ_Ideas_and_Monogame_trials
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 2, Color.Tomato.ToVector3());
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 1, Color.Plum.ToVector3());
 
-            drawTriangle.DrawTestTriangle1(GraphicsDevice);
-            drawTriangle.DrawTestTriangle2(GraphicsDevice);
+            // drawTriangle.DrawTestTriangle1(GraphicsDevice);
+            // drawTriangle.DrawTestTriangle2(GraphicsDevice);
+
+
+            drawTriangle.DrawTestSquare(GraphicsDevice);
             drawLine.DrawAxis(GraphicsDevice);
             base.Draw(gameTime);
         }

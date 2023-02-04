@@ -32,7 +32,7 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
             vertexList[2] = new VertexPositionColor(vertices[2], color);
 
             basicEffect.CurrentTechnique.Passes[0].Apply();
-            ApplyCameraTransform();
+            // ApplyCameraTransform();
             graphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, vertexList, 0, 1);
         }
 
@@ -81,6 +81,7 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
          */
         public void DrawTestSquare(GraphicsDevice graphicsDevice)
         {
+            ApplyCameraTransform();
             Vector3[] vertices1 = new Vector3[3];
             vertices1[0] = new Vector3(-1, -1, 0);
             vertices1[1] = new Vector3(-1, -2, 0);

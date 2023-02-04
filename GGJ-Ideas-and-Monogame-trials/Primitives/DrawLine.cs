@@ -24,18 +24,9 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
             VertexPositionColor[] vertexList = new VertexPositionColor[2];
             vertexList[0] = new VertexPositionColor(vertices[0], color);
             vertexList[1] = new VertexPositionColor(vertices[1], color);
-
-            //VertexPositionColor[] vertexList = new VertexPositionColor[3];
-            //vertexList[0] = new VertexPositionColor(vertices[0], color);
-            //vertexList[1] = new VertexPositionColor(vertices[1], color);
-            //vertexList[2] = new VertexPositionColor(vertices[2], color);
             basicEffect.CurrentTechnique.Passes[0].Apply();
             ApplyCameraTransform();
-            //graphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, vertexList, 0, 1);
-
             graphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, vertexList, 0, 1);
-
-            // GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.LineList, 0, 0, 8, 0, 7);
         }
 
         private void ApplyCameraTransform()
