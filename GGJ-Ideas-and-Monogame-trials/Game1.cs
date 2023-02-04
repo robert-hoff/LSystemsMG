@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -33,17 +34,12 @@ namespace GGJ_Ideas_and_Monogame_trials
 {
     public class Game1 : Game
     {
-        private Model model;
-        private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
-        private Matrix view = Matrix.CreateLookAt(new Vector3(0, 0, 20), new Vector3(0, 0, 0), Vector3.UnitY);
-        private Matrix projection;
+        private const int DEFAULT_VIEWPORT_WIDTH = 800;
+        private const int DEFAULT_VIEWPORT_HEIGHT = 600;
+        private const float CAMERA_HEIGHT = 10f;
+        private CameraTransforms cameraTransforms;
 
-        private int DEFAULT_VIEWPORT_WIDTH = 800;
-        private int DEFAULT_VIEWPORT_HEIGHT = 600;
-        private float FOV = MathF.PI / 4;
-        private float NEAR_CLIP = 0.1f;
-        private float FAR_CLIP = 100f;
-
+        private Model spaceshipModel;
 
         public Game1()
         {
@@ -63,20 +59,11 @@ namespace GGJ_Ideas_and_Monogame_trials
                 // PreferredDepthStencilFormat = DepthFormat.None,
                 SynchronizeWithVerticalRetrace = true,
             };
+
+            int screenWidth = Window.ClientBounds.Width;
+            int screenHeight = Window.ClientBounds.Height;
+            cameraTransforms = new CameraTransforms(screenWidth, screenHeight, initialCameraZ: CAMERA_HEIGHT);
         }
-
-        private float ViewportAspectRatio()
-        {
-            return (float) Window.ClientBounds.Width / Window.ClientBounds.Height;
-        }
-
-        private float Deg(float degrees)
-        {
-            return degrees * MathF.PI / 180;
-        }
-
-
-
 
         private BasicEffect basicEffect;
 
@@ -87,17 +74,17 @@ namespace GGJ_Ideas_and_Monogame_trials
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
-            // render both sides of polygons
+            // polygon winding, render both faces
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
-            // -- where is BasicEffect?
-            // BasicEffect.World = Matrix.CreateTranslation(new Vector3(0, 0, 0));
-            basicEffect = new BasicEffect(GraphicsDevice);
-            basicEffect.World = world;
-            basicEffect.View = view;
-            basicEffect.Projection = projection;
-            // use my own vertex colors
-            basicEffect.VertexColorEnabled = true;
+
+            // -- create 'basicEffect' definition for rendering primitives via buffers
+            // basicEffect = new BasicEffect(GraphicsDevice);
+            // basicEffect.World = world;
+            // basicEffect.View = view;
+            // basicEffect.Projection = projection;
+            // -- enable per-polygon vertex colors
+            // basicEffect.VertexColorEnabled = true;
 
             // basicEffect.AmbientLightColor = Vector3.One;
             // basicEffect.DirectionalLight0.Enabled = true;
@@ -111,28 +98,52 @@ namespace GGJ_Ideas_and_Monogame_trials
         {
             Content = new ContentManager(this.Services, "Content");
             // model = Content.Load<Model>("ship-no-texture");
-            model = Content.Load<Model>("ship-with-texture");
+            spaceshipModel = Content.Load<Model>("ship-with-texture");
         }
+
+
+        private int previousMouseScroll = 0;
 
         protected override void Update(GameTime gameTime)
         {
+            cameraTransforms.UpdateViewportDimensions(Window.ClientBounds.Width, Window.ClientBounds.Height);
+
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
 
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                cameraTransforms.IncrementCameraOrbitDegrees(-3);
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                cameraTransforms.IncrementCameraOrbitDegrees(3);
+            }
+
+            // -- needs implementation (orbit)
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 // Debug.WriteLine($"mouse down");
             }
 
-            // world = Matrix.CreateRotationY((float) gameTime.TotalGameTime.TotalSeconds);
-            world = Matrix.CreateRotationY(Deg(30));
-            projection = Matrix.CreatePerspectiveFieldOfView(FOV, ViewportAspectRatio(), NEAR_CLIP, FAR_CLIP);
+            // -- needs implementation (zoom)
+            int currentMouseScroll = Mouse.GetState().ScrollWheelValue;
+            if (previousMouseScroll > currentMouseScroll)
+            {
+                cameraTransforms.ZoomOut();
+            }
+            if (previousMouseScroll < currentMouseScroll)
+            {
+                cameraTransforms.ZoomIn();
+            }
+            previousMouseScroll = currentMouseScroll;
 
 
-            basicEffect.World = Matrix.CreateRotationY(Deg(30));
-            basicEffect.Projection = Matrix.CreatePerspectiveFieldOfView(FOV, ViewportAspectRatio(), NEAR_CLIP, FAR_CLIP);
+            // -- for the 'primitives' stuff
+            // basicEffect.World = world;
+            // basicEffect.Projection = projection;
 
 
             base.Update(gameTime);
@@ -141,28 +152,27 @@ namespace GGJ_Ideas_and_Monogame_trials
 
         protected override void Draw(GameTime gameTime)
         {
+            Matrix world = cameraTransforms.GetWorldMatrix();
+            Matrix view = cameraTransforms.GetViewMatrix();
+            Matrix projection = cameraTransforms.GetProjectionMatrix();
+
+
             // GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.Clear(Color.Black);
-            // DrawModel(model, world, view, projection);
+            DrawModel(spaceshipModel, world, view, projection);
 
 
-
+            // -- drawing primitives
+            /*
+            // -- key method, set the context with basicEffect definition
             basicEffect.CurrentTechnique.Passes[0].Apply();
+
             VertexPositionColor[] vertexList = new VertexPositionColor[3];
-            vertexList[0].Position = new Vector3(-0.5f, -0.5f, 0f);
-            vertexList[0].Color = Color.Green;
-            vertexList[1].Position = new Vector3(0, 0.5f, 0f);
-            vertexList[1].Color = Color.Green;
-            vertexList[2].Position = new Vector3(0.5f, -0.5f, 0f);
-            vertexList[2].Color = Color.Green;
-            // VertexBuffer vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), 4, BufferUsage.None);
-            // vertexBuffer.SetData<VertexPositionColor>(vertexList);
-            // GraphicsDevice.SetVertexBuffer(vertexBuffer);
+            vertexList[0] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Green);
+            vertexList[1] = new VertexPositionColor(new Vector3(0, 10f, 0), Color.Green);
+            vertexList[2] = new VertexPositionColor(new Vector3(10f, 10f, 0), Color.Green);
             GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, vertexList, 0, 1);
-
-
-
-
+            */
 
             base.Draw(gameTime);
         }
