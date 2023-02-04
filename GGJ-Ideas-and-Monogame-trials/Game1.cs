@@ -83,8 +83,8 @@ namespace GGJ_Ideas_and_Monogame_trials
             drawLine = new DrawLine(GraphicsDevice, cameraTransforms);
 
             Content = new ContentManager(this.Services, "Content");
-            spaceshipModel = Content.Load<Model>("ship-no-texture");
-            // spaceshipModel = Content.Load<Model>("ship-with-texture");
+            // spaceshipModel = Content.Load<Model>("ship-no-texture");
+            spaceshipModel = Content.Load<Model>("ship-with-texture");
         }
 
 
@@ -156,11 +156,9 @@ namespace GGJ_Ideas_and_Monogame_trials
             // GraphicsDevice.Clear(Color.White);
 
             // -- render game components
-            // DrawModel(spaceshipModel, world, view, projection);
-
-
-            DrawModel2(spaceshipModel, world, view, projection, 0, 1, 2, Color.Tomato.ToVector3());
-            DrawModel2(spaceshipModel, world, view, projection, 0, 1, 1, Color.Plum.ToVector3());
+            DrawModel(spaceshipModel, world, view, projection);
+            // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 2, Color.Tomato.ToVector3());
+            // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 1, Color.Plum.ToVector3());
 
 
             drawTriangle.DrawTestTriangle(GraphicsDevice);
@@ -178,10 +176,7 @@ namespace GGJ_Ideas_and_Monogame_trials
                     basicEffect.World = world;
                     basicEffect.View = view;
                     basicEffect.Projection = projection;
-
-                    basicEffect.DiffuseColor = new Vector3(1, 0.4f, 0.2f);
-
-                    Matrix.CreateTranslation(1f, 1f, 0, out Matrix translation);
+                    Matrix.CreateTranslation(0, 0, 0, out Matrix translation);
                     basicEffect.World = Matrix.Multiply(translation, basicEffect.World);
 
                 }
@@ -189,7 +184,7 @@ namespace GGJ_Ideas_and_Monogame_trials
             }
         }
 
-        private void DrawModel2(Model model, Matrix world, Matrix view, Matrix projection, float tX, float tY, float tZ, Vector3 color)
+        private void DrawModelTranslationAndColor(Model model, Matrix world, Matrix view, Matrix projection, float tX, float tY, float tZ, Vector3 color)
         {
             foreach (ModelMesh mesh in model.Meshes)
             {

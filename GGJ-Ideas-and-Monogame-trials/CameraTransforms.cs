@@ -11,8 +11,10 @@ namespace GGJ_Ideas_and_Monogame_trials
      */
     class CameraTransforms
     {
-        public Vector3 cameraPosition = new Vector3(3f, 3f, 7f);
-        public float cameraRotation = MathHelper.ToRadians(85);
+        // public Vector3 cameraPosition = new Vector3(3f, -3f, 7f);
+        public Vector3 cameraPosition = new Vector3(3f, -7f, 3f);
+        // public float cameraRotation = MathHelper.ToRadians(85);
+        public float cameraRotation = MathHelper.ToRadians(0);
         private int viewportWidth;
         private int viewportHeight;
 
@@ -32,7 +34,7 @@ namespace GGJ_Ideas_and_Monogame_trials
         //
         private void CalculateWorldMatrix()
         {
-            worldMatrix = Matrix.CreateRotationY(cameraRotation);
+            worldMatrix = Matrix.CreateRotationZ(cameraRotation);
         }
         public void SetCameraOrbitDegrees(float cameraRotationDegrees)
         {
@@ -50,7 +52,8 @@ namespace GGJ_Ideas_and_Monogame_trials
         private void CalculateViewMatrix()
         {
             // viewMatrix = Matrix.CreateLookAt(new Vector3(0, 0, cameraZ), new Vector3(0, 0, 0), Vector3.UnitY);
-            viewMatrix = Matrix.CreateLookAt(cameraPosition, new Vector3(0, 0, 0), Vector3.UnitY);
+            // viewMatrix = Matrix.CreateLookAt(cameraPosition, new Vector3(0, 0, 0), Vector3.UnitY);
+            viewMatrix = Matrix.CreateLookAt(cameraPosition, new Vector3(0, 0, 0), Vector3.UnitZ);
         }
         public void ZoomIn()
         {
@@ -65,15 +68,15 @@ namespace GGJ_Ideas_and_Monogame_trials
         // instead of "orbit up" just raise the height
         public void OrbitUp()
         {
-            float cameraHeight = cameraPosition.Y + 0.2f;
-            cameraPosition = new Vector3(cameraPosition.X, cameraHeight, cameraPosition.Z);
+            float cameraHeight = cameraPosition.Z + 0.2f;
+            cameraPosition = new Vector3(cameraPosition.X, cameraPosition.Y, cameraHeight);
             CalculateViewMatrix();
         }
 
         public void OrbitDown()
         {
-            float cameraHeight = cameraPosition.Y - 0.2f;
-            cameraPosition = new Vector3(cameraPosition.X, cameraHeight, cameraPosition.Z);
+            float cameraHeight = cameraPosition.Z - 0.2f;
+            cameraPosition = new Vector3(cameraPosition.X, cameraPosition.Y, cameraHeight);
             CalculateViewMatrix();
         }
 
