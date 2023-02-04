@@ -18,8 +18,8 @@ namespace GGJ_Ideas_and_Monogame_trials
 
         private float MIN_ZOOM_DISTANCE = 2f;
         private float MAX_ZOOM_DISTANCE = 30f;
-        private float MIN_HEIGHT_DEGREES = -35;
-        private float MAX_HEIGHT_DEGREES = 45;
+        private float MIN_HEIGHT_DEGREES = 10;
+        private float MAX_HEIGHT_DEGREES = 35;
 
         public Matrix worldMatrix { get; private set; }
         public Matrix viewMatrix { get; private set; }
@@ -42,12 +42,12 @@ namespace GGJ_Ideas_and_Monogame_trials
         }
         public void SetCameraOrbitDegrees(float rotateDeg)
         {
-            this.cameraRotation = MathHelper.ToRadians(rotateDeg);
+            this.cameraRotation = MathHelper.ToRadians(rotateDeg / 2f);
             CalculateWorldMatrix();
         }
         public void IncrementCameraOrbitDegrees(float rotateDeg)
         {
-            this.cameraRotation += MathHelper.ToRadians(rotateDeg);
+            this.cameraRotation += MathHelper.ToRadians(rotateDeg / 2f);
             CalculateWorldMatrix();
         }
 
@@ -59,16 +59,16 @@ namespace GGJ_Ideas_and_Monogame_trials
         }
         public void ZoomIn()
         {
-            if (ZoomDistance() < MIN_ZOOM_DISTANCE)
+            if (Game1.RESTRICT_CAMERA && ZoomDistance() < MIN_ZOOM_DISTANCE)
             { return; }
-            cameraPosition = Vector3.Multiply(cameraPosition, 0.9f);
+            cameraPosition = Vector3.Multiply(cameraPosition, 0.95f);
             CalculateViewMatrix();
         }
         public void ZoomOut()
         {
-            if (ZoomDistance() > MAX_ZOOM_DISTANCE)
+            if (Game1.RESTRICT_CAMERA && ZoomDistance() > MAX_ZOOM_DISTANCE)
             { return; }
-            cameraPosition = Vector3.Multiply(cameraPosition, 1.1f);
+            cameraPosition = Vector3.Multiply(cameraPosition, 1.05f);
             CalculateViewMatrix();
         }
         private float ZoomDistance()
@@ -79,25 +79,31 @@ namespace GGJ_Ideas_and_Monogame_trials
         // instead of "orbit up" just raise the height (hacky)
         public void OrbitUpDown(float amount)
         {
-            float cameraHeight = cameraPosition.Z + amount * ScalarProjXY(cameraPosition) / 5;
+            float cameraHeight = cameraPosition.Z + amount * ScalarProjXY(cameraPosition) / 15;
             float heightDegrees = MathHelper.ToDegrees(MathF.Atan(cameraPosition.Z / ScalarProjXY(cameraPosition)));
-            if ((amount > 0 && heightDegrees > MAX_HEIGHT_DEGREES) ||
-                ((amount < 0 && heightDegrees < MIN_HEIGHT_DEGREES)))
+            if (Game1.RESTRICT_CAMERA)
             {
-                return;
+                if (amount > 0 && heightDegrees > MAX_HEIGHT_DEGREES)
+                {
+                    return;
+                }
+                if (amount < 0 && heightDegrees < MIN_HEIGHT_DEGREES)
+                {
+                    return;
+                }
             }
             cameraPosition = new Vector3(cameraPosition.X, cameraPosition.Y, cameraHeight);
             CalculateViewMatrix();
         }
         private float ScalarProjXY(Vector3 v)
         {
-            return MathF.Sqrt(v.X*v.X+v.Y*v.Y);
+            return MathF.Sqrt(v.X * v.X + v.Y * v.Y);
         }
 
         //
         // -- Projection matrix and related updates
         private const float FOV = MathF.PI / 4; // 45 degrees
-        // private const float FOV = 1.16937f; // 67 degrees was used in a previous version
+                                                // private const float FOV = 1.16937f; // 67 degrees was used in a previous version
         private const float NEAR_CLIP = 0.1f;
         private const float FAR_CLIP = 100f;
         private void CalculateProjectionMatrix()

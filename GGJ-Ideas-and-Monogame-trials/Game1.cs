@@ -33,6 +33,14 @@ namespace GGJ_Ideas_and_Monogame_trials
 {
     public class Game1 : Game
     {
+        // dev flags
+        // --
+        public readonly static bool SHOW_AXIS = true;
+        public readonly static bool RESTRICT_CAMERA = false;
+        // --
+
+
+        private Color CLEAR_COLOR = Color.CornflowerBlue; // Using CornflowerBlue, Black, White
         private const int DEFAULT_VIEWPORT_WIDTH = 800;
         private const int DEFAULT_VIEWPORT_HEIGHT = 600;
         private CameraTransforms cameraTransforms;
@@ -151,23 +159,21 @@ namespace GGJ_Ideas_and_Monogame_trials
             Matrix world = cameraTransforms.worldMatrix;
             Matrix view = cameraTransforms.viewMatrix;
             Matrix projection = cameraTransforms.projectionMatrix;
-
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            // GraphicsDevice.Clear(Color.Black);
-            // GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.Clear(CLEAR_COLOR);
 
             // -- render game components
-            DrawModel(spaceshipModel, world, view, projection);
+            // DrawModel(spaceshipModel, world, view, projection);
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 2, Color.Tomato.ToVector3());
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 1, Color.Plum.ToVector3());
-
             // drawTriangle.DrawTestTriangle(GraphicsDevice);
-
             drawTriangle.DrawTestSquare(GraphicsDevice);
             drawTriangle.DrawTestSquare(GraphicsDevice, -1, 0);
             drawTriangle.DrawTestSquare(GraphicsDevice, -1, -1);
             drawTriangle.DrawTestSquare(GraphicsDevice, 0, -1);
-            drawLine.DrawAxis(GraphicsDevice);
+            if (SHOW_AXIS)
+            {
+                drawLine.DrawAxis(GraphicsDevice);
+            }
             base.Draw(gameTime);
         }
 
