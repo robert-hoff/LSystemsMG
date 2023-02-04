@@ -63,11 +63,11 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
 
         /*
          * [0] -1,-1   [1] -1,-2
-         * [2] -2,-1   [3] -2,-2
+         * [3] -2,-1   [2] -2,-2
          *
          * Using same winding rule
-         * triangle1  {0,1,3}
-         * triangle2  {0,3,2}
+         * triangle1  {0,1,2}
+         * triangle2  {0,2,3}
          *
          */
         public void DrawTestSquare(GraphicsDevice graphicsDevice, int xOffset = 0, int yOffset = 0)

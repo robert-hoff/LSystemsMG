@@ -46,8 +46,9 @@ namespace GGJ_Ideas_and_Monogame_trials
         private CameraTransforms cameraTransforms;
 
         private Model spaceshipModel;
-        private DrawTriangle drawTriangle;
         private DrawLine drawLine;
+        private DrawTriangle drawTriangle;
+        private DrawCube drawCube;
 
         public Game1()
         {
@@ -80,15 +81,16 @@ namespace GGJ_Ideas_and_Monogame_trials
             // GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             // GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
-            // don't cull polygon backsides (probably set this on a per-model bases)
-            GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            // -- INCLUDE BACKSIDES
+            // GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            drawTriangle = new DrawTriangle(GraphicsDevice, cameraTransforms);
             drawLine = new DrawLine(GraphicsDevice, cameraTransforms);
+            drawTriangle = new DrawTriangle(GraphicsDevice, cameraTransforms);
+            drawCube = new DrawCube(GraphicsDevice, cameraTransforms);
 
             Content = new ContentManager(this.Services, "Content");
             // spaceshipModel = Content.Load<Model>("ship-no-texture");
@@ -166,10 +168,13 @@ namespace GGJ_Ideas_and_Monogame_trials
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 2, Color.Tomato.ToVector3());
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 1, Color.Plum.ToVector3());
             // drawTriangle.DrawTestTriangle(GraphicsDevice);
-            drawTriangle.DrawTestSquare(GraphicsDevice);
-            drawTriangle.DrawTestSquare(GraphicsDevice, -1, 0);
-            drawTriangle.DrawTestSquare(GraphicsDevice, -1, -1);
-            drawTriangle.DrawTestSquare(GraphicsDevice, 0, -1);
+            //drawTriangle.DrawTestSquare(GraphicsDevice);
+            //drawTriangle.DrawTestSquare(GraphicsDevice, -1, 0);
+            //drawTriangle.DrawTestSquare(GraphicsDevice, -1, -1);
+            //drawTriangle.DrawTestSquare(GraphicsDevice, 0, -1);
+
+            drawCube.DrawCubeAsPrimitives(GraphicsDevice, new Vector3(0, 0, 0), 1, 0.5f);
+
             if (SHOW_AXIS)
             {
                 drawLine.DrawAxis(GraphicsDevice);
