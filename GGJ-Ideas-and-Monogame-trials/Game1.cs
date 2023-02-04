@@ -35,7 +35,7 @@ namespace GGJ_Ideas_and_Monogame_trials
     {
         private Model model;
         private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
-        private Matrix view = Matrix.CreateLookAt(new Vector3(0, 0, 5), new Vector3(0, 0, 0), Vector3.UnitY);
+        private Matrix view = Matrix.CreateLookAt(new Vector3(0, 0, 20), new Vector3(0, 0, 0), Vector3.UnitY);
         private Matrix projection;
 
         private int DEFAULT_VIEWPORT_WIDTH = 800;
@@ -93,15 +93,17 @@ namespace GGJ_Ideas_and_Monogame_trials
             // -- where is BasicEffect?
             // BasicEffect.World = Matrix.CreateTranslation(new Vector3(0, 0, 0));
             basicEffect = new BasicEffect(GraphicsDevice);
-            basicEffect.AmbientLightColor = Vector3.One;
-            basicEffect.DirectionalLight0.Enabled = true;
-            basicEffect.DirectionalLight0.DiffuseColor = Vector3.One;
-            basicEffect.DirectionalLight0.Direction = Vector3.Normalize(Vector3.One);
             basicEffect.World = world;
             basicEffect.View = view;
             basicEffect.Projection = projection;
             // use my own vertex colors
             basicEffect.VertexColorEnabled = true;
+
+            // basicEffect.AmbientLightColor = Vector3.One;
+            // basicEffect.DirectionalLight0.Enabled = true;
+            // basicEffect.DirectionalLight0.DiffuseColor = Vector3.One;
+            // basicEffect.DirectionalLight0.Direction = Vector3.Normalize(Vector3.One);
+
             base.Initialize();
         }
 
@@ -135,41 +137,26 @@ namespace GGJ_Ideas_and_Monogame_trials
         {
             // GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.Clear(Color.Black);
-            // DrawModel(model, world, view, projection);
+            DrawModel(model, world, view, projection);
 
 
 
             basicEffect.CurrentTechnique.Passes[0].Apply();
 
 
-            float left = 0f;
-            float bottom = 0f;
-            float right = 10f;
-            float top = 10f;
-            VertexPositionColor[] primitiveList = new VertexPositionColor[4];
-            primitiveList[0] = new VertexPositionColor(new Vector3(left, 0, bottom), Color.Green);
-            primitiveList[1] = new VertexPositionColor(new Vector3(left, 0, top), Color.Green);
-            primitiveList[2] = new VertexPositionColor(new Vector3(right, 0, top), Color.Green);
-
-            short[] lineListIndices = new short[3];
-            lineListIndices[0] = 0;
-            lineListIndices[1] = 1;
-            lineListIndices[2] = 2;
+            VertexPositionColor[] vertexList = new VertexPositionColor[3];
+            vertexList[0].Position = new Vector3(-0.5f, -0.5f, 0f);
+            vertexList[0].Color = Color.Red;
+            vertexList[1].Position = new Vector3(0, 0.5f, 0f);
+            vertexList[1].Color = Color.Green;
+            vertexList[2].Position = new Vector3(0.5f, -0.5f, 0f);
+            vertexList[2].Color = Color.Yellow;
 
             // draw a vertex-buffer
             VertexBuffer vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), 4, BufferUsage.None);
-            vertexBuffer.SetData<VertexPositionColor>(primitiveList);
-            IndexBuffer lineListIndexBuffer = new IndexBuffer(
-                GraphicsDevice,
-                IndexElementSize.SixteenBits,
-                sizeof(short) * lineListIndices.Length,
-                BufferUsage.None);
-            lineListIndexBuffer.SetData<short>(lineListIndices);
-            GraphicsDevice.Indices = lineListIndexBuffer;
+            vertexBuffer.SetData<VertexPositionColor>(vertexList);
             GraphicsDevice.SetVertexBuffer(vertexBuffer);
-            // GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.LineList, 0, 0, 8, 0, 7);
-            // GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.LineList, 0, 0, 1, 0, 1);
-            GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.LineList, 0, 4, 3);
+            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, vertexList, 0, 1);
 
 
 
