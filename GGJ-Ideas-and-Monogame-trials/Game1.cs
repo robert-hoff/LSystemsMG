@@ -167,6 +167,9 @@ namespace GGJ_Ideas_and_Monogame_trials
 
 
             drawTriangle.DrawTestSquare(GraphicsDevice);
+            drawTriangle.DrawTestSquare(GraphicsDevice, -1, 0);
+            drawTriangle.DrawTestSquare(GraphicsDevice, -1, -1);
+            drawTriangle.DrawTestSquare(GraphicsDevice, 0, -1);
             drawLine.DrawAxis(GraphicsDevice);
             base.Draw(gameTime);
         }

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -27,6 +28,11 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
             this.basicEffect = new BasicEffect(graphicsDevice);
             // this is necessary to enable coloration
             basicEffect.VertexColorEnabled = true;
+        }
+
+        public void DrawTrianglePrimitive(GraphicsDevice graphicsDevice, Vector3[] vertices, float r, float g, float b)
+        {
+            DrawTrianglePrimitive(graphicsDevice, vertices, new Color(r, g, b));
         }
 
         public void DrawTrianglePrimitive(GraphicsDevice graphicsDevice, Vector3[] vertices, Color color)
@@ -74,20 +80,26 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
          * triangle2  {0,3,2}
          *
          */
-        public void DrawTestSquare(GraphicsDevice graphicsDevice)
+        public void DrawTestSquare(GraphicsDevice graphicsDevice, int xOffset = 0, int yOffset = 0)
         {
+            // shade of green
+            // #008C23
+            float r = 0x00 / 256f;
+            float g = 0x8c / 256f;
+            float b = 0x23 / 256f;
 
+            Debug.WriteLine($"r,g,b = {r},{g},{b}");
 
             Vector3[] vertices1 = new Vector3[3];
-            vertices1[0] = new Vector3(-1, -1, 0);
-            vertices1[1] = new Vector3(-1, -2, 0);
-            vertices1[2] = new Vector3(-2, -2, 0);
-            DrawTrianglePrimitive(graphicsDevice, vertices1, Color.Green);
+            vertices1[0] = new Vector3(-1 + xOffset, -1 + yOffset, 0);
+            vertices1[1] = new Vector3(-1 + xOffset, -2 + yOffset, 0);
+            vertices1[2] = new Vector3(-2 + xOffset, -2 + yOffset, 0);
+            DrawTrianglePrimitive(graphicsDevice, vertices1, r, g, b);
             Vector3[] vertices2 = new Vector3[3];
-            vertices2[0] = new Vector3(-1, -1, 0);
-            vertices2[1] = new Vector3(-2, -2, 0);
-            vertices2[2] = new Vector3(-2, -1, 0);
-            DrawTrianglePrimitive(graphicsDevice, vertices2, Color.Green);
+            vertices2[0] = new Vector3(-1 + xOffset, -1 + yOffset, 0);
+            vertices2[1] = new Vector3(-2 + xOffset, -2 + yOffset, 0);
+            vertices2[2] = new Vector3(-2 + xOffset, -1 + yOffset, 0);
+            DrawTrianglePrimitive(graphicsDevice, vertices2, r + 0.1f, g + 0.1f, b - 0.1f);
         }
     }
 }
