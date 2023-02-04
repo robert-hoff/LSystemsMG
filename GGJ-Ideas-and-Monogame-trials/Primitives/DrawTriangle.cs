@@ -53,6 +53,15 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
             DrawTrianglePrimitive(graphicsDevice, vertices, Color.Green);
         }
 
+        public void DrawTestTriangle2(GraphicsDevice graphicsDevice)
+        {
+            Vector3[] vertices = new Vector3[3];
+            vertices[0] = new Vector3(-1, -1, 0);
+            vertices[1] = new Vector3(-2, -2, 0);
+            vertices[2] = new Vector3(-2, -1, 0);
+            DrawTrianglePrimitive(graphicsDevice, vertices, Color.Green);
+        }
+
 
 
         /*

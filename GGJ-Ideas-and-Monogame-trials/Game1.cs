@@ -102,22 +102,18 @@ namespace GGJ_Ideas_and_Monogame_trials
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 cameraTransforms.IncrementCameraOrbitDegrees(3);
-                return;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 cameraTransforms.IncrementCameraOrbitDegrees(-3);
-                return;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 cameraTransforms.OrbitUp();
-                return;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 cameraTransforms.OrbitDown();
-                return;
             }
 
             // TESTING ONLY, print camera position
@@ -140,13 +136,11 @@ namespace GGJ_Ideas_and_Monogame_trials
             {
                 cameraTransforms.ZoomOut();
                 previousMouseScroll = currentMouseScroll;
-                return;
             }
             if (previousMouseScroll < currentMouseScroll)
             {
                 cameraTransforms.ZoomIn();
                 previousMouseScroll = currentMouseScroll;
-                return;
             }
             base.Update(gameTime);
         }
@@ -168,6 +162,7 @@ namespace GGJ_Ideas_and_Monogame_trials
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 1, Color.Plum.ToVector3());
 
             drawTriangle.DrawTestTriangle1(GraphicsDevice);
+            drawTriangle.DrawTestTriangle2(GraphicsDevice);
             drawLine.DrawAxis(GraphicsDevice);
             base.Draw(gameTime);
         }
