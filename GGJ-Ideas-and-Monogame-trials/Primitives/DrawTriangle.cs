@@ -43,19 +43,45 @@ namespace GGJ_Ideas_and_Monogame_trials.Primitives
             basicEffect.Projection = cameraTransforms.GetProjectionMatrix();
         }
 
-        public void DrawTestTriangle(GraphicsDevice graphicsDevice)
+        public void DrawTestTriangle1(GraphicsDevice graphicsDevice)
         {
             Vector3[] vertices = new Vector3[3];
-            // x,y plane
-            vertices[0] = new Vector3(0,0,0);
-            vertices[1] = new Vector3(0,1f,0);
-            vertices[2] = new Vector3(1f,1f,0);
-
-            // x,z plane (horizontal plane)
-            vertices[0] = new Vector3(0, 0, 0);
-            vertices[1] = new Vector3(0, 0, 1f);
-            vertices[2] = new Vector3(1f, 0, 1f);
+            // x,y plane (new horizontal plane)
+            vertices[0] = new Vector3(-1,-1,0);
+            vertices[1] = new Vector3(-1,-2,0);
+            vertices[2] = new Vector3(-2,-2,0);
             DrawTrianglePrimitive(graphicsDevice, vertices, Color.Green);
+        }
+
+
+
+        /*
+         * [0] -1,-1   [1] -1,-2
+         * [2] -2,-1   [3] -2,-2
+         *
+         * draw the triangles showing the same winding faces
+         *
+         * triangle1  {0,1,3}
+         * triangle2  {0,3,2}
+         *
+         * this approach isn't compatible with the rendering system,
+         * two calls are made against the graphicsDevice and it causes a noticable
+         * break between the two trianges then the viewport is moved
+         *
+         *
+         */
+        public void DrawTestSquare(GraphicsDevice graphicsDevice)
+        {
+            Vector3[] vertices1 = new Vector3[3];
+            vertices1[0] = new Vector3(-1, -1, 0);
+            vertices1[1] = new Vector3(-1, -2, 0);
+            vertices1[2] = new Vector3(-2, -2, 0);
+            DrawTrianglePrimitive(graphicsDevice, vertices1, Color.Green);
+            Vector3[] vertices2 = new Vector3[3];
+            vertices2[0] = new Vector3(-1, -1, 0);
+            vertices2[1] = new Vector3(-2, -2, 0);
+            vertices2[2] = new Vector3(-2, -1, 0);
+            DrawTrianglePrimitive(graphicsDevice, vertices2, Color.Green);
         }
     }
 }
