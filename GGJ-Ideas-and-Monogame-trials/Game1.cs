@@ -37,7 +37,6 @@ namespace GGJ_Ideas_and_Monogame_trials
     {
         private const int DEFAULT_VIEWPORT_WIDTH = 800;
         private const int DEFAULT_VIEWPORT_HEIGHT = 600;
-        private const float CAMERA_HEIGHT = 30f;
         private CameraTransforms cameraTransforms;
 
         private Model spaceshipModel;
@@ -64,7 +63,7 @@ namespace GGJ_Ideas_and_Monogame_trials
 
             int screenWidth = Window.ClientBounds.Width;
             int screenHeight = Window.ClientBounds.Height;
-            cameraTransforms = new CameraTransforms(screenWidth, screenHeight, initialCameraZ: CAMERA_HEIGHT);
+            cameraTransforms = new CameraTransforms(screenWidth, screenHeight);
         }
 
         protected override void Initialize()
@@ -118,6 +117,13 @@ namespace GGJ_Ideas_and_Monogame_trials
             {
                 cameraTransforms.IncrementCameraOrbitDegrees(-3);
             }
+
+            // TESTING ONLY, print camera position
+            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            {
+                Debug.WriteLine($"{cameraTransforms.cameraPosition}");
+            }
+
 
             // -- needs implementation (orbit)
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)

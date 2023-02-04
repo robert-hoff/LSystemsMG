@@ -4,13 +4,15 @@ using Microsoft.Xna.Framework;
 
 namespace GGJ_Ideas_and_Monogame_trials
 {
+    /*
+     * It's not perfect, it is the world that rotates rather than calculating
+     * a true orbit
+     *
+     */
     class CameraTransforms
     {
-        private Vector3 cameraPosition = new Vector3(4f, 4f, 10f);
-
-        private Vector3 cameraFoci = new Vector3(0, 0, 0);
-        private float cameraRotation = 0;
-        private float cameraZ;
+        public Vector3 cameraPosition = new Vector3(13.5f, 13.5f, 34f);
+        private float cameraRotation = MathHelper.ToRadians(-45);
         private int viewportWidth;
         private int viewportHeight;
 
@@ -18,10 +20,9 @@ namespace GGJ_Ideas_and_Monogame_trials
         private Matrix viewMatrix;
         private Matrix projectionMatrix;
 
-        public CameraTransforms(int viewportWidth, int viewportHeight, float initialCameraZ) {
+        public CameraTransforms(int viewportWidth, int viewportHeight) {
             this.viewportWidth = viewportWidth;
             this.viewportHeight = viewportHeight;
-            this.cameraZ = initialCameraZ;
             CalculateWorldMatrix();
             CalculateViewMatrix();
             CalculateProjectionMatrix();
@@ -31,8 +32,6 @@ namespace GGJ_Ideas_and_Monogame_trials
         //
         private void CalculateWorldMatrix()
         {
-            // FIXME - something is missing
-            // worldMatrix = Matrix.CreateTranslation(cameraFoci);
             worldMatrix = Matrix.CreateRotationY(cameraRotation);
         }
         public void SetCameraOrbitDegrees(float cameraRotationDegrees)
