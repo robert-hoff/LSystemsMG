@@ -13,12 +13,11 @@ namespace GGJ_Ideas_and_Monogame_trials.Environment
         private Vector3[,,] colors;
         private Model wedge0;
         private Model wedge1;
-        private int gridSize = 31;
+        private int gridSize = 21;
         private int offset;
 
         public GroundTiles(Model wedge0, Model wedge1)
         {
-            Debug.WriteLine($"hello");
             this.wedge0 = wedge0;
             this.wedge1 = wedge1;
             this.offset = gridSize / 2;
@@ -28,19 +27,15 @@ namespace GGJ_Ideas_and_Monogame_trials.Environment
                 for (int j = 0; j < gridSize; j++)
                 {
                     int randomInt = RandomNum.GetRandomInt(0, 1000);
+                    // float w1 = i > 15 ? -i + 30 : i;
+                    // float w2 = j > 15 ? -j + 30 : j;
+                    // float weight = w1 * w2;
+                    // float tileHeight = (float) randomInt * 0.10f * weight / 50000;
 
-                    float w1 = i > 15 ? -i + 30 : i;
-                    float w2 = j > 15 ? -j + 30 : j;
-                    float weight = w1 * w2;
-                    // Debug.WriteLine($"{i},{j} = {weight}   {w1},{w2}");
-                    float tileHeight = (float) randomInt * 0.10f * weight / 50000;
-
-
-
-
+                    float tileHeight = (float) randomInt * 0.10f / 1000;
                     if (tileHeight < 0.01f)
                     {
-                        tileHeight = -1f;
+                        tileHeight = 0.01f;
                     }
                     Matrix S = Matrix.CreateScale(1, 1, tileHeight);
                     bool rotateTile = randomInt % 2 == 1;
@@ -57,7 +52,8 @@ namespace GGJ_Ideas_and_Monogame_trials.Environment
 
             colors = new Vector3[gridSize, gridSize, 2];
             ColorSampler colorSampler1 = new ColorSampler(0x008C00);
-            ColorSampler colorSampler2 = new ColorSampler(0x007C00);
+            ColorSampler colorSampler2 = new ColorSampler(0x008000);
+            // ColorSampler colorSampler2 = new ColorSampler(0x007C00);
             // ColorSampler colorSampler2 = new ColorSampler(0x449904);
 
             for (int i = 0; i < gridSize; i++)

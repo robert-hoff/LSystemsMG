@@ -42,8 +42,8 @@ namespace GGJ_Ideas_and_Monogame_trials
         // --
 
         private Color CLEAR_COLOR = Color.CornflowerBlue; // Using CornflowerBlue, Black, White
-        private const int DEFAULT_VIEWPORT_WIDTH = 800;
-        private const int DEFAULT_VIEWPORT_HEIGHT = 600;
+        private const int DEFAULT_VIEWPORT_WIDTH = 1200;
+        private const int DEFAULT_VIEWPORT_HEIGHT = 800;
         private CameraTransforms cameraTransforms;
 
         private Model spaceshipModel;
@@ -214,7 +214,7 @@ namespace GGJ_Ideas_and_Monogame_trials
 
             groundTiles.DrawGroundTiles(cameraTransforms);
 
-            DrawModelTranslationAndColor(modelUnitSquare, world, view, projection, 0, 0, 0f, new Vector3(0, 0.4f, 0), scaleX: 100f, scaleY: 100f);
+            // DrawModelTranslationAndColor(modelUnitSquare, world, view, projection, 0, 0, 0f, new Vector3(0, 0.4f, 0), scaleX: 50f, scaleY: 50f);
 
             if (SHOW_AXIS)
             {
@@ -242,11 +242,6 @@ namespace GGJ_Ideas_and_Monogame_trials
         }
 
 
-
-
-
-
-
         private void DrawModelTranslationAndColor(Model model, Matrix world, Matrix view, Matrix projection,
             float tX, float tY, float tZ, Vector3 color, float scaleX = 1f, float scaleY = 1f, float scaleZ = 1f)
         {
@@ -265,17 +260,13 @@ namespace GGJ_Ideas_and_Monogame_trials
                     Matrix S = Matrix.CreateScale(scaleX, scaleY, scaleZ);
                     Matrix T = Matrix.CreateTranslation(tX, tY, tZ);
                     Matrix transform = Matrix.Multiply(S,T);
-
                     // Matrix transform = Matrix.Multiply(translation, scale);
-
 
                     basicEffect.World = world;
                     basicEffect.View = view;
                     basicEffect.Projection = projection;
                     basicEffect.World = Matrix.Multiply(transform, basicEffect.World);
                     // basicEffect.Projection = Matrix.Multiply(T, basicEffect.World);
-
-
                     basicEffect.DiffuseColor = color;
 
                     // basicEffect.World = Matrix.Multiply(T, basicEffect.World);
@@ -284,9 +275,6 @@ namespace GGJ_Ideas_and_Monogame_trials
                 mesh.Draw();
             }
         }
-
-
-
 
 
 
@@ -307,29 +295,12 @@ namespace GGJ_Ideas_and_Monogame_trials
                     basicEffect.World = world;
                     basicEffect.View = view;
                     basicEffect.Projection = projection;
-
                     basicEffect.DiffuseColor = Color.Red.ToVector3();
-
-
-                    // Matrix.CreateTranslation(0, 0, 0, out Matrix translation);
-                    // basicEffect.World = Matrix.Multiply(translation, basicEffect.World);
-
-
-
                 }
                 // mesh.Draw();
             }
         }
-
-
-
-
-
-
-
-
-
-
-
     }
 }
+
+

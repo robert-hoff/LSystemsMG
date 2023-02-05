@@ -17,9 +17,15 @@ namespace GGJ_Ideas_and_Monogame_trials
         private int viewportWidth;
         private int viewportHeight;
 
-        private float MIN_ZOOM_DISTANCE = 2f;
-        private float MAX_ZOOM_DISTANCE = 40f;
-        private float MIN_HEIGHT_DEGREES = 10;
+        // -- good values
+        //private float MIN_ZOOM_DISTANCE = 8f;
+        //private float MAX_ZOOM_DISTANCE = 25f;
+        //private float MIN_HEIGHT_DEGREES = 15;
+        //private float MAX_HEIGHT_DEGREES = 35;
+
+        private float MIN_ZOOM_DISTANCE = 8f;
+        private float MAX_ZOOM_DISTANCE = 23f;
+        private float MIN_HEIGHT_DEGREES = 15;
         private float MAX_HEIGHT_DEGREES = 35;
 
         public Matrix worldMatrix { get; private set; }
@@ -62,14 +68,14 @@ namespace GGJ_Ideas_and_Monogame_trials
         {
             if (Game1.RESTRICT_CAMERA && ZoomDistance() < MIN_ZOOM_DISTANCE)
             { return; }
-            cameraPosition = Vector3.Multiply(cameraPosition, 0.95f);
+            cameraPosition = Vector3.Multiply(cameraPosition, 0.90f);
             CalculateViewMatrix();
         }
         public void ZoomOut()
         {
             if (Game1.RESTRICT_CAMERA && ZoomDistance() > MAX_ZOOM_DISTANCE)
             { return; }
-            cameraPosition = Vector3.Multiply(cameraPosition, 1.05f);
+            cameraPosition = Vector3.Multiply(cameraPosition, 1.1f);
             CalculateViewMatrix();
         }
         private float ZoomDistance()
