@@ -262,8 +262,8 @@ namespace RootNomics
 
             // simulationRenderer.DrawGroundTiles();
 
-            simulationRenderer.GetGameModel("acaciaTree1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-5,6,0));
-            simulationRenderer.GetGameModel("acaciaTree2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-5,8,0));
+            simulationRenderer.GetGameModel("acaciaTree1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-5, 6, 0));
+            simulationRenderer.GetGameModel("acaciaTree2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-5, 8, 0));
             simulationRenderer.GetGameModel("birchTree1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, -8, 0));
             simulationRenderer.GetGameModel("birchTree2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, -6, 0));
             simulationRenderer.GetGameModel("cactus1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, -4, 0));

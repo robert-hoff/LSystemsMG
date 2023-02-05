@@ -38,7 +38,7 @@ namespace RootNomics.SimulationRender
 
                 // transforms weren't applied to this model in the Blender export
                 case "acaciaTree2":
-                    modelXRotationDegrees = 90;
+                    modelXRotationDegrees = -90;
                     modelScaling = new Vector3(0.007f, 0.007f, 0.007f);
                     break;
 
@@ -105,8 +105,8 @@ namespace RootNomics.SimulationRender
                     break;
 
                 case "plant1":
-                    modelXRotationDegrees = 90;
-                    modelScaling = new Vector3(2.5f, 2.5f, 3f);
+                    modelXRotationDegrees = -90;
+                    modelScaling = new Vector3(3.5f, 3.5f, 4.5f);
                     break;
 
                 case "reeds1":
@@ -119,15 +119,15 @@ namespace RootNomics.SimulationRender
                 default:
                     throw new Exception($"unknown model name gives = {modelName}");
             }
-
             Matrix T = Matrix.CreateTranslation(modelTranslation);
-            Matrix rotationXTransform = Matrix.CreateRotationX(modelXRotationDegrees);
-            Matrix rotationYTransform = Matrix.CreateRotationX(modelZRotationDegrees);
+            Matrix rotationXTransform = Matrix.CreateRotationX(MathHelper.ToDegrees(modelXRotationDegrees));
+            Matrix rotationZTransform = Matrix.CreateRotationZ(MathHelper.ToDegrees(modelZRotationDegrees));
             Matrix S = Matrix.CreateScale(modelScaling);
             Matrix transform = Matrix.Multiply(rotationXTransform, T);
-            transform = Matrix.Multiply(rotationYTransform, transform);
+            transform = Matrix.Multiply(rotationZTransform, transform);
             transform = Matrix.Multiply(S, transform);
             defaultModelTransform = transform;
+
         }
 
 
