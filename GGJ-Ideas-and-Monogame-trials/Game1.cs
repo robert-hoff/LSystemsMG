@@ -259,7 +259,6 @@ namespace RootNomics
             Matrix projection = cameraTransforms.projectionMatrix;
             GraphicsDevice.Clear(CLEAR_COLOR);
 
-
             simulationRenderer.DrawGroundTiles();
 
             /*
@@ -287,7 +286,6 @@ namespace RootNomics
             simulationRenderer.GetGameModel("plant1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-4, 0, 0));
             simulationRenderer.GetGameModel("reeds1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-4, 2, 0));
             */
-
 
             if (SHOW_AXIS)
             {
