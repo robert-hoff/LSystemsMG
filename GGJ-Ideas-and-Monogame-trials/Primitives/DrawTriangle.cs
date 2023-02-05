@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework.Graphics;
  *
  *
  */
-namespace RootNomics.Primitives
+namespace LSystemsMG.Primitives
 {
     class DrawTriangle
     {

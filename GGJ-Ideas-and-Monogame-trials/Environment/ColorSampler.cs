@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
-namespace RootNomics.Environment
+namespace LSystemsMG.Environment
 {
     class ColorSampler
     {

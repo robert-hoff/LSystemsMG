@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using RootNomics.Environment;
+using LSystemsMG.Environment;
 
-namespace Util.Extras
+namespace LSystemsMG.Util
 {
     class GroundTilesOccupancy
     {

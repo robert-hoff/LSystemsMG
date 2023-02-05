@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct2D1;
 
-namespace RootNomics.Primitives
+namespace LSystemsMG.Primitives
 {
     class DrawCube
     {

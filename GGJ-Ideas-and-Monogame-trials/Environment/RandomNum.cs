@@ -1,6 +1,6 @@
 using System;
 
-namespace RootNomics.Environment
+namespace LSystemsMG.Environment
 {
     class RandomNum
     {

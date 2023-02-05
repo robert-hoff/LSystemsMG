@@ -2,9 +2,9 @@ using System;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ModelRendering;
-using RootNomics;
-using RootNomics.Environment;
+using LSystemsMG;
+using LSystemsMG.Environment;
+using LSystemsMG.ModelRendering;
 
 namespace Environment
 {

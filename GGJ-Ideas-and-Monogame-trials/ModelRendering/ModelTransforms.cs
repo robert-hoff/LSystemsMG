@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-namespace SimulationRender
+namespace LSystemsMG.ModelRendering
 {
     class ModelTransforms
     {

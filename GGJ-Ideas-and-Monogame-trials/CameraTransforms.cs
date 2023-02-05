@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
-namespace RootNomics
+namespace LSystemsMG
 {
     /*
      * It's not perfect, it is the world that rotates rather than calculating

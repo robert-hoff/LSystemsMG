@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ModelRendering
+namespace LSystemsMG.ModelRendering
 {
     class CommonBasicEffects
     {

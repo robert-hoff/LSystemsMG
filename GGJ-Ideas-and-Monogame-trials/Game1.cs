@@ -1,12 +1,11 @@
 using System.Diagnostics;
-using RootNomics.Primitives;
+using LSystemsMG.Primitives;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using RootNomics.SimulationRender;
 using Environment;
-using SimulationRender;
+using LSystemsMG.ModelRendering;
 
 /**
  *
@@ -32,7 +31,7 @@ using SimulationRender;
  *
  *
  */
-namespace RootNomics
+namespace LSystemsMG
 {
     public class Game1 : Game
     {

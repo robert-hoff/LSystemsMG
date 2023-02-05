@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
  * in case additional scaling or rotating is desirable later
  *
  */
-namespace RootNomics.SimulationRender
+namespace LSystemsMG.ModelRendering
 {
     class GameModel
     {

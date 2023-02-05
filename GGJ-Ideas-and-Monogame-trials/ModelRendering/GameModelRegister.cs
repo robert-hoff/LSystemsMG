@@ -5,14 +5,15 @@ using Microsoft.Xna.Framework.Graphics;
 /*
  *
  */
-namespace RootNomics.SimulationRender
+namespace LSystemsMG.ModelRendering
 {
     class GameModelRegister
     {
         private CameraTransforms cameraTransforms;
         private Dictionary<string, GameModel> modelsLookup = new();
 
-        public GameModelRegister(CameraTransforms cameraTransforms) {
+        public GameModelRegister(CameraTransforms cameraTransforms)
+        {
             this.cameraTransforms = cameraTransforms;
         }
 

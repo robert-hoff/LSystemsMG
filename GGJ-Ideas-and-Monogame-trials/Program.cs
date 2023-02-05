@@ -1,8 +1,8 @@
 using System;
-using RootNomics.Environment;
-using RootNomics.Util;
+using LSystemsMG.Environment;
+using LSystemsMG.Util;
 
-namespace RootNomics
+namespace LSystemsMG
 {
     public static class Program
     {

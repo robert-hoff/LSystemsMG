@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace RootNomics.Util
+namespace LSystemsMG.Util
 {
     class ParseFbxFiles
     {

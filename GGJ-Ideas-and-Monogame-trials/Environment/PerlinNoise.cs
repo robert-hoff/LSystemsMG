@@ -1,4 +1,4 @@
-namespace RootNomics.Environment
+namespace LSystemsMG.Environment
 {
     public class PerlinNoise
     {
