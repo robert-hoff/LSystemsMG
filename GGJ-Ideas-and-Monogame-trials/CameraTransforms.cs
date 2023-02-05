@@ -18,7 +18,7 @@ namespace GGJ_Ideas_and_Monogame_trials
         private int viewportHeight;
 
         private float MIN_ZOOM_DISTANCE = 2f;
-        private float MAX_ZOOM_DISTANCE = 30f;
+        private float MAX_ZOOM_DISTANCE = 40f;
         private float MIN_HEIGHT_DEGREES = 10;
         private float MAX_HEIGHT_DEGREES = 35;
 

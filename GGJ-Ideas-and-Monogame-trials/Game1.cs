@@ -38,7 +38,7 @@ namespace GGJ_Ideas_and_Monogame_trials
         // dev flags
         // --
         public readonly static bool SHOW_AXIS = false;
-        public readonly static bool RESTRICT_CAMERA = false;
+        public readonly static bool RESTRICT_CAMERA = true;
         // --
 
         private Color CLEAR_COLOR = Color.CornflowerBlue; // Using CornflowerBlue, Black, White
@@ -105,10 +105,10 @@ namespace GGJ_Ideas_and_Monogame_trials
 
             Content = new ContentManager(this.Services, "Content");
             // spaceshipModel = Content.Load<Model>("ship-no-texture");
+            modelUnitSquare = Content.Load<Model>("unitsquare");
             spaceshipModel = Content.Load<Model>("ship-with-texture");
             modelCubeWedge0 = Content.Load<Model>("cube-wedge0");
             modelCubeWedge1 = Content.Load<Model>("cube-wedge1");
-            modelUnitSquare = Content.Load<Model>("unitsquare");
             groundTiles = new GroundTiles(modelCubeWedge0, modelCubeWedge1);
         }
 
@@ -210,10 +210,11 @@ namespace GGJ_Ideas_and_Monogame_trials
 
             // drawCube.DrawCubeAsPrimitives(GraphicsDevice, new Vector3(0, 0, 0), 1, 0.5f);
 
+            // GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
             groundTiles.DrawGroundTiles(cameraTransforms);
-            // GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-            // DrawModelTranslationAndColor(modelUnitSquare, world, view, projection, 0, 0, -0.1f, new Vector3(0, 0.65f, 0), scaleX: 50f, scaleY: 50f);
+
+            DrawModelTranslationAndColor(modelUnitSquare, world, view, projection, 0, 0, 0f, new Vector3(0, 0.4f, 0), scaleX: 100f, scaleY: 100f);
 
             if (SHOW_AXIS)
             {
@@ -255,7 +256,11 @@ namespace GGJ_Ideas_and_Monogame_trials
                 foreach (Effect effect in mesh.Effects)
                 {
                     BasicEffect basicEffect = (BasicEffect) effect;
-                    basicEffect.DiffuseColor = Color.Green.ToVector3();
+                    basicEffect.EnableDefaultLighting();
+                    basicEffect.AmbientLightColor = new Vector3(0.7f, 0.5f, 0.4f);
+                    basicEffect.DirectionalLight0.Enabled = true;
+                    basicEffect.DirectionalLight0.Direction = new Vector3(1, 1, -1);
+
 
                     Matrix S = Matrix.CreateScale(scaleX, scaleY, scaleZ);
                     Matrix T = Matrix.CreateTranslation(tX, tY, tZ);
@@ -271,6 +276,7 @@ namespace GGJ_Ideas_and_Monogame_trials
                     // basicEffect.Projection = Matrix.Multiply(T, basicEffect.World);
 
 
+                    basicEffect.DiffuseColor = color;
 
                     // basicEffect.World = Matrix.Multiply(T, basicEffect.World);
 
@@ -290,17 +296,20 @@ namespace GGJ_Ideas_and_Monogame_trials
             {
                 foreach (Effect effect in mesh.Effects)
                 {
-
                     BasicEffect basicEffect = (BasicEffect) effect;
+                    basicEffect.EnableDefaultLighting();
+                    basicEffect.AmbientLightColor = new Vector3(0.4f, 0.3f, 0.3f);
+                    basicEffect.DirectionalLight0.Enabled = true;
+                    basicEffect.DirectionalLight0.Direction = new Vector3(1, 1, -1);
+                    basicEffect.DirectionalLight0.DiffuseColor = new Vector3(0.8f, 0.8f, 0.8f);
+
                     // basicEffect.TextureEnabled = true;
                     basicEffect.World = world;
                     basicEffect.View = view;
                     basicEffect.Projection = projection;
 
-                    basicEffect.AmbientLightColor = Vector3.One;
-                    basicEffect.DirectionalLight0.Enabled = true;
-                    basicEffect.DirectionalLight0.Direction = new Vector3(1,1,1);
                     basicEffect.DiffuseColor = Color.Red.ToVector3();
+
 
                     // Matrix.CreateTranslation(0, 0, 0, out Matrix translation);
                     // basicEffect.World = Matrix.Multiply(translation, basicEffect.World);
@@ -308,7 +317,7 @@ namespace GGJ_Ideas_and_Monogame_trials
 
 
                 }
-                mesh.Draw();
+                // mesh.Draw();
             }
         }
 
