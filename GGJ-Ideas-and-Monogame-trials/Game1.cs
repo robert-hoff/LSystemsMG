@@ -37,7 +37,7 @@ namespace GGJ_Ideas_and_Monogame_trials
         // dev flags
         // --
         public readonly static bool SHOW_AXIS = false;
-        public readonly static bool RESTRICT_CAMERA = false;
+        public readonly static bool RESTRICT_CAMERA = true;
         // --
 
 
@@ -47,8 +47,10 @@ namespace GGJ_Ideas_and_Monogame_trials
         private CameraTransforms cameraTransforms;
 
         private Model spaceshipModel;
-        private Model cubeWedge0;
-        private Model cubeWedge1;
+        private Model modelCubeWedge0;
+        private Model modelCubeWedge1;
+        private Model modelUnitSquare;
+
         private DrawLine drawLine;
         private DrawTriangle drawTriangle;
         private DrawCube drawCube;
@@ -99,9 +101,9 @@ namespace GGJ_Ideas_and_Monogame_trials
             Content = new ContentManager(this.Services, "Content");
             // spaceshipModel = Content.Load<Model>("ship-no-texture");
             // spaceshipModel = Content.Load<Model>("ship-with-texture");
-            cubeWedge0 = Content.Load<Model>("cube-wedge0");
-            cubeWedge1 = Content.Load<Model>("cube-wedge1");
-            // spaceshipModel = Content.Load<Model>("unitcube");
+            modelCubeWedge0 = Content.Load<Model>("cube-wedge0");
+            modelCubeWedge1 = Content.Load<Model>("cube-wedge1");
+            modelUnitSquare = Content.Load<Model>("unitsquare");
         }
 
         private int previousMouseScroll = 0;
@@ -182,11 +184,17 @@ namespace GGJ_Ideas_and_Monogame_trials
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 1, 0, 0, Color.Yellow.ToVector3());
 
 
-            DrawModelTranslationAndColor(cubeWedge0, world, view, projection, 0, 0, 0, new Vector3(0.6f, 0.4f, 0.1f), scaleY: 0.3f);
-            DrawModelTranslationAndColor(cubeWedge1, world, view, projection, 0, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleY: 0.3f);
+            DrawModelTranslationAndColor(modelCubeWedge0, world, view, projection, 0, 0, 0, new Vector3(0.6f, 0.4f, 0.1f), scaleZ: 0.3f);
+            DrawModelTranslationAndColor(modelCubeWedge1, world, view, projection, 0, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleZ: 0.3f);
+            DrawModelTranslationAndColor(modelCubeWedge0, world, view, projection, 1, 0, 0, new Vector3(0.6f, 0.4f, 0.1f), scaleZ: 0.2f);
+            DrawModelTranslationAndColor(modelCubeWedge1, world, view, projection, 1, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleZ: 0.2f);
+            DrawModelTranslationAndColor(modelCubeWedge1, world, view, projection, 1, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleZ: 0.2f);
 
-            DrawModelTranslationAndColor(cubeWedge0, world, view, projection, 1, 0, 0, new Vector3(0.6f, 0.4f, 0.1f), scaleY: 0.2f);
-            DrawModelTranslationAndColor(cubeWedge1, world, view, projection, 1, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleY: 0.2f);
+
+
+            GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            DrawModelTranslationAndColor(modelUnitSquare, world, view, projection, 0, 0, -0.01f, new Vector3(0, 0.65f, 0), scaleX: 50f, scaleY: 50f);
+
 
 
 
@@ -224,14 +232,14 @@ namespace GGJ_Ideas_and_Monogame_trials
         }
 
         private void DrawModelTranslationAndColor(Model model, Matrix world, Matrix view, Matrix projection,
-            float tX, float tY, float tZ, Vector3 color, float scaleY = 1.0f)
+            float tX, float tY, float tZ, Vector3 color, float scaleX = 1f, float scaleY = 1f, float scaleZ = 1f)
         {
             // int count = 0;
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (Effect effect in mesh.Effects)
                 {
-                    Matrix scale = Matrix.CreateScale(1, 1, scaleY);
+                    Matrix scale = Matrix.CreateScale(scaleX, scaleY, scaleZ);
                     Matrix translation = Matrix.CreateTranslation(tX, tY, tZ);
                     Matrix transform = Matrix.Multiply(translation, scale);
 
