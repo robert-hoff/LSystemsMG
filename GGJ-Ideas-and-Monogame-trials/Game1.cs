@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IO;
+using GGJ_Ideas_and_Monogame_trials.Environment;
 using GGJ_Ideas_and_Monogame_trials.Primitives;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -55,6 +56,8 @@ namespace GGJ_Ideas_and_Monogame_trials
         private DrawTriangle drawTriangle;
         private DrawCube drawCube;
 
+        private GroundTiles groundTiles;
+
         public Game1()
         {
             Content.RootDirectory = "Content";
@@ -104,6 +107,7 @@ namespace GGJ_Ideas_and_Monogame_trials
             modelCubeWedge0 = Content.Load<Model>("cube-wedge0");
             modelCubeWedge1 = Content.Load<Model>("cube-wedge1");
             modelUnitSquare = Content.Load<Model>("unitsquare");
+            groundTiles = new GroundTiles(modelCubeWedge0, modelCubeWedge1);
         }
 
         private int previousMouseScroll = 0;
@@ -184,16 +188,15 @@ namespace GGJ_Ideas_and_Monogame_trials
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 1, 0, 0, Color.Yellow.ToVector3());
 
 
-            DrawModelTranslationAndColor(modelCubeWedge0, world, view, projection, 0, 0, 0, new Vector3(0.6f, 0.4f, 0.1f), scaleZ: 0.3f);
-            DrawModelTranslationAndColor(modelCubeWedge1, world, view, projection, 0, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleZ: 0.3f);
-            DrawModelTranslationAndColor(modelCubeWedge0, world, view, projection, 1, 0, 0, new Vector3(0.6f, 0.4f, 0.1f), scaleZ: 0.2f);
-            DrawModelTranslationAndColor(modelCubeWedge1, world, view, projection, 1, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleZ: 0.2f);
-            DrawModelTranslationAndColor(modelCubeWedge1, world, view, projection, 1, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleZ: 0.2f);
+            //DrawModelTranslationAndColor(modelCubeWedge0, world, view, projection, 0, 0, 0, new Vector3(0.6f, 0.4f, 0.1f), scaleZ: 0.3f);
+            //DrawModelTranslationAndColor(modelCubeWedge1, world, view, projection, 0, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleZ: 0.3f);
+            //DrawModelTranslationAndColor(modelCubeWedge0, world, view, projection, 1, 0, 0, new Vector3(0.6f, 0.4f, 0.1f), scaleZ: 0.2f);
+            //DrawModelTranslationAndColor(modelCubeWedge1, world, view, projection, 1, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleZ: 0.2f);
+            //DrawModelTranslationAndColor(modelCubeWedge1, world, view, projection, 1, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleZ: 0.2f);
 
 
 
-            GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-            DrawModelTranslationAndColor(modelUnitSquare, world, view, projection, 0, 0, -0.01f, new Vector3(0, 0.65f, 0), scaleX: 50f, scaleY: 50f);
+
 
 
 
@@ -205,6 +208,14 @@ namespace GGJ_Ideas_and_Monogame_trials
             //drawTriangle.DrawTestSquare(GraphicsDevice, 0, -1);
 
             // drawCube.DrawCubeAsPrimitives(GraphicsDevice, new Vector3(0, 0, 0), 1, 0.5f);
+
+
+            groundTiles.DrawGroundTiles(cameraTransforms);
+
+
+
+            GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            // DrawModelTranslationAndColor(modelUnitSquare, world, view, projection, 0, 0, -0.01f, new Vector3(0, 0.65f, 0), scaleX: 50f, scaleY: 50f);
 
             if (SHOW_AXIS)
             {
