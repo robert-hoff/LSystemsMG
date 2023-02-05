@@ -260,8 +260,9 @@ namespace RootNomics
             GraphicsDevice.Clear(CLEAR_COLOR);
 
 
-            // simulationRenderer.DrawGroundTiles();
+            simulationRenderer.DrawGroundTiles();
 
+            /*
             simulationRenderer.GetGameModel("acaciaTree1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-5, 6, 0));
             simulationRenderer.GetGameModel("acaciaTree2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-5, 8, 0));
             simulationRenderer.GetGameModel("birchTree1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, -8, 0));
@@ -285,6 +286,7 @@ namespace RootNomics
             simulationRenderer.GetGameModel("smallPlant1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-4, -2, 0));
             simulationRenderer.GetGameModel("plant1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-4, 0, 0));
             simulationRenderer.GetGameModel("reeds1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-4, 2, 0));
+            */
 
 
             if (SHOW_AXIS)
