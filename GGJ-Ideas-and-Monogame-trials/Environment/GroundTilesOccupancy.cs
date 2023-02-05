@@ -33,7 +33,7 @@ namespace RootNomics.Environment
             {
                 int randomIndex = RandomNum.GetRandomInt(0, 441 - i);
                 int randomTile = unassignedTiles[randomIndex];
-                unassignedTiles.Remove(randomIndex);
+                unassignedTiles.RemoveAt(randomIndex);
                 freeTiles.Add(randomTile);
             }
         }
@@ -42,7 +42,7 @@ namespace RootNomics.Environment
         {
             int freeTile = freeTiles[0];
             occupiedTiles.Add(freeTile);
-            freeTiles.Remove(0);
+            freeTiles.RemoveAt(0);
             int x = freeTile / BOARD_HEIGHT;
             int y = freeTile % BOARD_WIDTH;
             return (x - xOffsetToCentralTile, y - yOffsetToCentralTile);
