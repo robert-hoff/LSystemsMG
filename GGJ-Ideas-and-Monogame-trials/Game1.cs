@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO;
 using GGJ_Ideas_and_Monogame_trials.Primitives;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -35,7 +36,7 @@ namespace GGJ_Ideas_and_Monogame_trials
     {
         // dev flags
         // --
-        public readonly static bool SHOW_AXIS = true;
+        public readonly static bool SHOW_AXIS = false;
         public readonly static bool RESTRICT_CAMERA = false;
         // --
 
@@ -46,6 +47,8 @@ namespace GGJ_Ideas_and_Monogame_trials
         private CameraTransforms cameraTransforms;
 
         private Model spaceshipModel;
+        private Model cubeWedge0;
+        private Model cubeWedge1;
         private DrawLine drawLine;
         private DrawTriangle drawTriangle;
         private DrawCube drawCube;
@@ -64,11 +67,11 @@ namespace GGJ_Ideas_and_Monogame_trials
                 PreferredBackBufferHeight = DEFAULT_VIEWPORT_HEIGHT,
                 // PreferredBackBufferFormat = SurfaceFormat.Color,
                 PreferMultiSampling = true,
+                // PreferredDepthStencilFormat = DepthFormat.None,
                 PreferredDepthStencilFormat = DepthFormat.Depth24,
-                SynchronizeWithVerticalRetrace = true,
+                // SynchronizeWithVerticalRetrace = true,
                 // SynchronizeWithVerticalRetrace = false,
             };
-
             int screenWidth = Window.ClientBounds.Width;
             int screenHeight = Window.ClientBounds.Height;
             cameraTransforms = new CameraTransforms(screenWidth, screenHeight);
@@ -83,6 +86,7 @@ namespace GGJ_Ideas_and_Monogame_trials
 
             // -- INCLUDE BACKSIDES
             // GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            GraphicsDevice.PresentationParameters.MultiSampleCount = 2;
             base.Initialize();
         }
 
@@ -94,7 +98,10 @@ namespace GGJ_Ideas_and_Monogame_trials
 
             Content = new ContentManager(this.Services, "Content");
             // spaceshipModel = Content.Load<Model>("ship-no-texture");
-            spaceshipModel = Content.Load<Model>("ship-with-texture");
+            // spaceshipModel = Content.Load<Model>("ship-with-texture");
+            cubeWedge0 = Content.Load<Model>("cube-wedge0");
+            cubeWedge1 = Content.Load<Model>("cube-wedge1");
+            // spaceshipModel = Content.Load<Model>("unitcube");
         }
 
         private int previousMouseScroll = 0;
@@ -111,7 +118,7 @@ namespace GGJ_Ideas_and_Monogame_trials
             {
                 Debug.WriteLine($"camera position {cameraTransforms.cameraPosition}");
                 Debug.WriteLine($"rotation {MathHelper.ToDegrees(cameraTransforms.cameraRotation)}");
-                Debug.WriteLine($"distance from origin {Vector3.Distance(cameraTransforms.cameraPosition, new Vector3(0,0,0))}");
+                Debug.WriteLine($"distance from origin {Vector3.Distance(cameraTransforms.cameraPosition, new Vector3(0, 0, 0))}");
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -126,11 +133,12 @@ namespace GGJ_Ideas_and_Monogame_trials
                     leftMouseIsReleased = false;
                     mouseDragX = Mouse.GetState().X;
                     mouseDragY = Mouse.GetState().Y;
-                } else
+                }
+                else
                 {
                     float diffX = Mouse.GetState().X - mouseDragX;
                     float diffY = Mouse.GetState().Y - mouseDragY;
-                    cameraTransforms.IncrementCameraOrbitDegrees(diffX/4);
+                    cameraTransforms.IncrementCameraOrbitDegrees(diffX / 4);
                     cameraTransforms.OrbitUpDown(diffY / 20);
                     mouseDragX = Mouse.GetState().X;
                     mouseDragY = Mouse.GetState().Y;
@@ -166,14 +174,26 @@ namespace GGJ_Ideas_and_Monogame_trials
             // -- render game components
             // DrawModel(spaceshipModel, world, view, projection);
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 2, Color.Tomato.ToVector3());
-            // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 1, Color.Plum.ToVector3());
+
+            // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, -0.996f/2, 0, 0, Color.Tomato.ToVector3());
+            // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 1, 0, 0, Color.AliceBlue.ToVector3());
+
+            // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 0, 0, Color.Azure.ToVector3());
+            // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 1, 0, 0, Color.Yellow.ToVector3());
+
+
+            DrawModelTranslationAndColor(cubeWedge0, world, view, projection, 0, 0, 0, new Vector3(0.6f, 0.4f, 0.1f));
+            DrawModelTranslationAndColor(cubeWedge1, world, view, projection, 0, 0, 0, new Vector3(0.58f, 0.45f, 0.15f));
+
+
+
             // drawTriangle.DrawTestTriangle(GraphicsDevice);
-            //drawTriangle.DrawTestSquare(GraphicsDevice);
+            // drawTriangle.DrawTestSquare(GraphicsDevice);
             //drawTriangle.DrawTestSquare(GraphicsDevice, -1, 0);
             //drawTriangle.DrawTestSquare(GraphicsDevice, -1, -1);
             //drawTriangle.DrawTestSquare(GraphicsDevice, 0, -1);
 
-            drawCube.DrawCubeAsPrimitives(GraphicsDevice, new Vector3(0, 0, 0), 1, 0.5f);
+            // drawCube.DrawCubeAsPrimitives(GraphicsDevice, new Vector3(0, 0, 0), 1, 0.5f);
 
             if (SHOW_AXIS)
             {
@@ -202,17 +222,19 @@ namespace GGJ_Ideas_and_Monogame_trials
 
         private void DrawModelTranslationAndColor(Model model, Matrix world, Matrix view, Matrix projection, float tX, float tY, float tZ, Vector3 color)
         {
+            // int count = 0;
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (Effect effect in mesh.Effects)
                 {
+                    // Debug.WriteLine($"{++count}");
+                    Matrix.CreateTranslation(tX, tY, tZ, out Matrix translation);
                     BasicEffect basicEffect = (BasicEffect) effect;
                     basicEffect.World = world;
                     basicEffect.View = view;
                     basicEffect.Projection = projection;
-                    basicEffect.DiffuseColor = color;
-                    Matrix.CreateTranslation(tX, tY, tZ, out Matrix translation);
                     basicEffect.World = Matrix.Multiply(translation, basicEffect.World);
+                    basicEffect.DiffuseColor = color;
 
                 }
                 mesh.Draw();
