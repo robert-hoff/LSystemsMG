@@ -218,7 +218,7 @@ namespace GGJ_Ideas_and_Monogame_trials
             // drawCube.DrawCubeAsPrimitives(GraphicsDevice, new Vector3(0, 0, 0), 1, 0.5f);
 
 
-            // groundTiles.DrawGroundTiles(cameraTransforms);
+            groundTiles.DrawGroundTiles(cameraTransforms);
             // GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             DrawModelTranslationAndColor(modelUnitSquare, world, view, projection, 0, 0, -0.1f, new Vector3(0, 0.65f, 0), scaleX: 50f, scaleY: 50f);
 

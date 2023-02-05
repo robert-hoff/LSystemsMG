@@ -34,8 +34,8 @@ namespace GGJ_Ideas_and_Monogame_trials.Environment
                     Matrix R = Matrix.CreateRotationZ(rotateBy);
                     Matrix T = Matrix.CreateTranslation(i - offset, j - offset, 0);
 
-                    Matrix transform = Matrix.Multiply(R, S);
-                    transform = Matrix.Multiply(T, transform);
+                    Matrix transform = Matrix.Multiply(S,R);
+                    transform = Matrix.Multiply(transform,T);
                     // Matrix transform = Matrix.Identity;
                     transforms[i, j] = transform;
                 }
