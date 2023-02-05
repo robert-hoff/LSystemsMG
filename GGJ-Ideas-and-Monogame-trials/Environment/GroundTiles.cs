@@ -12,7 +12,7 @@ namespace GGJ_Ideas_and_Monogame_trials.Environment
         private Vector3[,,] colors;
         private Model wedge0;
         private Model wedge1;
-        private int gridSize = 4;
+        private int gridSize = 21;
         private int offset;
 
         public GroundTiles(Model wedge0, Model wedge1)
@@ -43,16 +43,15 @@ namespace GGJ_Ideas_and_Monogame_trials.Environment
 
             colors = new Vector3[gridSize, gridSize, 2];
             ColorSampler colorSampler1 = new ColorSampler(0x008C00);
-            // ColorSampler colorSampler2 = new ColorSampler(0x007C00);
-            ColorSampler colorSampler2 = new ColorSampler(0x7C0000);
+            ColorSampler colorSampler2 = new ColorSampler(0x007C00);
 
             for (int i = 0; i < gridSize; i++)
             {
                 for (int j = 0; j < gridSize; j++)
                 {
                     colors[i, j, 0] = colorSampler1.GetVariationVector3();
-                    colors[i, j, 1] = colorSampler2.GetVariationVector3();
-                    // colors[i, j, 1] = colors[i, j, 0];
+                    // colors[i, j, 1] = colorSampler2.GetVariationVector3();
+                    colors[i, j, 1] = colors[i, j, 0];
                 }
             }
             Debug.WriteLine($"done");

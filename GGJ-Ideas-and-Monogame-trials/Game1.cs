@@ -37,10 +37,9 @@ namespace GGJ_Ideas_and_Monogame_trials
     {
         // dev flags
         // --
-        public readonly static bool SHOW_AXIS = true;
+        public readonly static bool SHOW_AXIS = false;
         public readonly static bool RESTRICT_CAMERA = false;
         // --
-
 
         private Color CLEAR_COLOR = Color.CornflowerBlue; // Using CornflowerBlue, Black, White
         private const int DEFAULT_VIEWPORT_WIDTH = 800;
@@ -203,12 +202,6 @@ namespace GGJ_Ideas_and_Monogame_trials
             //DrawModelTranslationAndColor(modelCubeWedge1, world, view, projection, 1, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleZ: 0.2f);
 
 
-
-
-
-
-
-
             // drawTriangle.DrawTestTriangle(GraphicsDevice);
             // drawTriangle.DrawTestSquare(GraphicsDevice);
             //drawTriangle.DrawTestSquare(GraphicsDevice, -1, 0);
@@ -220,10 +213,7 @@ namespace GGJ_Ideas_and_Monogame_trials
 
             groundTiles.DrawGroundTiles(cameraTransforms);
             // GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-            DrawModelTranslationAndColor(modelUnitSquare, world, view, projection, 0, 0, -0.1f, new Vector3(0, 0.65f, 0), scaleX: 50f, scaleY: 50f);
-
-
-
+            // DrawModelTranslationAndColor(modelUnitSquare, world, view, projection, 0, 0, -0.1f, new Vector3(0, 0.65f, 0), scaleX: 50f, scaleY: 50f);
 
             if (SHOW_AXIS)
             {
@@ -251,15 +241,14 @@ namespace GGJ_Ideas_and_Monogame_trials
         }
 
 
-        float rotationTest = 0f;
+
+
+
 
 
         private void DrawModelTranslationAndColor(Model model, Matrix world, Matrix view, Matrix projection,
             float tX, float tY, float tZ, Vector3 color, float scaleX = 1f, float scaleY = 1f, float scaleZ = 1f)
         {
-
-            rotationTest += 0.01f;
-
             // int count = 0;
             foreach (ModelMesh mesh in model.Meshes)
             {
@@ -268,23 +257,9 @@ namespace GGJ_Ideas_and_Monogame_trials
                     BasicEffect basicEffect = (BasicEffect) effect;
                     basicEffect.DiffuseColor = Color.Green.ToVector3();
 
-                    // Matrix scale = Matrix.CreateScale(scaleX, scaleY, scaleZ);
-
-
-                    //Matrix T = Matrix.CreateTranslation(tX, tY, tZ);
-                    //Matrix S = Matrix.CreateScale(2f, 2f, 1f);
-                    //Matrix R = Matrix.CreateRotationZ(0.3f);
-                    //Matrix transform = Matrix.Multiply(R, S);
-                    //transform = Matrix.Multiply(T, transform);
-
-
-                    Matrix S = Matrix.CreateScale(0.5f, 0.5f, 1f);
-                    Matrix R = Matrix.CreateRotationZ(rotationTest);
-                    Matrix T = Matrix.CreateTranslation(2, 0, 0);
-                    Matrix transform = Matrix.Multiply(S,R);
-                    transform = Matrix.Multiply(transform,T);
-
-
+                    Matrix S = Matrix.CreateScale(scaleX, scaleY, scaleZ);
+                    Matrix T = Matrix.CreateTranslation(tX, tY, tZ);
+                    Matrix transform = Matrix.Multiply(S,T);
 
                     // Matrix transform = Matrix.Multiply(translation, scale);
 
