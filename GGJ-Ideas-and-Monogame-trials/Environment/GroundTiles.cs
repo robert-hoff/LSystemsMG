@@ -2,8 +2,11 @@ using System;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ModelRendering;
+using RootNomics;
+using RootNomics.Environment;
 
-namespace RootNomics.Environment
+namespace Environment
 {
     class GroundTiles
     {
@@ -20,7 +23,7 @@ namespace RootNomics.Environment
         {
             this.wedge0 = wedge0;
             this.wedge1 = wedge1;
-            this.offset = gridSize / 2;
+            offset = gridSize / 2;
             transforms = new Matrix[gridSize, gridSize];
             tileHeights = new float[gridSize, gridSize];
             for (int i = 0; i < gridSize; i++)
@@ -28,7 +31,7 @@ namespace RootNomics.Environment
                 for (int j = 0; j < gridSize; j++)
                 {
                     int randomInt = RandomNum.GetRandomInt(0, 1000);
-                    tileHeights[i,j] = (float) randomInt * 0.10f / 1000;
+                    tileHeights[i, j] = randomInt * 0.10f / 1000;
                     if (tileHeights[i, j] < 0.01f)
                     {
                         tileHeights[i, j] = 0.01f;
@@ -39,8 +42,8 @@ namespace RootNomics.Environment
                     Matrix R = Matrix.CreateRotationZ(rotateBy);
                     Matrix T = Matrix.CreateTranslation(i - offset, j - offset, 0);
 
-                    Matrix transform = Matrix.Multiply(S,R);
-                    transform = Matrix.Multiply(transform,T);
+                    Matrix transform = Matrix.Multiply(S, R);
+                    transform = Matrix.Multiply(transform, T);
                     transforms[i, j] = transform;
                 }
             }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using RootNomics.Environment;
 
-namespace RootNomics.Environment
+namespace Util.Extras
 {
     class GroundTilesOccupancy
     {
@@ -18,7 +19,8 @@ namespace RootNomics.Environment
 
         List<(int delay, int ordinal)> tilesRecentlyReleased = new();
 
-        public GroundTilesOccupancy() {
+        public GroundTilesOccupancy()
+        {
             int nrTiles = BOARD_HEIGHT * BOARD_WIDTH;
             xOffsetToCentralTile = BOARD_HEIGHT / 2;
             yOffsetToCentralTile = BOARD_HEIGHT / 2;
@@ -52,7 +54,7 @@ namespace RootNomics.Environment
 
         public void RegisterFreedTile(int x, int y)
         {
-            int ordinal = 21 * (x + xOffsetToCentralTile) + (y + yOffsetToCentralTile);
+            int ordinal = 21 * (x + xOffsetToCentralTile) + y + yOffsetToCentralTile;
             tilesRecentlyReleased.Add((DELAY_TO_RELEASE_TILE, ordinal));
         }
 
@@ -66,9 +68,10 @@ namespace RootNomics.Environment
                 tileInfo.delay--;
                 if (tileInfo.delay == 0)
                 {
-                    int randomIndex = RandomNum.GetRandomInt(0,freeTiles.Count-1);
+                    int randomIndex = RandomNum.GetRandomInt(0, freeTiles.Count - 1);
                     freeTiles.Insert(randomIndex, tileInfo.ordinal);
-                } else
+                }
+                else
                 {
                     updatedList.Add((tileInfo.delay, tileInfo.ordinal));
                 }

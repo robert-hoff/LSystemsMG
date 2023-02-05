@@ -1,10 +1,12 @@
 using System;
-using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using RootNomics.Environment;
-using SharpDX.Direct2D1.Effects;
 
+/*
+ * This is well organised but it's a mistake to calculate the Matrix transform,
+ * in case additional scaling or rotating is desirable later
+ *
+ */
 namespace RootNomics.SimulationRender
 {
     class GameModel

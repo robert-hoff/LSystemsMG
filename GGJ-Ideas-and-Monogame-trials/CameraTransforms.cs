@@ -17,12 +17,6 @@ namespace RootNomics
         private int viewportWidth;
         private int viewportHeight;
 
-        // -- good values
-        //private float MIN_ZOOM_DISTANCE = 8f;
-        //private float MAX_ZOOM_DISTANCE = 25f;
-        //private float MIN_HEIGHT_DEGREES = 15;
-        //private float MAX_HEIGHT_DEGREES = 35;
-
         private float MIN_ZOOM_DISTANCE = 8f;
         private float MAX_ZOOM_DISTANCE = 23f;
         private float MIN_HEIGHT_DEGREES = 15;
@@ -110,9 +104,9 @@ namespace RootNomics
         //
         // -- Projection matrix and related updates
         private const float FOV = MathF.PI / 4; // 45 degrees
-                                                // private const float FOV = 1.16937f; // 67 degrees was used in a previous version
+        // private const float FOV = 1.16937f; // 67 degrees was used in a previous version
         private const float NEAR_CLIP = 0.01f;
-        private const float FAR_CLIP = 100f;
+        private const float FAR_CLIP = 400f;
         private void CalculateProjectionMatrix()
         {
             float viewPortAspectRatio = (float) viewportWidth / viewportHeight;
