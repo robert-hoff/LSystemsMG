@@ -37,8 +37,8 @@ namespace GGJ_Ideas_and_Monogame_trials
     {
         // dev flags
         // --
-        public readonly static bool SHOW_AXIS = false;
-        public readonly static bool RESTRICT_CAMERA = true;
+        public readonly static bool SHOW_AXIS = true;
+        public readonly static bool RESTRICT_CAMERA = false;
         // --
 
 
@@ -70,11 +70,11 @@ namespace GGJ_Ideas_and_Monogame_trials
                 IsFullScreen = false,
                 PreferredBackBufferWidth = DEFAULT_VIEWPORT_WIDTH,
                 PreferredBackBufferHeight = DEFAULT_VIEWPORT_HEIGHT,
-                // PreferredBackBufferFormat = SurfaceFormat.Color,
+                PreferredBackBufferFormat = SurfaceFormat.Color,
                 PreferMultiSampling = true,
-                // PreferredDepthStencilFormat = DepthFormat.None,
+                // don't turn off the depth setting
                 PreferredDepthStencilFormat = DepthFormat.Depth24,
-                // SynchronizeWithVerticalRetrace = true,
+                SynchronizeWithVerticalRetrace = true,
                 // SynchronizeWithVerticalRetrace = false,
             };
             int screenWidth = Window.ClientBounds.Width;
@@ -91,8 +91,11 @@ namespace GGJ_Ideas_and_Monogame_trials
 
             // -- INCLUDE BACKSIDES
             // GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-            GraphicsDevice.PresentationParameters.MultiSampleCount = 2;
+            // GraphicsDevice.PresentationParameters.MultiSampleCount = 2;
             base.Initialize();
+
+            new ColorSampler(0x123456);
+
         }
 
         protected override void LoadContent()
@@ -103,7 +106,7 @@ namespace GGJ_Ideas_and_Monogame_trials
 
             Content = new ContentManager(this.Services, "Content");
             // spaceshipModel = Content.Load<Model>("ship-no-texture");
-            // spaceshipModel = Content.Load<Model>("ship-with-texture");
+            spaceshipModel = Content.Load<Model>("ship-with-texture");
             modelCubeWedge0 = Content.Load<Model>("cube-wedge0");
             modelCubeWedge1 = Content.Load<Model>("cube-wedge1");
             modelUnitSquare = Content.Load<Model>("unitsquare");
@@ -178,7 +181,12 @@ namespace GGJ_Ideas_and_Monogame_trials
             GraphicsDevice.Clear(CLEAR_COLOR);
 
             // -- render game components
-            // DrawModel(spaceshipModel, world, view, projection);
+            // DrawModel2(spaceshipModel, world, view, projection);
+            // DrawModel2(modelCubeWedge0, world, view, projection);
+            // DrawModel2(modelCubeWedge1, world, view, projection);
+
+
+
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 2, Color.Tomato.ToVector3());
 
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, -0.996f/2, 0, 0, Color.Tomato.ToVector3());
@@ -210,12 +218,12 @@ namespace GGJ_Ideas_and_Monogame_trials
             // drawCube.DrawCubeAsPrimitives(GraphicsDevice, new Vector3(0, 0, 0), 1, 0.5f);
 
 
-            groundTiles.DrawGroundTiles(cameraTransforms);
+            // groundTiles.DrawGroundTiles(cameraTransforms);
+            // GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            DrawModelTranslationAndColor(modelUnitSquare, world, view, projection, 0, 0, -0.1f, new Vector3(0, 0.65f, 0), scaleX: 50f, scaleY: 50f);
 
 
 
-            GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-            // DrawModelTranslationAndColor(modelUnitSquare, world, view, projection, 0, 0, -0.01f, new Vector3(0, 0.65f, 0), scaleX: 50f, scaleY: 50f);
 
             if (SHOW_AXIS)
             {
@@ -242,28 +250,102 @@ namespace GGJ_Ideas_and_Monogame_trials
             }
         }
 
+
+        float rotationTest = 0f;
+
+
         private void DrawModelTranslationAndColor(Model model, Matrix world, Matrix view, Matrix projection,
             float tX, float tY, float tZ, Vector3 color, float scaleX = 1f, float scaleY = 1f, float scaleZ = 1f)
         {
+
+            rotationTest += 0.01f;
+
             // int count = 0;
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (Effect effect in mesh.Effects)
                 {
-                    Matrix scale = Matrix.CreateScale(scaleX, scaleY, scaleZ);
-                    Matrix translation = Matrix.CreateTranslation(tX, tY, tZ);
-                    Matrix transform = Matrix.Multiply(translation, scale);
-
                     BasicEffect basicEffect = (BasicEffect) effect;
+                    basicEffect.DiffuseColor = Color.Green.ToVector3();
+
+                    // Matrix scale = Matrix.CreateScale(scaleX, scaleY, scaleZ);
+
+
+                    //Matrix T = Matrix.CreateTranslation(tX, tY, tZ);
+                    //Matrix S = Matrix.CreateScale(2f, 2f, 1f);
+                    //Matrix R = Matrix.CreateRotationZ(0.3f);
+                    //Matrix transform = Matrix.Multiply(R, S);
+                    //transform = Matrix.Multiply(T, transform);
+
+
+                    Matrix S = Matrix.CreateScale(0.5f, 0.5f, 1f);
+                    Matrix R = Matrix.CreateRotationZ(rotationTest);
+                    Matrix T = Matrix.CreateTranslation(2, 0, 0);
+                    Matrix transform = Matrix.Multiply(S,R);
+                    transform = Matrix.Multiply(transform,T);
+
+
+
+                    // Matrix transform = Matrix.Multiply(translation, scale);
+
+
                     basicEffect.World = world;
                     basicEffect.View = view;
                     basicEffect.Projection = projection;
                     basicEffect.World = Matrix.Multiply(transform, basicEffect.World);
-                    basicEffect.DiffuseColor = color;
+                    // basicEffect.Projection = Matrix.Multiply(T, basicEffect.World);
+
+
+
+                    // basicEffect.World = Matrix.Multiply(T, basicEffect.World);
 
                 }
                 mesh.Draw();
             }
         }
+
+
+
+
+
+
+        private void DrawModel2(Model model, Matrix world, Matrix view, Matrix projection)
+        {
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (Effect effect in mesh.Effects)
+                {
+
+                    BasicEffect basicEffect = (BasicEffect) effect;
+                    // basicEffect.TextureEnabled = true;
+                    basicEffect.World = world;
+                    basicEffect.View = view;
+                    basicEffect.Projection = projection;
+
+                    basicEffect.AmbientLightColor = Vector3.One;
+                    basicEffect.DirectionalLight0.Enabled = true;
+                    basicEffect.DirectionalLight0.Direction = new Vector3(1,1,1);
+                    basicEffect.DiffuseColor = Color.Red.ToVector3();
+
+                    // Matrix.CreateTranslation(0, 0, 0, out Matrix translation);
+                    // basicEffect.World = Matrix.Multiply(translation, basicEffect.World);
+
+
+
+                }
+                mesh.Draw();
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
     }
 }
