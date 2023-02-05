@@ -182,8 +182,11 @@ namespace GGJ_Ideas_and_Monogame_trials
             // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 1, 0, 0, Color.Yellow.ToVector3());
 
 
-            DrawModelTranslationAndColor(cubeWedge0, world, view, projection, 0, 0, 0, new Vector3(0.6f, 0.4f, 0.1f));
-            DrawModelTranslationAndColor(cubeWedge1, world, view, projection, 0, 0, 0, new Vector3(0.58f, 0.45f, 0.15f));
+            DrawModelTranslationAndColor(cubeWedge0, world, view, projection, 0, 0, 0, new Vector3(0.6f, 0.4f, 0.1f), scaleY: 0.3f);
+            DrawModelTranslationAndColor(cubeWedge1, world, view, projection, 0, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleY: 0.3f);
+
+            DrawModelTranslationAndColor(cubeWedge0, world, view, projection, 1, 0, 0, new Vector3(0.6f, 0.4f, 0.1f), scaleY: 0.2f);
+            DrawModelTranslationAndColor(cubeWedge1, world, view, projection, 1, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleY: 0.2f);
 
 
 
@@ -220,20 +223,23 @@ namespace GGJ_Ideas_and_Monogame_trials
             }
         }
 
-        private void DrawModelTranslationAndColor(Model model, Matrix world, Matrix view, Matrix projection, float tX, float tY, float tZ, Vector3 color)
+        private void DrawModelTranslationAndColor(Model model, Matrix world, Matrix view, Matrix projection,
+            float tX, float tY, float tZ, Vector3 color, float scaleY = 1.0f)
         {
             // int count = 0;
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (Effect effect in mesh.Effects)
                 {
-                    // Debug.WriteLine($"{++count}");
-                    Matrix.CreateTranslation(tX, tY, tZ, out Matrix translation);
+                    Matrix scale = Matrix.CreateScale(1, 1, scaleY);
+                    Matrix translation = Matrix.CreateTranslation(tX, tY, tZ);
+                    Matrix transform = Matrix.Multiply(translation, scale);
+
                     BasicEffect basicEffect = (BasicEffect) effect;
                     basicEffect.World = world;
                     basicEffect.View = view;
                     basicEffect.Projection = projection;
-                    basicEffect.World = Matrix.Multiply(translation, basicEffect.World);
+                    basicEffect.World = Matrix.Multiply(transform, basicEffect.World);
                     basicEffect.DiffuseColor = color;
 
                 }
