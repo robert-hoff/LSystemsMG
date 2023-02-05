@@ -38,24 +38,51 @@ namespace GGJ_Ideas_and_Monogame_trials
         // dev flags
         // --
         public readonly static bool SHOW_AXIS = false;
-        public readonly static bool RESTRICT_CAMERA = true;
+        public readonly static bool RESTRICT_CAMERA = false;
         // --
 
         private Color CLEAR_COLOR = Color.CornflowerBlue; // Using CornflowerBlue, Black, White
-        private const int DEFAULT_VIEWPORT_WIDTH = 1200;
+        private const int DEFAULT_VIEWPORT_WIDTH = 1400;
         private const int DEFAULT_VIEWPORT_HEIGHT = 800;
         private CameraTransforms cameraTransforms;
+
+        private DrawLine drawLine;
+        private DrawTriangle drawTriangle;
+        private Model modelUnitSquare;
+        private DrawCube drawCube;
 
         private Model spaceshipModel;
         private Model modelCubeWedge0;
         private Model modelCubeWedge1;
-        private Model modelUnitSquare;
 
-        private DrawLine drawLine;
-        private DrawTriangle drawTriangle;
-        private DrawCube drawCube;
+        private Model modelAcaciaTree1;
+        private Model modelAcaciaTree2;
+        private Model modelBirchTree1;
+        private Model modelBirchTree2;
+        private Model modelCactus1;
+        private Model modelCactus2;
+        private Model modelFern1;
+        private Model modelFlower1;
+        private Model modelFlower2;
+        private Model modelFlower3;
+        private Model modelFlower4;
+        private Model modelMushroom1;
+        private Model modelMushroom2;
+        private Model modelMushroom3;
+        private Model modelMushroom4;
+        private Model modelMushroom5;
+        private Model modelMushroom6;
+        private Model modelMushroom7;
+        private Model modelPineTree1;
+        private Model modelPineTree2;
+        private Model modelPlant1;
+        private Model modelReeds1;
+        private Model modelSmallPlant1;
+        private Model modelTombstone;
+        private Model modelTerrain1;
 
         private GroundTiles groundTiles;
+        private PlantModels fernModels;
 
         public Game1()
         {
@@ -71,10 +98,9 @@ namespace GGJ_Ideas_and_Monogame_trials
                 PreferredBackBufferHeight = DEFAULT_VIEWPORT_HEIGHT,
                 PreferredBackBufferFormat = SurfaceFormat.Color,
                 PreferMultiSampling = true,
-                // don't turn off the depth setting
+                // ! don't turn off the depth setting
                 PreferredDepthStencilFormat = DepthFormat.Depth24,
                 SynchronizeWithVerticalRetrace = true,
-                // SynchronizeWithVerticalRetrace = false,
             };
             int screenWidth = Window.ClientBounds.Width;
             int screenHeight = Window.ClientBounds.Height;
@@ -92,9 +118,6 @@ namespace GGJ_Ideas_and_Monogame_trials
             // GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             // GraphicsDevice.PresentationParameters.MultiSampleCount = 2;
             base.Initialize();
-
-            new ColorSampler(0x123456);
-
         }
 
         protected override void LoadContent()
@@ -104,12 +127,41 @@ namespace GGJ_Ideas_and_Monogame_trials
             drawCube = new DrawCube(GraphicsDevice, cameraTransforms);
 
             Content = new ContentManager(this.Services, "Content");
-            // spaceshipModel = Content.Load<Model>("ship-no-texture");
             modelUnitSquare = Content.Load<Model>("unitsquare");
-            spaceshipModel = Content.Load<Model>("ship-with-texture");
             modelCubeWedge0 = Content.Load<Model>("cube-wedge0");
             modelCubeWedge1 = Content.Load<Model>("cube-wedge1");
+            // spaceshipModel = Content.Load<Model>("ship-with-texture");
+
+
+            modelAcaciaTree1 = Content.Load<Model>("acaciaTree1");
+            modelAcaciaTree2 = Content.Load<Model>("acaciaTree2");
+            modelBirchTree1 = Content.Load<Model>("birchTree1");
+            modelBirchTree2 = Content.Load<Model>("birchTree2");
+            modelCactus1 = Content.Load<Model>("cactus1");
+            modelCactus2 = Content.Load<Model>("cactus2");
+            modelFern1 = Content.Load<Model>("fern1");
+            modelFlower1 = Content.Load<Model>("flower1");
+            modelFlower2 = Content.Load<Model>("flower2");
+            modelFlower3 = Content.Load<Model>("flower3");
+            modelFlower4 = Content.Load<Model>("flower4");
+            modelMushroom1 = Content.Load<Model>("mushroom1");
+            modelMushroom2 = Content.Load<Model>("mushroom2");
+            modelMushroom3 = Content.Load<Model>("mushroom3");
+            modelMushroom4 = Content.Load<Model>("mushroom4");
+            modelMushroom5 = Content.Load<Model>("mushroom5");
+            modelMushroom6 = Content.Load<Model>("mushroom6");
+            modelMushroom7 = Content.Load<Model>("mushroom7");
+            modelPineTree1 = Content.Load<Model>("pineTree1");
+            modelPineTree2 = Content.Load<Model>("pineTree2");
+            modelSmallPlant1 = Content.Load<Model>("smallPlant1");
+            modelPlant1 = Content.Load<Model>("plant1");
+            modelReeds1 = Content.Load<Model>("reeds1");
+            modelTombstone = Content.Load<Model>("tombstone");
+            modelTerrain1 = Content.Load<Model>("terrain1");
+
+
             groundTiles = new GroundTiles(modelCubeWedge0, modelCubeWedge1);
+            fernModels = new PlantModels(modelFern1, modelPlant1, groundTiles.tileHeights);
         }
 
         private int previousMouseScroll = 0;
@@ -184,35 +236,48 @@ namespace GGJ_Ideas_and_Monogame_trials
             // DrawModel2(modelCubeWedge0, world, view, projection);
             // DrawModel2(modelCubeWedge1, world, view, projection);
 
+            // DrawModel2(fern1Model, world, view, projection);
+            // DrawModel2(plant3Model, world, view, projection);
+            // DrawModel2(plant4Model, world, view, projection);
+            // DrawModel2(plant5Model, world, view, projection);
+            // DrawModel2(spaceshipModel, world, view, projection);
 
 
-            // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 1, 2, Color.Tomato.ToVector3());
 
-            // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, -0.996f/2, 0, 0, Color.Tomato.ToVector3());
-            // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 1, 0, 0, Color.AliceBlue.ToVector3());
-
-            // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 0, 0, 0, Color.Azure.ToVector3());
-            // DrawModelTranslationAndColor(spaceshipModel, world, view, projection, 1, 0, 0, Color.Yellow.ToVector3());
+            DrawModelTranslationAndColor(modelAcaciaTree1, world, view, projection, 2, 7.3f, 0, new Vector3(0, 0.4f, 0), scaleX: 0.4f, scaleY: 0.4f, scaleZ: 0.4f, rot: 40);
+            DrawModelTranslationAndColor(modelAcaciaTree1, world, view, projection, 4.5f, 8.6f, 0, new Vector3(0, 0.4f, 0), scaleX: 0.5f, scaleY: 0.5f, scaleZ: 0.5f);
 
 
-            //DrawModelTranslationAndColor(modelCubeWedge0, world, view, projection, 0, 0, 0, new Vector3(0.6f, 0.4f, 0.1f), scaleZ: 0.3f);
-            //DrawModelTranslationAndColor(modelCubeWedge1, world, view, projection, 0, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleZ: 0.3f);
-            //DrawModelTranslationAndColor(modelCubeWedge0, world, view, projection, 1, 0, 0, new Vector3(0.6f, 0.4f, 0.1f), scaleZ: 0.2f);
-            //DrawModelTranslationAndColor(modelCubeWedge1, world, view, projection, 1, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleZ: 0.2f);
-            //DrawModelTranslationAndColor(modelCubeWedge1, world, view, projection, 1, 0, 0, new Vector3(0.58f, 0.45f, 0.15f), scaleZ: 0.2f);
+            // -- models to work with
+            DrawModelTranslationAndColor(modelCactus1, world, view, projection, 4, 3, 0, new Vector3(0, 0.4f, 0), scaleX: 1f, scaleY: 1f, scaleZ: 1.5f);
+            DrawModelTranslationAndColor(modelCactus1, world, view, projection, 4.4f, 2.6f, 0, new Vector3(0, 0.4f, 0), scaleX: 0.5f, scaleY: 0.5f, scaleZ: 0.7f);
+            DrawModelTranslationAndColor(modelCactus2, world, view, projection, 3.4f, 4.6f, 0, new Vector3(0, 0.4f, 0), scaleX: 1.5f, scaleY: 1.5f, scaleZ: 1.7f);
+            DrawModelTranslationAndColor(modelReeds1, world, view, projection, -2.4f, 4.6f, 0, new Vector3(0, 0.4f, 0), scaleX: 2.5f, scaleY: 2.5f, scaleZ: 3.7f);
+            DrawModelTranslationAndColor(modelTombstone, world, view, projection, -5.4f, -6.6f, 0, new Vector3(0, 0.4f, 0.5f), scaleX: 1.2f, scaleY: 1.2f, scaleZ: 1.2f, rot: 30);
+            DrawModelTranslationAndColor(modelBirchTree1, world, view, projection, -4.4f, -3.6f, 0, new Vector3(0, 0.4f, 0.5f), scaleX: 1.2f, scaleY: 1.2f, scaleZ: 1.2f, rot: 30);
+            DrawModelTranslationAndColor(modelTerrain1, world, view, projection, -10f, -10f, -0.4f, new Vector3(0, 0.4f, 0.5f), scaleX: 0.5f, scaleY: 0.5f, scaleZ: 0.1f, rot: 0);
+            //DrawModelTranslationAndColor(modelTerrain1, world, view, projection, 0f, 10f, -0.4f, new Vector3(0, 0.4f, 0.5f), scaleX: 0.5f, scaleY: 0.5f, scaleZ: 0.1f, rot: 0);
+            //DrawModelTranslationAndColor(modelTerrain1, world, view, projection, 0f, 0f, -0.4f, new Vector3(0, 0.4f, 0.5f), scaleX: 0.5f, scaleY: 0.5f, scaleZ: 0.1f, rot: 0);
+            //DrawModelTranslationAndColor(modelTerrain1, world, view, projection, 10f, 0f, -0.4f, new Vector3(0, 0.4f, 0.5f), scaleX: 0.5f, scaleY: 0.5f, scaleZ: 0.1f, rot: 0);
 
 
-            // drawTriangle.DrawTestTriangle(GraphicsDevice);
-            // drawTriangle.DrawTestSquare(GraphicsDevice);
-            //drawTriangle.DrawTestSquare(GraphicsDevice, -1, 0);
-            //drawTriangle.DrawTestSquare(GraphicsDevice, -1, -1);
-            //drawTriangle.DrawTestSquare(GraphicsDevice, 0, -1);
+            // DrawModel2(cactus1Model, world, view, projection);
 
-            // drawCube.DrawCubeAsPrimitives(GraphicsDevice, new Vector3(0, 0, 0), 1, 0.5f);
 
-            // GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+
+
+            DrawModelTranslationAndColor(modelMushroom1, world, view, projection, 4.4f, 1f, 0, new Vector3(0, 0.4f, 0), scaleX: 1.2f, scaleY: 1.2f, scaleZ: 1.2f);
+            DrawModelTranslationAndColor(modelMushroom2, world, view, projection, 4.7f, 1f, 0, new Vector3(0, 0.4f, 0), scaleX: 1.2f, scaleY: 1.2f, scaleZ: 1.2f);
+            DrawModelTranslationAndColor(modelMushroom3, world, view, projection, 3.7f, 3.1f, 0, new Vector3(0, 0.4f, 0), scaleX: 1.2f, scaleY: 1.2f, scaleZ: 1.2f);
+            DrawModelTranslationAndColor(modelMushroom4, world, view, projection, 2.7f, 1.5f, 0, new Vector3(0, 0.4f, 0), scaleX: 1.2f, scaleY: 1.2f, scaleZ: 1.2f);
+
+            DrawModelTranslationAndColor(modelSmallPlant1, world, view, projection, 4.7f, -3.5f, 0, new Vector3(0, 0.4f, 0), scaleX: 2.5f, scaleY: 2.5f, scaleZ: 2.5f);
+
+            DrawModelTranslationAndColor(modelFlower1, world, view, projection, 5.37f, -4.5f, 0, new Vector3(0, 0.4f, 0), scaleX: 2f, scaleY: 2f, scaleZ: 2f);
+
 
             groundTiles.DrawGroundTiles(cameraTransforms);
+            fernModels.DrawFerns(cameraTransforms);
 
             // DrawModelTranslationAndColor(modelUnitSquare, world, view, projection, 0, 0, 0f, new Vector3(0, 0.4f, 0), scaleX: 50f, scaleY: 50f);
 
@@ -243,7 +308,7 @@ namespace GGJ_Ideas_and_Monogame_trials
 
 
         private void DrawModelTranslationAndColor(Model model, Matrix world, Matrix view, Matrix projection,
-            float tX, float tY, float tZ, Vector3 color, float scaleX = 1f, float scaleY = 1f, float scaleZ = 1f)
+            float tX, float tY, float tZ, Vector3 color, float scaleX = 1f, float scaleY = 1f, float scaleZ = 1f, float rot = 0f)
         {
             // int count = 0;
             foreach (ModelMesh mesh in model.Meshes)
@@ -252,22 +317,28 @@ namespace GGJ_Ideas_and_Monogame_trials
                 {
                     BasicEffect basicEffect = (BasicEffect) effect;
                     basicEffect.EnableDefaultLighting();
-                    basicEffect.AmbientLightColor = new Vector3(0.7f, 0.5f, 0.4f);
-                    basicEffect.DirectionalLight0.Enabled = true;
-                    basicEffect.DirectionalLight0.Direction = new Vector3(1, 1, -1);
+                    CommonBasicEffects.SetEffects(basicEffect);
+
+                    //basicEffect.AmbientLightColor = new Vector3(0.7f, 0.5f, 0.4f);
+                    //basicEffect.DirectionalLight0.Enabled = true;
+                    //basicEffect.DirectionalLight0.Direction = new Vector3(1, 1, -1);
 
 
                     Matrix S = Matrix.CreateScale(scaleX, scaleY, scaleZ);
+                    Matrix R = Matrix.CreateRotationZ(MathHelper.ToRadians(rot));
                     Matrix T = Matrix.CreateTranslation(tX, tY, tZ);
-                    Matrix transform = Matrix.Multiply(S,T);
-                    // Matrix transform = Matrix.Multiply(translation, scale);
+                    Matrix transform = Matrix.Multiply(R, T);
+                    transform = Matrix.Multiply(S, transform);
 
                     basicEffect.World = world;
                     basicEffect.View = view;
                     basicEffect.Projection = projection;
+
+
+
                     basicEffect.World = Matrix.Multiply(transform, basicEffect.World);
                     // basicEffect.Projection = Matrix.Multiply(T, basicEffect.World);
-                    basicEffect.DiffuseColor = color;
+                    // basicEffect.DiffuseColor = color;
 
                     // basicEffect.World = Matrix.Multiply(T, basicEffect.World);
 
@@ -278,26 +349,39 @@ namespace GGJ_Ideas_and_Monogame_trials
 
 
 
+        float rotateModel = 0f;
+
         private void DrawModel2(Model model, Matrix world, Matrix view, Matrix projection)
         {
+            rotateModel += 0.01f;
+
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (Effect effect in mesh.Effects)
                 {
                     BasicEffect basicEffect = (BasicEffect) effect;
+                    // CommonBasicEffects.SetEffects(basicEffect);
                     basicEffect.EnableDefaultLighting();
-                    basicEffect.AmbientLightColor = new Vector3(0.4f, 0.3f, 0.3f);
+                    basicEffect.AmbientLightColor = new Vector3(0.8f, 0.8f, 0.8f);
                     basicEffect.DirectionalLight0.Enabled = true;
-                    basicEffect.DirectionalLight0.Direction = new Vector3(1, 1, -1);
+                    basicEffect.DirectionalLight0.Direction = new Vector3(0.4f, 0.3f, 0.3f);
                     basicEffect.DirectionalLight0.DiffuseColor = new Vector3(0.8f, 0.8f, 0.8f);
+
+
+                    // Matrix rotation = Matrix.CreateRotationZ(rotateModel);
+                    // Matrix rotation = Matrix.CreateRotationX(rotateModel);
 
                     // basicEffect.TextureEnabled = true;
                     basicEffect.World = world;
                     basicEffect.View = view;
                     basicEffect.Projection = projection;
-                    basicEffect.DiffuseColor = Color.Red.ToVector3();
+                    // basicEffect.DiffuseColor = Color.Red.ToVector3();
+                    // basicEffect.World = Matrix.Multiply(rotation, basicEffect.World);
                 }
-                // mesh.Draw();
+                GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+                // GraphicsDevice.RasterizerState = RasterizerState.CullClockwise;
+                mesh.Draw();
+                // GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
             }
         }
     }

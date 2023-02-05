@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
 namespace GGJ_Ideas_and_Monogame_trials.Environment
@@ -13,15 +14,13 @@ namespace GGJ_Ideas_and_Monogame_trials.Environment
             baseG = (baseColor >> 8) & 0xff;
             baseB = baseColor & 0xff;
         }
-
         public Color GetVariationColor()
         {
             return new Color(GetVariationVector3());
         }
-
         public Vector3 GetVariationVector3()
         {
-            int max = RandomNum.GetRandomInt(0, 37);
+            int max = RandomNum.GetRandomInt(0, 23);
             int deltaR = RandomNum.GetRandomInt(0, max) - max / 2;
             int deltaB = RandomNum.GetRandomInt(0, max) - max / 2;
             int deltaG = RandomNum.GetRandomInt(0, max) - max / 2;
@@ -34,11 +33,13 @@ namespace GGJ_Ideas_and_Monogame_trials.Environment
             if (newR > 255) { newR -= 255; }
             if (newG > 255) { newG -= 255; }
             if (newB > 255) { newB -= 255; }
-            return new Vector3(newR / 255f, newG / 255f, newB / 255f);
+
+            Vector3 colorV = new Vector3((newR - 0.1f) / 255f, (newG - 0.1f) / 255f, (newB - 0.1f) / 255f);
+
+
+            // Debug.WriteLine($"{colorV}");
+
+            return colorV;
         }
     }
 }
-
-
-
-
