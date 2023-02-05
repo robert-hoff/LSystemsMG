@@ -1,7 +1,7 @@
 using System;
-using GGJ_Ideas_and_Monogame_trials.Util;
+using RootNomics.Util;
 
-namespace GGJ_Ideas_and_Monogame_trials
+namespace RootNomics
 {
     public static class Program
     {

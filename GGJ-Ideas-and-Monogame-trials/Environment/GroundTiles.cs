@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GGJ_Ideas_and_Monogame_trials.Environment
+namespace RootNomics.Environment
 {
     class GroundTiles
     {

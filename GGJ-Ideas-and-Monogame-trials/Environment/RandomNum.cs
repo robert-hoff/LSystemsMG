@@ -1,6 +1,6 @@
 using System;
 
-namespace GGJ_Ideas_and_Monogame_trials.Environment
+namespace RootNomics.Environment
 {
     class RandomNum
     {

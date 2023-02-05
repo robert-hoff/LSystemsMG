@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct2D1;
 
-namespace GGJ_Ideas_and_Monogame_trials.Primitives
+namespace RootNomics.Primitives
 {
     class DrawCube
     {

@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework.Graphics;
  *
  *
  */
-namespace GGJ_Ideas_and_Monogame_trials.Primitives
+namespace RootNomics.Primitives
 {
     class DrawTriangle
     {

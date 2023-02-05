@@ -1,11 +1,12 @@
 using System.Diagnostics;
 using System.IO;
-using GGJ_Ideas_and_Monogame_trials.Environment;
-using GGJ_Ideas_and_Monogame_trials.Primitives;
+using RootNomics.Environment;
+using RootNomics.Primitives;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RootNomics.SimulationRender;
 
 /**
  *
@@ -31,13 +32,13 @@ using Microsoft.Xna.Framework.Input;
  *
  *
  */
-namespace GGJ_Ideas_and_Monogame_trials
+namespace RootNomics
 {
     public class Game1 : Game
     {
         // dev flags
         // --
-        public readonly static bool SHOW_AXIS = false;
+        public readonly static bool SHOW_AXIS = true;
         public readonly static bool RESTRICT_CAMERA = false;
         // --
 
@@ -83,6 +84,10 @@ namespace GGJ_Ideas_and_Monogame_trials
 
         private GroundTiles groundTiles;
         private PlantModels fernModels;
+
+        private SimulationRenderer simulationRenderer = new SimulationRenderer();
+
+
 
         public Game1()
         {
@@ -161,7 +166,7 @@ namespace GGJ_Ideas_and_Monogame_trials
 
 
             groundTiles = new GroundTiles(modelCubeWedge0, modelCubeWedge1);
-            fernModels = new PlantModels(modelFern1, modelPlant1, groundTiles.tileHeights);
+
         }
 
         private int previousMouseScroll = 0;
@@ -231,6 +236,8 @@ namespace GGJ_Ideas_and_Monogame_trials
             Matrix projection = cameraTransforms.projectionMatrix;
             GraphicsDevice.Clear(CLEAR_COLOR);
 
+
+            /*
             // -- render game components
             // DrawModel2(spaceshipModel, world, view, projection);
             // DrawModel2(modelCubeWedge0, world, view, projection);
@@ -241,13 +248,8 @@ namespace GGJ_Ideas_and_Monogame_trials
             // DrawModel2(plant4Model, world, view, projection);
             // DrawModel2(plant5Model, world, view, projection);
             // DrawModel2(spaceshipModel, world, view, projection);
-
-
-
             DrawModelTranslationAndColor(modelAcaciaTree1, world, view, projection, 2, 7.3f, 0, new Vector3(0, 0.4f, 0), scaleX: 0.4f, scaleY: 0.4f, scaleZ: 0.4f, rot: 40);
             DrawModelTranslationAndColor(modelAcaciaTree1, world, view, projection, 4.5f, 8.6f, 0, new Vector3(0, 0.4f, 0), scaleX: 0.5f, scaleY: 0.5f, scaleZ: 0.5f);
-
-
             // -- models to work with
             DrawModelTranslationAndColor(modelCactus1, world, view, projection, 4, 3, 0, new Vector3(0, 0.4f, 0), scaleX: 1f, scaleY: 1f, scaleZ: 1.5f);
             DrawModelTranslationAndColor(modelCactus1, world, view, projection, 4.4f, 2.6f, 0, new Vector3(0, 0.4f, 0), scaleX: 0.5f, scaleY: 0.5f, scaleZ: 0.7f);
@@ -259,13 +261,7 @@ namespace GGJ_Ideas_and_Monogame_trials
             //DrawModelTranslationAndColor(modelTerrain1, world, view, projection, 0f, 10f, -0.4f, new Vector3(0, 0.4f, 0.5f), scaleX: 0.5f, scaleY: 0.5f, scaleZ: 0.1f, rot: 0);
             //DrawModelTranslationAndColor(modelTerrain1, world, view, projection, 0f, 0f, -0.4f, new Vector3(0, 0.4f, 0.5f), scaleX: 0.5f, scaleY: 0.5f, scaleZ: 0.1f, rot: 0);
             //DrawModelTranslationAndColor(modelTerrain1, world, view, projection, 10f, 0f, -0.4f, new Vector3(0, 0.4f, 0.5f), scaleX: 0.5f, scaleY: 0.5f, scaleZ: 0.1f, rot: 0);
-
-
             // DrawModel2(cactus1Model, world, view, projection);
-
-
-
-
             DrawModelTranslationAndColor(modelMushroom1, world, view, projection, 4.4f, 1f, 0, new Vector3(0, 0.4f, 0), scaleX: 1.2f, scaleY: 1.2f, scaleZ: 1.2f);
             DrawModelTranslationAndColor(modelMushroom2, world, view, projection, 4.7f, 1f, 0, new Vector3(0, 0.4f, 0), scaleX: 1.2f, scaleY: 1.2f, scaleZ: 1.2f);
             DrawModelTranslationAndColor(modelMushroom3, world, view, projection, 3.7f, 3.1f, 0, new Vector3(0, 0.4f, 0), scaleX: 1.2f, scaleY: 1.2f, scaleZ: 1.2f);
@@ -274,10 +270,16 @@ namespace GGJ_Ideas_and_Monogame_trials
             DrawModelTranslationAndColor(modelSmallPlant1, world, view, projection, 4.7f, -3.5f, 0, new Vector3(0, 0.4f, 0), scaleX: 2.5f, scaleY: 2.5f, scaleZ: 2.5f);
 
             DrawModelTranslationAndColor(modelFlower1, world, view, projection, 5.37f, -4.5f, 0, new Vector3(0, 0.4f, 0), scaleX: 2f, scaleY: 2f, scaleZ: 2f);
+            */
 
 
-            groundTiles.DrawGroundTiles(cameraTransforms);
-            fernModels.DrawFerns(cameraTransforms);
+
+
+
+
+
+            // -- Game simulation
+
 
             // DrawModelTranslationAndColor(modelUnitSquare, world, view, projection, 0, 0, 0f, new Vector3(0, 0.4f, 0), scaleX: 50f, scaleY: 50f);
 
