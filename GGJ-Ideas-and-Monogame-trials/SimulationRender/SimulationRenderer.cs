@@ -1,8 +1,7 @@
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Graphics;
+using RootNomics.Environment;
 
 /*
  * previously
@@ -19,20 +18,27 @@ namespace RootNomics.SimulationRender
     class SimulationRenderer
     {
 
-        List<AgentRenderingModel> models = new List<AgentRenderingModel>();
-
+        private GroundTiles groundTiles;
+        private List<AgentRenderingModel> models = new List<AgentRenderingModel>();
 
         public SimulationRenderer()
         {
         }
 
-        //public void SetGroundTiles(GroundTiles groundTiles)
-        //{
-        //}
+        public void SetGroundTiles(GroundTiles groundTiles)
+        {
+            this.groundTiles = groundTiles;
+        }
 
+        private Dictionary<string, GameModelRenderer> modelRegister = new();
 
+        public void RegisterGameModel(string modelName, Model model)
+        {
+            // AgentRenderingModel agentRenderingModel = new AgentRenderingModel(model);
 
-
+            GameModelRenderer gameModelRenderer = new GameModelRenderer(model);
+            modelRegister.Add(modelName, gameModelRenderer);
+        }
 
 
 

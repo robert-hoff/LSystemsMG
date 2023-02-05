@@ -1,16 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace RootNomics.SimulationRender
 {
     class AgentRenderingModel
     {
+        public string Id;
+        public string Type;
+        public float Wealth;
+
+        public AgentRenderingModel(Model model)
+        {
+
+        }
 
 
     }
 }
+
+
 
 

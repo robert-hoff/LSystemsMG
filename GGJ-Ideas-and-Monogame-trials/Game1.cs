@@ -63,6 +63,7 @@ namespace RootNomics
         private Model modelCactus1;
         private Model modelCactus2;
         private Model modelFern1;
+        private Model modelFern2;
         private Model modelFlower1;
         private Model modelFlower2;
         private Model modelFlower3;
@@ -86,8 +87,6 @@ namespace RootNomics
         private PlantModels fernModels;
 
         private SimulationRenderer simulationRenderer = new SimulationRenderer();
-
-
 
         public Game1()
         {
@@ -135,9 +134,6 @@ namespace RootNomics
             modelUnitSquare = Content.Load<Model>("unitsquare");
             modelCubeWedge0 = Content.Load<Model>("cube-wedge0");
             modelCubeWedge1 = Content.Load<Model>("cube-wedge1");
-            // spaceshipModel = Content.Load<Model>("ship-with-texture");
-
-
             modelAcaciaTree1 = Content.Load<Model>("acaciaTree1");
             modelAcaciaTree2 = Content.Load<Model>("acaciaTree2");
             modelBirchTree1 = Content.Load<Model>("birchTree1");
@@ -145,6 +141,7 @@ namespace RootNomics
             modelCactus1 = Content.Load<Model>("cactus1");
             modelCactus2 = Content.Load<Model>("cactus2");
             modelFern1 = Content.Load<Model>("fern1");
+            modelFern2 = Content.Load<Model>("fern2");
             modelFlower1 = Content.Load<Model>("flower1");
             modelFlower2 = Content.Load<Model>("flower2");
             modelFlower3 = Content.Load<Model>("flower3");
@@ -166,6 +163,9 @@ namespace RootNomics
 
 
             groundTiles = new GroundTiles(modelCubeWedge0, modelCubeWedge1);
+            simulationRenderer.SetGroundTiles(groundTiles);
+
+            simulationRenderer.RegisterGameModel("acaciaTree1", modelAcaciaTree1);
 
         }
 
