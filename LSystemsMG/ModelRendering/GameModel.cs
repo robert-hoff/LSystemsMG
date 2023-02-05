@@ -118,6 +118,12 @@ namespace LSystemsMG.ModelRendering
                 case "terrain1":
                     break;
 
+                case "skybox":
+                    defaultAmbientLightingColor = new Vector3(0.7f, 0.7f, 0.7f);
+                    defaultLightingDirection = new Vector3(0, 1f, 0);
+                    defaultGameModelDiffuseColorLighting = new Vector3(0.7f, 0.7f, 0.7f);
+                    break;
+
                 default:
                     throw new Exception($"unknown model name gives = {modelName}");
             }

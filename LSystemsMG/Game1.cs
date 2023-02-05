@@ -80,6 +80,8 @@ namespace LSystemsMG
         private Model modelReeds1;
         private Model modelSmallPlant1;
         private Model modelTombstone;
+
+        private Model modelSkybox;
         private Model modelTerrain1;
         private GroundTiles groundTiles;
 
@@ -88,7 +90,7 @@ namespace LSystemsMG
         public Game1()
         {
             Content.RootDirectory = "Content";
-            Window.Title = "Monogame Trials";
+            Window.Title = "LSystemsMG";
             IsMouseVisible = true;
             Window.AllowUserResizing = true;
 
@@ -158,6 +160,7 @@ namespace LSystemsMG
             modelReeds1 = Content.Load<Model>("reeds1");
             modelTombstone = Content.Load<Model>("tombstone");
             modelTerrain1 = Content.Load<Model>("terrain1");
+            modelSkybox = Content.Load<Model>("skybox");
 
             gameModelRegister.RegisterGameModel("acaciaTree1", modelAcaciaTree1);
             gameModelRegister.RegisterGameModel("acaciaTree2", modelAcaciaTree2);
@@ -183,6 +186,7 @@ namespace LSystemsMG
             gameModelRegister.RegisterGameModel("plant1", modelPlant1);
             gameModelRegister.RegisterGameModel("reeds1", modelReeds1);
             gameModelRegister.RegisterGameModel("terrain1", modelTerrain1);
+            gameModelRegister.RegisterGameModel("skybox", modelSkybox);
 
             groundTiles = new GroundTiles(modelCubeWedge0, modelCubeWedge1);
         }
@@ -253,6 +257,8 @@ namespace LSystemsMG
 
             groundTiles.DrawGroundTiles(cameraTransforms);
             gameModelRegister.GetGameModel("acaciaTree1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-5, 6, 0));
+
+            gameModelRegister.GetGameModel("skybox").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Scale(100, 100, 100));
 
             /*
             gameModelRegister.GetGameModel("acaciaTree2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-5, 8, 0));
