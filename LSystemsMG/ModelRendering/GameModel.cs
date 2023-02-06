@@ -6,7 +6,67 @@ using Microsoft.Xna.Framework.Graphics;
  * This is well organised but it's a mistake to calculate the Matrix transform,
  * in case additional scaling or rotating is desirable later
  *
+ *
+ *
+ *
+ *
  */
+/*
+// -- previously
+
+    modelUnitSquare = Content.Load<Model>("unitsquare");
+    modelCubeWedge0 = Content.Load<Model>("cube-wedge0");
+    modelCubeWedge1 = Content.Load<Model>("cube-wedge1");
+    modelAcaciaTree1 = Content.Load<Model>("acaciaTree1");
+    modelAcaciaTree2 = Content.Load<Model>("acaciaTree2");
+    modelBirchTree1 = Content.Load<Model>("birchTree1");
+    modelBirchTree2 = Content.Load<Model>("birchTree2");
+    modelCactus1 = Content.Load<Model>("cactus1");
+    modelCactus2 = Content.Load<Model>("cactus2");
+    // modelFern1 = Content.Load<Model>("fern1");
+    modelFern2 = Content.Load<Model>("fern2");
+    modelFlower1 = Content.Load<Model>("flower1");
+    modelFlower2 = Content.Load<Model>("flower2");
+    modelFlower3 = Content.Load<Model>("flower3");
+    modelFlower4 = Content.Load<Model>("flower4");
+    modelMushroom1 = Content.Load<Model>("mushroom1");
+    modelMushroom2 = Content.Load<Model>("mushroom2");
+    modelMushroom3 = Content.Load<Model>("mushroom3");
+    modelMushroom4 = Content.Load<Model>("mushroom4");
+    modelMushroom5 = Content.Load<Model>("mushroom5");
+    modelMushroom6 = Content.Load<Model>("mushroom6");
+    modelMushroom7 = Content.Load<Model>("mushroom7");
+    modelPineTree1 = Content.Load<Model>("pineTree1");
+    modelPineTree2 = Content.Load<Model>("pineTree2");
+    modelSmallPlant1 = Content.Load<Model>("smallPlant1");
+    modelPlant1 = Content.Load<Model>("plant1");
+    modelReeds1 = Content.Load<Model>("reeds1");
+    modelTombstone = Content.Load<Model>("tombstone");
+    gameModelRegister.RegisterGameModel("acaciaTree2", modelAcaciaTree2);
+    gameModelRegister.RegisterGameModel("birchTree1", modelBirchTree1);
+    gameModelRegister.RegisterGameModel("birchTree2", modelBirchTree2);
+    gameModelRegister.RegisterGameModel("cactus1", modelCactus1);
+    gameModelRegister.RegisterGameModel("cactus2", modelCactus2);
+    // gameModelRegister.RegisterGameModel("fern1", modelFern1);
+    gameModelRegister.RegisterGameModel("fern2", modelFern2);
+    gameModelRegister.RegisterGameModel("flower1", modelFlower1);
+    gameModelRegister.RegisterGameModel("flower2", modelFlower2);
+    gameModelRegister.RegisterGameModel("flower3", modelFlower3);
+    gameModelRegister.RegisterGameModel("flower4", modelFlower4);
+    gameModelRegister.RegisterGameModel("mushroom1", modelMushroom1);
+    gameModelRegister.RegisterGameModel("mushroom2", modelMushroom2);
+    gameModelRegister.RegisterGameModel("mushroom3", modelMushroom3);
+    gameModelRegister.RegisterGameModel("mushroom4", modelMushroom4);
+    gameModelRegister.RegisterGameModel("mushroom5", modelMushroom5);
+    gameModelRegister.RegisterGameModel("mushroom6", modelMushroom6);
+    gameModelRegister.RegisterGameModel("pineTree1", modelPineTree1);
+    gameModelRegister.RegisterGameModel("pineTree2", modelPineTree2);
+    gameModelRegister.RegisterGameModel("smallPlant1", modelSmallPlant1);
+    gameModelRegister.RegisterGameModel("plant1", modelPlant1);
+    gameModelRegister.RegisterGameModel("reeds1", modelReeds1);
+    gameModelRegister.RegisterGameModel("terrain1", modelTerrain1);
+
+*/
 namespace LSystemsMG.ModelRendering
 {
     class GameModel
@@ -121,7 +181,7 @@ namespace LSystemsMG.ModelRendering
                 case "skybox":
                     defaultAmbientLightingColor = new Vector3(0.7f, 0.7f, 0.7f);
                     defaultLightingDirection = new Vector3(0, 1f, 0);
-                    defaultGameModelDiffuseColorLighting = new Vector3(0.7f, 0.7f, 0.7f);
+                    defaultGameModelDiffuseColorLighting = new Vector3(0.8f, 0.8f, 0.8f);
                     break;
 
                 default:

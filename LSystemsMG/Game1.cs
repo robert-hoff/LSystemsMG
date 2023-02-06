@@ -1,11 +1,12 @@
 using System.Diagnostics;
+using System.Runtime.ExceptionServices;
+using LSystemsMG.Environment;
+using LSystemsMG.ModelRendering;
 using LSystemsMG.Primitives;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Environment;
-using LSystemsMG.ModelRendering;
 
 /**
  *
@@ -47,45 +48,10 @@ namespace LSystemsMG
         private CameraTransforms cameraTransforms;
 
         private DrawLine drawLine;
-        private DrawTriangle drawTriangle;
-        private Model modelUnitSquare;
-        private DrawCube drawCube;
-
-        private Model spaceshipModel;
-        private Model modelCubeWedge0;
-        private Model modelCubeWedge1;
-
-        private Model modelAcaciaTree1;
-        private Model modelAcaciaTree2;
-        private Model modelBirchTree1;
-        private Model modelBirchTree2;
-        private Model modelCactus1;
-        private Model modelCactus2;
-        private Model modelFern1;
-        private Model modelFern2;
-        private Model modelFlower1;
-        private Model modelFlower2;
-        private Model modelFlower3;
-        private Model modelFlower4;
-        private Model modelMushroom1;
-        private Model modelMushroom2;
-        private Model modelMushroom3;
-        private Model modelMushroom4;
-        private Model modelMushroom5;
-        private Model modelMushroom6;
-        private Model modelMushroom7;
-        private Model modelPineTree1;
-        private Model modelPineTree2;
-        private Model modelPlant1;
-        private Model modelReeds1;
-        private Model modelSmallPlant1;
-        private Model modelTombstone;
-
         private Model modelSkybox;
-        private Model modelTerrain1;
-        private GroundTiles groundTiles;
-
+        private Model modelAcaciaTree1;
         private GameModelRegister gameModelRegister;
+        private TerrainRenderer terrainRenderer;
 
         public Game1()
         {
@@ -113,82 +79,18 @@ namespace LSystemsMG
 
         protected override void Initialize()
         {
-            // enable these lines if using SpriteBatch
-            // GraphicsDevice.BlendState = BlendState.Opaque;
-            // GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            // GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
-
-            // -- INCLUDE BACKSIDES
-            // GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-            // GraphicsDevice.PresentationParameters.MultiSampleCount = 2;
+            GraphicsDevice.PresentationParameters.MultiSampleCount = 2;
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            drawLine = new DrawLine(GraphicsDevice, cameraTransforms);
-            drawTriangle = new DrawTriangle(GraphicsDevice, cameraTransforms);
-            drawCube = new DrawCube(GraphicsDevice, cameraTransforms);
-
             Content = new ContentManager(this.Services, "Content");
-            modelUnitSquare = Content.Load<Model>("unitsquare");
-            modelCubeWedge0 = Content.Load<Model>("cube-wedge0");
-            modelCubeWedge1 = Content.Load<Model>("cube-wedge1");
-            modelAcaciaTree1 = Content.Load<Model>("acaciaTree1");
-            modelAcaciaTree2 = Content.Load<Model>("acaciaTree2");
-            modelBirchTree1 = Content.Load<Model>("birchTree1");
-            modelBirchTree2 = Content.Load<Model>("birchTree2");
-            modelCactus1 = Content.Load<Model>("cactus1");
-            modelCactus2 = Content.Load<Model>("cactus2");
-            modelFern1 = Content.Load<Model>("fern1");
-            modelFern2 = Content.Load<Model>("fern2");
-            modelFlower1 = Content.Load<Model>("flower1");
-            modelFlower2 = Content.Load<Model>("flower2");
-            modelFlower3 = Content.Load<Model>("flower3");
-            modelFlower4 = Content.Load<Model>("flower4");
-            modelMushroom1 = Content.Load<Model>("mushroom1");
-            modelMushroom2 = Content.Load<Model>("mushroom2");
-            modelMushroom3 = Content.Load<Model>("mushroom3");
-            modelMushroom4 = Content.Load<Model>("mushroom4");
-            modelMushroom5 = Content.Load<Model>("mushroom5");
-            modelMushroom6 = Content.Load<Model>("mushroom6");
-            modelMushroom7 = Content.Load<Model>("mushroom7");
-            modelPineTree1 = Content.Load<Model>("pineTree1");
-            modelPineTree2 = Content.Load<Model>("pineTree2");
-            modelSmallPlant1 = Content.Load<Model>("smallPlant1");
-            modelPlant1 = Content.Load<Model>("plant1");
-            modelReeds1 = Content.Load<Model>("reeds1");
-            modelTombstone = Content.Load<Model>("tombstone");
-            modelTerrain1 = Content.Load<Model>("terrain1");
             modelSkybox = Content.Load<Model>("skybox");
-
-            gameModelRegister.RegisterGameModel("acaciaTree1", modelAcaciaTree1);
-            gameModelRegister.RegisterGameModel("acaciaTree2", modelAcaciaTree2);
-            gameModelRegister.RegisterGameModel("birchTree1", modelBirchTree1);
-            gameModelRegister.RegisterGameModel("birchTree2", modelBirchTree2);
-            gameModelRegister.RegisterGameModel("cactus1", modelCactus1);
-            gameModelRegister.RegisterGameModel("cactus2", modelCactus2);
-            gameModelRegister.RegisterGameModel("fern1", modelFern1);
-            gameModelRegister.RegisterGameModel("fern2", modelFern2);
-            gameModelRegister.RegisterGameModel("flower1", modelFlower1);
-            gameModelRegister.RegisterGameModel("flower2", modelFlower2);
-            gameModelRegister.RegisterGameModel("flower3", modelFlower3);
-            gameModelRegister.RegisterGameModel("flower4", modelFlower4);
-            gameModelRegister.RegisterGameModel("mushroom1", modelMushroom1);
-            gameModelRegister.RegisterGameModel("mushroom2", modelMushroom2);
-            gameModelRegister.RegisterGameModel("mushroom3", modelMushroom3);
-            gameModelRegister.RegisterGameModel("mushroom4", modelMushroom4);
-            gameModelRegister.RegisterGameModel("mushroom5", modelMushroom5);
-            gameModelRegister.RegisterGameModel("mushroom6", modelMushroom6);
-            gameModelRegister.RegisterGameModel("pineTree1", modelPineTree1);
-            gameModelRegister.RegisterGameModel("pineTree2", modelPineTree2);
-            gameModelRegister.RegisterGameModel("smallPlant1", modelSmallPlant1);
-            gameModelRegister.RegisterGameModel("plant1", modelPlant1);
-            gameModelRegister.RegisterGameModel("reeds1", modelReeds1);
-            gameModelRegister.RegisterGameModel("terrain1", modelTerrain1);
+            modelAcaciaTree1 = Content.Load<Model>("acaciaTree1");
+            terrainRenderer = new TerrainRenderer(Content, cameraTransforms);
             gameModelRegister.RegisterGameModel("skybox", modelSkybox);
-
-            groundTiles = new GroundTiles(modelCubeWedge0, modelCubeWedge1);
+            gameModelRegister.RegisterGameModel("acaciaTree1", modelAcaciaTree1);
         }
 
         private int previousMouseScroll = 0;
@@ -254,37 +156,16 @@ namespace LSystemsMG
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(CLEAR_COLOR);
-
-            groundTiles.DrawGroundTiles(cameraTransforms);
-            gameModelRegister.GetGameModel("acaciaTree1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-5, 6, 0));
-
-            gameModelRegister.GetGameModel("skybox").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Scale(100, 100, 100));
-
-            /*
-            gameModelRegister.GetGameModel("acaciaTree2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-5, 8, 0));
-            gameModelRegister.GetGameModel("birchTree1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, -8, 0));
-            gameModelRegister.GetGameModel("birchTree2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, -6, 0));
-            gameModelRegister.GetGameModel("cactus1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, -4, 0));
-            gameModelRegister.GetGameModel("cactus2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, -2, 0));
-            gameModelRegister.GetGameModel("fern1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, 0, 0));
-            gameModelRegister.GetGameModel("fern2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, 2, 0));
-            gameModelRegister.GetGameModel("flower1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, 2, 0));
-            gameModelRegister.GetGameModel("flower2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, 2, 0));
-            gameModelRegister.GetGameModel("flower3").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, 2, 0));
-            gameModelRegister.GetGameModel("flower4").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, 2, 0));
-            gameModelRegister.GetGameModel("mushroom1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, 2, 0));
-            gameModelRegister.GetGameModel("mushroom2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, 4, 0));
-            gameModelRegister.GetGameModel("mushroom3").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, 6, 0));
-            gameModelRegister.GetGameModel("mushroom4").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, 8, 0));
-            gameModelRegister.GetGameModel("mushroom5").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-8, 10, 0));
-            gameModelRegister.GetGameModel("mushroom6").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-4, -8, 0));
-            gameModelRegister.GetGameModel("pineTree1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-4, -6, 0));
-            gameModelRegister.GetGameModel("pineTree2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-4, -4, 0));
-            gameModelRegister.GetGameModel("smallPlant1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-4, -2, 0));
-            gameModelRegister.GetGameModel("plant1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-4, 0, 0));
-            gameModelRegister.GetGameModel("reeds1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-4, 2, 0));
-            */
-
+            gameModelRegister.GetGameModel("acaciaTree1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(0, 0, 0));
+            for (int i = -4; i <= 4; i++)
+            {
+                for (int j = -4; j <= 4; j++)
+                {
+                    terrainRenderer.DrawRandom(i, j);
+                    // terrainRenderer.Draw(0, i, j);
+                }
+            }
+            gameModelRegister.GetGameModel("skybox").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Scale(1000, 1000, 1000));
             if (SHOW_AXIS)
             {
                 drawLine.DrawAxis(GraphicsDevice);

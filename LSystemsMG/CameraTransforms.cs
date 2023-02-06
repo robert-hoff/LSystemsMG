@@ -106,7 +106,7 @@ namespace LSystemsMG
         private const float FOV = MathF.PI / 4; // 45 degrees
         // private const float FOV = 1.16937f; // 67 degrees was used in a previous version
         private const float NEAR_CLIP = 0.01f;
-        private const float FAR_CLIP = 400f;
+        private const float FAR_CLIP = 2400f;
         private void CalculateProjectionMatrix()
         {
             float viewPortAspectRatio = (float) viewportWidth / viewportHeight;
