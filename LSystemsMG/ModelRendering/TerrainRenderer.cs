@@ -31,7 +31,7 @@ namespace LSystemsMG.ModelRendering
             if (!tileAssigned[ordinal])
             {
                 int roll = RandomNum.GetRandomInt(0, 100);
-                if (tX*tX+tY*tY>=9 && roll > 90)
+                if (tX*tX+tY*tY>=6 && roll > 90)
                 {
                     randomSelected[ordinal] = RandomNum.GetRandomInt(1, 4);
                 } else
