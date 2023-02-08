@@ -94,6 +94,15 @@ namespace LSystemsMG.ModelRendering
 
             switch (modelName)
             {
+                case "polygonPlant1":
+                    break;
+
+                case "polygonPlant2":
+                    break;
+
+                case "polygonPlant5":
+                    break;
+
                 case "acaciaTree1":
                     modelScaling = new Vector3(0.7f, 0.7f, 0.7f);
                     break;
@@ -216,6 +225,8 @@ namespace LSystemsMG.ModelRendering
                     basicEffect.DirectionalLight0.Enabled = true;
                     basicEffect.DirectionalLight0.Direction = defaultLightingDirection;
                     basicEffect.DirectionalLight0.DiffuseColor = defaultGameModelDiffuseColorLighting;
+
+                    // basicEffect.TextureEnabled = false;
 
                     basicEffect.World = cameraTransforms.worldMatrix;
                     basicEffect.View = cameraTransforms.viewMatrix;

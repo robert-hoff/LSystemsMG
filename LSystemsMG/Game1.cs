@@ -50,6 +50,9 @@ namespace LSystemsMG
         private DrawLine drawLine;
         private Model modelSkybox;
         private Model modelAcaciaTree1;
+        private Model modelPolygonPlant1;
+        private Model modelPolygonPlant2;
+        private Model modelPolygonPlant5;
         private GameModelRegister gameModelRegister;
         private TerrainRenderer terrainRenderer;
 
@@ -88,9 +91,16 @@ namespace LSystemsMG
             Content = new ContentManager(this.Services, "Content");
             modelSkybox = Content.Load<Model>("skybox");
             modelAcaciaTree1 = Content.Load<Model>("acaciaTree1");
+            modelPolygonPlant1 = Content.Load<Model>("polygon-nature/SM_Plant_01");
+            modelPolygonPlant2 = Content.Load<Model>("polygon-nature/SM_Plant_02");
+            modelPolygonPlant5 = Content.Load<Model>("polygon-nature/SM_Plant_05");
+
             terrainRenderer = new TerrainRenderer(Content, cameraTransforms);
             gameModelRegister.RegisterGameModel("skybox", modelSkybox);
             gameModelRegister.RegisterGameModel("acaciaTree1", modelAcaciaTree1);
+            gameModelRegister.RegisterGameModel("polygonPlant1", modelPolygonPlant1);
+            gameModelRegister.RegisterGameModel("polygonPlant2", modelPolygonPlant2);
+            gameModelRegister.RegisterGameModel("polygonPlant5", modelPolygonPlant5);
         }
 
         private int previousMouseScroll = 0;
@@ -156,16 +166,21 @@ namespace LSystemsMG
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(CLEAR_COLOR);
-            gameModelRegister.GetGameModel("acaciaTree1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(0, 0, 0));
+            gameModelRegister.GetGameModel("skybox").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Scale(1000, 1000, 1000));
             for (int i = -4; i <= 4; i++)
             {
                 for (int j = -4; j <= 4; j++)
                 {
                     terrainRenderer.DrawRandom(i, j);
-                    // terrainRenderer.Draw(0, i, j);
                 }
             }
-            gameModelRegister.GetGameModel("skybox").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Scale(1000, 1000, 1000));
+
+            gameModelRegister.GetGameModel("acaciaTree1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-4, 3, 0));
+            gameModelRegister.GetGameModel("polygonPlant2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(0, 0, 0));
+            gameModelRegister.GetGameModel("polygonPlant5").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(2, 2, 0));
+
+
+
             if (SHOW_AXIS)
             {
                 drawLine.DrawAxis(GraphicsDevice);
