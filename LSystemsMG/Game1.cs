@@ -98,9 +98,9 @@ namespace LSystemsMG
         protected override void LoadContent()
         {
             Content = new ContentManager(this.Services, "Content");
-            modelSkybox = Content.Load<Model>("skybox");
-            modelAcaciaTree1 = Content.Load<Model>("acaciaTree1");
-            modelAcaciaTree2 = Content.Load<Model>("acaciaTree2");
+            modelSkybox = Content.Load<Model>("various/skybox");
+            modelAcaciaTree1 = Content.Load<Model>("trees/acaciatree1");
+            modelAcaciaTree2 = Content.Load<Model>("trees/acaciatree2");
             modelPolygonPlant1 = Content.Load<Model>("polygon-nature/SM_Plant_01");
             modelPolygonPlant2 = Content.Load<Model>("polygon-nature/SM_Plant_02");
             modelPolygonPlant5 = Content.Load<Model>("polygon-nature/SM_Plant_05");
@@ -109,15 +109,25 @@ namespace LSystemsMG
             modelRockTile1 = Content.Load<Model>("rocks/tile000");
 
             terrainRenderer = new TerrainRenderer(Content, cameraTransforms);
+
             gameModelRegister.RegisterGameModel("skybox", modelSkybox);
-            gameModelRegister.RegisterGameModel("acaciaTree1", modelAcaciaTree1);
-            gameModelRegister.RegisterGameModel("acaciaTree2", modelAcaciaTree2);
+            gameModelRegister.RegisterGameModel("acaciatree1", modelAcaciaTree1);
+            gameModelRegister.RegisterGameModel("acaciatree2", modelAcaciaTree2);
             gameModelRegister.RegisterGameModel("polygonPlant1", modelPolygonPlant1);
             gameModelRegister.RegisterGameModel("polygonPlant2", modelPolygonPlant2);
             gameModelRegister.RegisterGameModel("polygonPlant5", modelPolygonPlant5);
 
-            renderModel = new RenderModel(cameraTransforms);
+
+            //gameModelRegister.RegisterGameModel("various/skybox", modelSkybox);
+            //gameModelRegister.RegisterGameModel("trees/acaciatree1", modelAcaciaTree1);
+            //gameModelRegister.RegisterGameModel("trees/acaciatree2", modelAcaciaTree2);
+            //gameModelRegister.RegisterGameModel("polygonPlant1", modelPolygonPlant1);
+            //gameModelRegister.RegisterGameModel("polygonPlant2", modelPolygonPlant2);
+            //gameModelRegister.RegisterGameModel("polygonPlant5", modelPolygonPlant5);
+
+
             testModel = Content.Load<Model>("plants/testobject");
+            renderModel = new RenderModel(cameraTransforms);
         }
 
         private int previousMouseScroll = 0;
@@ -198,12 +208,12 @@ namespace LSystemsMG
                 }
             }
 
-            gameModelRegister.GetGameModel("acaciaTree1").Draw(ModelTransforms.Translation(-4, -13, -0.5f));
+            gameModelRegister.GetGameModel("acaciatree1").Draw(ModelTransforms.Translation(-4, -13, -0.5f));
             gameModelRegister.GetGameModel("polygonPlant2").Draw(ModelTransforms.Translation(0, 0, 0));
             gameModelRegister.GetGameModel("polygonPlant5").Draw(ModelTransforms.Translation(2, 2, 0));
 
             // fixme - rotation is a bit messed up
-            gameModelRegister.GetGameModel("acaciaTree2").Draw(ModelTransforms.Translation(-2, 4, 0));
+            // gameModelRegister.GetGameModel("birchtree1").Draw(ModelTransforms.Translation(-2, 4, 0));
             renderModel.R(40).S(2f, 2f, 2f).T(4, 4, 0).Draw(modelReeds1);
             renderModel.T(8, -9, 0).Draw(modelTree1);
             renderModel.T(2, 5, 0).Draw(modelRockTile1);

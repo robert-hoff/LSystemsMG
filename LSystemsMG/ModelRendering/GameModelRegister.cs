@@ -30,21 +30,18 @@ namespace LSystemsMG.ModelRendering
                 case "polygonPlant5":
                     break;
 
-                case "acaciaTree1":
+                case "acaciatree1":
                     gameModel.RotateZDeg(-30);
                     gameModel.Scale(1.1f, 1.1f, 1.1f);
                     break;
 
-                // transforms weren't applied to this model in the Blender export
-                case "acaciaTree2":
-                    gameModel.RotateXDeg(-90);
-                    gameModel.Scale(0.015f, 0.015f, 0.015f);
+                case "acaciatree2":
                     break;
 
-                case "birchTree1":
+                case "birchtree1":
                     break;
 
-                case "birchTree2":
+                case "birchtree2":
                     break;
 
                 case "cactus1":
