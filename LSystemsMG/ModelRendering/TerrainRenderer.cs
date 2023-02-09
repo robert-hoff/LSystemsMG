@@ -8,10 +8,13 @@ namespace LSystemsMG.ModelRendering
 {
     class TerrainRenderer
     {
-        private const int TERRAIN_TILES = 5;
+        private const int TERRAIN_TILES = 6;
         private int TERRAIN_SIDE = 50;
         private Model[] terrainModels = new Model[TERRAIN_TILES];
         CameraTransforms cameraTransforms;
+
+        private Model terrainM13;
+
 
         public TerrainRenderer(ContentManager Content, CameraTransforms cameraTransforms) {
             this.cameraTransforms= cameraTransforms;
@@ -20,7 +23,6 @@ namespace LSystemsMG.ModelRendering
                 terrainModels[i] = Content.Load<Model>($"terrain-tiles/terrain{i:000}");
             }
         }
-
 
         bool[] tileAssigned = new bool[10201];
         int[] randomSelected = new int[10201];
@@ -31,10 +33,11 @@ namespace LSystemsMG.ModelRendering
             if (!tileAssigned[ordinal])
             {
                 int roll = RandomNum.GetRandomInt(0, 100);
-                if (tX*tX+tY*tY>=6 && roll > 90)
+                if (tX * tX + tY * tY >= 6 && roll > 90)
                 {
-                    randomSelected[ordinal] = RandomNum.GetRandomInt(1, 4);
-                } else
+                    randomSelected[ordinal] = RandomNum.GetRandomInt(1, TERRAIN_TILES-1);
+                }
+                else
                 {
                     randomSelected[ordinal] = 0;
                 }
@@ -45,16 +48,27 @@ namespace LSystemsMG.ModelRendering
 
         public void Draw(int terrainId, int tX, int tY)
         {
+            Vector3 defaultAmbientLight = new Vector3(0.3f, 0.4f, 0.4f);
+            Vector3 defaultDiffuseColor = new Vector3(0.4f, 0.4f, 0.4f);
+            Vector3 ambientLight = defaultAmbientLight;
+            Vector3 diffuseColor = defaultDiffuseColor;
+            // -- can change the effects on individual tiles like so
+            //if (terrainId == 0)
+            //{
+            //    ambientLight = new Vector3(0.22f, 0.32f, 0.32f);
+            //    diffuseColor = new Vector3(0.32f, 0.32f, 0.32f);
+            //}
+
             foreach (ModelMesh mesh in terrainModels[terrainId].Meshes)
             {
                 foreach (Effect effect in mesh.Effects)
                 {
                     BasicEffect basicEffect = (BasicEffect) effect;
                     basicEffect.EnableDefaultLighting();
-                    basicEffect.AmbientLightColor = new Vector3(0.3f, 0.4f, 0.4f);
+                    basicEffect.AmbientLightColor = ambientLight;
                     basicEffect.DirectionalLight0.Enabled = true;
                     basicEffect.DirectionalLight0.Direction = new Vector3(0.8f, 0.8f, -1);
-                    basicEffect.DirectionalLight0.DiffuseColor = new Vector3(0.4f, 0.4f, 0.4f);
+                    basicEffect.DirectionalLight0.DiffuseColor = diffuseColor;
                     basicEffect.World = cameraTransforms.worldMatrix;
                     basicEffect.View = cameraTransforms.viewMatrix;
                     basicEffect.Projection = cameraTransforms.projectionMatrix;
@@ -64,6 +78,8 @@ namespace LSystemsMG.ModelRendering
                 mesh.Draw();
             }
         }
+
+
     }
 }
 

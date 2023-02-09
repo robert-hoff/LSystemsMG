@@ -104,13 +104,20 @@ namespace LSystemsMG.ModelRendering
                     break;
 
                 case "acaciaTree1":
-                    modelScaling = new Vector3(0.7f, 0.7f, 0.7f);
+                    modelZRotationDegrees = -30;
+                    // modelScaling = new Vector3(0.7f, 0.7f, 0.7f);
+                    // modelScaling = new Vector3(1.5f, 1.5f, 1.5f);
+                    modelScaling = new Vector3(1.1f, 1.1f, 1.1f);
                     break;
 
                 // transforms weren't applied to this model in the Blender export
                 case "acaciaTree2":
                     modelXRotationDegrees = -90;
-                    modelScaling = new Vector3(0.007f, 0.007f, 0.007f);
+                    // modelScaling = new Vector3(0.007f, 0.007f, 0.007f);
+                    modelScaling = new Vector3(0.015f, 0.015f, 0.015f);
+
+                    // modelXRotationDegrees = -50;
+                    // modelScaling = new Vector3(0.7f, 0.7f, 0.7f);
                     break;
 
                 case "birchTree1":

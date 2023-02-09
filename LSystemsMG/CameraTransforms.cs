@@ -13,7 +13,7 @@ namespace LSystemsMG
     {
         // public Vector3 cameraPosition = new Vector3(3f, -7f, 3f);
         public Vector3 cameraPosition = new Vector3(8f, -19f, 8f);
-        public float cameraRotation = MathHelper.ToRadians(-8);
+        public float cameraRotation = MathHelper.ToRadians(-85f);
         private int viewportWidth;
         private int viewportHeight;
 
