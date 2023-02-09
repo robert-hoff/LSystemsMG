@@ -188,9 +188,8 @@ namespace LSystemsMG
             // rotate += 1f;
             // Debug.WriteLine($"{rotate}");
 
-
             GraphicsDevice.Clear(CLEAR_COLOR);
-            gameModelRegister.GetGameModel("skybox").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Scale(1000, 1000, 1000));
+            gameModelRegister.GetGameModel("skybox").Draw(ModelTransforms.Scale(1000, 1000, 1000));
             for (int i = -7; i <= 7; i++)
             {
                 for (int j = -7; j <= 7; j++)
@@ -199,22 +198,16 @@ namespace LSystemsMG
                 }
             }
 
-
-            gameModelRegister.GetGameModel("acaciaTree1").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-4, -13, -0.5f));
-            gameModelRegister.GetGameModel("polygonPlant2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(0, 0, 0));
-            gameModelRegister.GetGameModel("polygonPlant5").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(2, 2, 0));
+            gameModelRegister.GetGameModel("acaciaTree1").Draw(ModelTransforms.Translation(-4, -13, -0.5f));
+            gameModelRegister.GetGameModel("polygonPlant2").Draw(ModelTransforms.Translation(0, 0, 0));
+            gameModelRegister.GetGameModel("polygonPlant5").Draw(ModelTransforms.Translation(2, 2, 0));
 
             // fixme - rotation is a bit messed up
-            // gameModelRegister.GetGameModel("acaciaTree2").DrawModelWithDefaultValues(cameraTransforms, ModelTransforms.Translation(-2, 4, 0));
-
-
+            gameModelRegister.GetGameModel("acaciaTree2").Draw(ModelTransforms.Translation(-2, 4, 0));
             renderModel.R(40).S(2f, 2f, 2f).T(4, 4, 0).Draw(modelReeds1);
             renderModel.T(8, -9, 0).Draw(modelTree1);
             renderModel.T(2, 5, 0).Draw(modelRockTile1);
-
             renderModel.T(5, 5, 0).Draw(testModel);
-
-
 
             if (SHOW_AXIS)
             {
