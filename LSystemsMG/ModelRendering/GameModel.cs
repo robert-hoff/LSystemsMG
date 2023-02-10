@@ -22,13 +22,11 @@ namespace LSystemsMG.ModelRendering
         public string modelName { get; }
         private Model model;
 
-        private Vector3 modelScale = new Vector3(1, 1, 1);
-        // operate in radians
-        private float modelXRot = 0;
-        private float modelYRot = 0;
-        private float modelZRot = 0;
-        private Vector3 modelTranslation = new Vector3(0, 0, 0);
+        float modelSX = 1, modelSY = 1, modelSZ = 1;
+        float modelRX = 0, modelRY = 0, modelRZ = 0;
+        float modelTX = 0, modelTY = 0, modelTZ = 0;
         private Matrix transform = Matrix.Identity;
+        private bool transformNeedsUpdate = false;
 
         public GameModel(CameraTransforms cameraTransforms, string modelName, Model model)
         {
@@ -44,57 +42,82 @@ namespace LSystemsMG.ModelRendering
             basicEffect.DirectionalLight0.DiffuseColor = DEFAULT_LIGHT0_DIFFUSE;
         }
 
-        public void Scale(float sX, float sY, float sZ)
+        float dSX = 1, dSY = 1, dSZ = 1;
+        float dRX = 0, dRY = 0, dRZ = 0;
+        float dTX = 0, dTY = 0, dTZ = 0;
+
+        public GameModel S(float sX, float sY, float sZ)
         {
-            modelScale.X *= sX;
-            modelScale.Y *= sY;
-            modelScale.Z *= sZ;
-            CalculateTransform();
+            dSX = modelSX * sX;
+            dSY = modelSY * sY;
+            dSZ = modelSZ * sZ;
+            transformNeedsUpdate = true;
+            return this;
+        }
+        // list rZ first
+        public GameModel Rdeg(float rZ = 0, float rX = 0, float rY = 0)
+        {
+            dRZ = modelRZ + MathHelper.ToRadians(rZ);
+            dRX = modelRX + MathHelper.ToRadians(rX);
+            dRY = modelRY + MathHelper.ToRadians(rY);
+            transformNeedsUpdate = true;
+            return this;
+        }
+        // list rZ first
+        public GameModel Rrad(float rZ = 0, float rX = 0, float rY = 0)
+        {
+            dRZ = modelRZ + rZ;
+            dRX = modelRX + rX;
+            dRY = modelRY + rY;
+            transformNeedsUpdate = true;
+            return this;
+        }
+        public GameModel T(float tX, float tY, float tZ)
+        {
+            dTX = modelTX + tX;
+            dTY = modelTY + tY;
+            dTZ = modelTZ + tZ;
+            transformNeedsUpdate = true;
+            return this;
         }
 
-        public void RotateXDeg(float xRot)
+        public GameModel Update()
         {
-            RotateXRad(MathHelper.ToRadians(xRot));
-        }
-        public void RotateXRad(float xRot)
-        {
-            modelXRot += xRot;
+            transformNeedsUpdate = false;
+            dSX = 1;
+            dSY = 1;
+            dSZ = 1;
+            dRX = 0;
+            dRY = 0;
+            dRZ = 0;
+            dTX = 0;
+            dTY = 0;
+            dTZ = 0;
             CalculateTransform();
+            return this;
         }
-
-        public void RotateYDeg(float yRot)
+        public GameModel Apply()
         {
-            RotateYRad(MathHelper.ToRadians(yRot));
-        }
-        public void RotateYRad(float yRot)
-        {
-            modelYRot += yRot;
+            transformNeedsUpdate = false;
+            modelSX = dSX;
+            modelSY = dSY;
+            modelSZ = dSZ;
+            modelRX = dRX;
+            modelRY = dRY;
+            modelRZ = dRZ;
+            modelTX = dTX;
+            modelTY = dTY;
+            modelTZ = dTZ;
             CalculateTransform();
-        }
-
-        public void RotateZDeg(float zRot)
-        {
-            RotateZRad(MathHelper.ToRadians(zRot));
-        }
-        public void RotateZRad(float zRot)
-        {
-            modelZRot += zRot;
-            CalculateTransform();
-        }
-
-        public void Trranslate(float tX, float tY, float tZ)
-        {
-            modelTranslation.X += tX;
-            modelTranslation.Y += tY;
-            modelTranslation.Z += tZ;
-            CalculateTransform();
+            return this;
         }
 
         private void CalculateTransform()
         {
-            Matrix S = Matrix.CreateScale(modelScale);
-            Matrix R = Matrix.CreateRotationZ(modelZRot);
-            Matrix T = Matrix.CreateTranslation(modelTranslation);
+            transformNeedsUpdate = false;
+            Matrix S = Matrix.CreateScale(new Vector3(dSX, dSY, dSZ));
+            Matrix R = Matrix.CreateRotationZ(dRZ);
+            Matrix T = Matrix.CreateTranslation(new Vector3(dTX, dTY, dTZ));
             transform = Matrix.Multiply(S, R);
             transform = Matrix.Multiply(transform, T);
         }
@@ -121,11 +144,10 @@ namespace LSystemsMG.ModelRendering
 
         public void Draw()
         {
-            Draw(Matrix.Identity);
-        }
-
-        public void Draw(Matrix transform2)
-        {
+            if (transformNeedsUpdate)
+            {
+                CalculateTransform();
+            }
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (Effect effect in mesh.Effects)
@@ -134,9 +156,7 @@ namespace LSystemsMG.ModelRendering
                     basicEffect.World = cameraTransforms.worldMatrix;
                     basicEffect.View = cameraTransforms.viewMatrix;
                     basicEffect.Projection = cameraTransforms.projectionMatrix;
-
-                    Matrix combinedTransform = Matrix.Multiply(transform, transform2);
-                    basicEffect.World = Matrix.Multiply(combinedTransform, basicEffect.World);
+                    basicEffect.World = Matrix.Multiply(transform, basicEffect.World);
                 }
                 mesh.Draw();
             }

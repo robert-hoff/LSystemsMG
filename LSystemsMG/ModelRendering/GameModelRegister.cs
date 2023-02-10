@@ -14,8 +14,9 @@ namespace LSystemsMG.ModelRendering
             this.cameraTransforms = cameraTransforms;
         }
 
-        public void RegisterGameModel(string modelName, Model model)
+        public GameModel RegisterGameModel(string modelnamepath, Model model)
         {
+            string modelName = modelnamepath.Substring(modelnamepath.IndexOf('/') + 1);
             GameModel gameModel = new GameModel(cameraTransforms, modelName, model);
             modelsLookup.Add(modelName, gameModel);
 
@@ -31,8 +32,7 @@ namespace LSystemsMG.ModelRendering
                     break;
 
                 case "acaciatree1":
-                    gameModel.RotateZDeg(-30);
-                    gameModel.Scale(1.1f, 1.1f, 1.1f);
+                    gameModel.Rdeg(-30).S(1.1f, 1.1f, 1.1f).Apply();
                     break;
 
                 case "acaciatree2":
@@ -51,8 +51,7 @@ namespace LSystemsMG.ModelRendering
                     break;
 
                 case "fern1":
-                    gameModel.Scale(1.5f, 1.5f, 1.5f);
-                    gameModel.Trranslate(0, 0, 0.1f);
+                    gameModel.S(1.5f, 1.5f, 1.5f).T(0, 0, 0.1f).Apply();
                     break;
 
                 case "fern2":
@@ -89,24 +88,23 @@ namespace LSystemsMG.ModelRendering
                     break;
 
                 case "pineTree1":
-                    gameModel.Scale(0.5f, 0.5f, 0.5f);
+                    gameModel.S(0.5f, 0.5f, 0.5f).Apply();
                     break;
 
                 case "pineTree2":
-                    gameModel.Scale(0.5f, 0.5f, 0.5f);
+                    gameModel.S(0.5f, 0.5f, 0.5f).Apply();
                     break;
 
                 case "smallPlant1":
-                    gameModel.Scale(2f, 2f, 2f);
+                    gameModel.S(2f, 2f, 2f).Apply();
                     break;
 
                 case "plant1":
-                    gameModel.RotateXRad(-90);
-                    gameModel.Scale(3.5f, 3.5f, 4.5f);
+                    gameModel.Rdeg(rX: -90).S(3.5f, 3.5f, 4.5f).Apply();
                     break;
 
                 case "reeds1":
-                    gameModel.Scale(2f, 2f, 2f);
+                    gameModel.S(2f, 2f, 2f).Apply();
                     break;
 
                 case "terrain1":
@@ -116,8 +114,10 @@ namespace LSystemsMG.ModelRendering
                     gameModel.SetAmbientColor(new Vector3(0.7f, 0.7f, 0.7f));
                     gameModel.SetLight0Direction(new Vector3(0, 1f, 0));
                     gameModel.SetLight0Diffuse(new Vector3(0.8f, 0.8f, 0.8f));
+                    gameModel.S(1000, 1000, 1000).Apply();
                     break;
             }
+            return gameModel;
         }
 
         public GameModel GetGameModel(string modelName)
