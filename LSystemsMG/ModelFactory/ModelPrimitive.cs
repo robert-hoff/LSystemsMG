@@ -38,7 +38,7 @@ namespace LSystemsMG.ModelFactory
         }
         private void ReportWarning(string methodName, string argument)
         {
-            Debug.WriteLine($"WARN {methodName} not observed for this type (ModelPrimitive) " +
+            Debug.WriteLine($"WARN {methodName} in ModelPrimitive not observed for this type " +
                 $"modelName ={modelName} argument={argument}");
         }
 

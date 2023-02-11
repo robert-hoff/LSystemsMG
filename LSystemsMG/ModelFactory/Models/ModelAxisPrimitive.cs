@@ -56,7 +56,7 @@ namespace LSystemsMG.ModelFactory.Models
             basicEffect.World = cameraTransforms.worldMatrix;
             basicEffect.View = cameraTransforms.viewMatrix;
             basicEffect.Projection = cameraTransforms.projectionMatrix;
-            basicEffect.World = Matrix.Multiply(modelTransform, basicEffect.World);
+            basicEffect.World = Matrix.Multiply(combinedTransform, basicEffect.World);
             basicEffect.CurrentTechnique.Passes[0].Apply();
             graphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, vertexList, 0, 1);
         }

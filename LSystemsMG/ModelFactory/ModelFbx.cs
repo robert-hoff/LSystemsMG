@@ -51,7 +51,7 @@ namespace LSystemsMG.ModelFactory
                     basicEffect.World = cameraTransforms.worldMatrix;
                     basicEffect.View = cameraTransforms.viewMatrix;
                     basicEffect.Projection = cameraTransforms.projectionMatrix;
-                    basicEffect.World = Matrix.Multiply(modelTransform, basicEffect.World);
+                    basicEffect.World = Matrix.Multiply(combinedTransform, basicEffect.World);
                 }
                 mesh.Draw();
             }

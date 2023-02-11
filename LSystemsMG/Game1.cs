@@ -1,14 +1,10 @@
 using System.Diagnostics;
-using System.Runtime.ExceptionServices;
-using Environment;
-using LSystemsMG.Environment;
-using LSystemsMG.ModelRendering;
-using LSystemsMG.ModelFactory.Models;
-using LSystemsMG.ModelSceneGraph;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using LSystemsMG.ModelRendering;
+using LSystemsMG.ModelSceneGraph;
 
 /**
  *
@@ -49,7 +45,6 @@ namespace LSystemsMG
         private const int DEFAULT_VIEWPORT_HEIGHT = 800;
         private CameraTransforms cameraTransforms;
 
-
         public Game1()
         {
             Content.RootDirectory = "Content";
@@ -80,38 +75,26 @@ namespace LSystemsMG
         }
 
 
-        // -- models and model collections
-        // private ModelLinePrimitive modelLine;
-        private ModelAxisPrimitive modelAxis;
 
+        // -- special models
         private TerrainRenderer terrainRenderer;
+        // private Model modelCubeWedge0;
+        // private Model modelCubeWedge1;
+        // private GroundTiles groundTiles;
 
-        private Model modelCubeWedge0;
-        private Model modelCubeWedge1;
-        private GroundTiles groundTiles;
-
-        private GameModel modelFern;
-        private GameModel modelReeds1;
-        private GameModel modelAcaciaTree1;
-        private GameModel modePineTree3;
-
-        private GameModelRegister gameModelRegister;
+        // -- model factory
         private GameModelRegister2 gameModelRegister2;
-
-
 
         protected override void LoadContent()
         {
-            gameModelRegister = new GameModelRegister(cameraTransforms);
-            gameModelRegister2 = new GameModelRegister2(cameraTransforms);
-
             Content = new ContentManager(this.Services, "Content");
+            LoadSpecialObjects();
+            // modelCubeWedge0 = Content.Load<Model>("geometries/cube-wedge0");
+            // modelCubeWedge1 = Content.Load<Model>("geometries/cube-wedge1");
+            // groundTiles = new GroundTiles(cameraTransforms, modelCubeWedge0, modelCubeWedge1);
 
-            terrainRenderer = new TerrainRenderer(Content, cameraTransforms);
-
-            // modelLine = new ModelLinePrimitive(GraphicsDevice, cameraTransforms);
-            // modelAxis = new ModelAxisPrimitive(GraphicsDevice, cameraTransforms);
-
+            gameModelRegister2 = new GameModelRegister2(GraphicsDevice, cameraTransforms);
+            // -- fbx models
             RegisterModel("various/skybox");
             RegisterModel("plants/reeds1");
             RegisterModel("polygon-nature/polygon-plant1");
@@ -127,32 +110,30 @@ namespace LSystemsMG
             RegisterModel("rocks/rocktile1");
             RegisterModel("plants/plant-example");
             RegisterModel("trees/tree-example");
-
-            modelReeds1 = gameModelRegister.GetGameModel("reeds1");
-            modelAcaciaTree1 = gameModelRegister.GetGameModel("acaciatree1");
-            modePineTree3 = gameModelRegister.GetGameModel("pinetree3");
-
-            // modelCubeWedge0 = Content.Load<Model>("geometries/cube-wedge0");
-            // modelCubeWedge1 = Content.Load<Model>("geometries/cube-wedge1");
-            // groundTiles = new GroundTiles(cameraTransforms, modelCubeWedge0, modelCubeWedge1);
-
             RegisterModel("geometries/unitcube");
-            LoadSelectedModels();
+            // -- primitve models
+            gameModelRegister2.RegisterModelPrimitive("axismodel");
+
+            InstantiateSceneGraph();
         }
 
-        private GameModel RegisterModel(string modelPathName)
+        private void RegisterModel(string modelPathName)
         {
             Model model = Content.Load<Model>(modelPathName);
             string modelName = modelPathName.Substring(modelPathName.IndexOf('/') + 1);
             gameModelRegister2.RegisterModelFbx(modelName, model);
-            return gameModelRegister.LoadModelFromFile(modelName, model);
         }
+
+        private void LoadSpecialObjects()
+        {
+            terrainRenderer = new TerrainRenderer(Content, cameraTransforms);
+        }
+
 
         private int previousMouseScroll = 0;
         private int mouseDragX = 0;
         private int mouseDragY = 0;
         private bool leftMouseIsReleased = true;
-
 
         protected override void Update(GameTime gameTime)
         {
@@ -230,58 +211,89 @@ namespace LSystemsMG
         }
 
 
+        private GameModel2 skybox;
+        private GameModel2 modelReeds1;
+        private GameModel2 modelAcaciaTree1;
+        private GameModel2 modePineTree3;
+        private GameModel2 modelPolygonPlant2;
+        private GameModel2 modelBirchTree1;
+        private GameModel2 modelRockTile1;
+        private GameModel2 modelOneSidedFlower;
+
         private GameModel2 cubeModel0;
         private GameModel2 cubeModel1;
         private GameModel2 cubeModel2;
         private GameModel2 axisModel0;
         private GameModel2 axisModel1;
+        private GameModel2 modelFern0;
+        private GameModel2 modelFern1;
 
-        private void LoadSelectedModels()
+        /*
+         * not a scene graph yet, experimenting with transforms ..
+         *
+         */
+        private void InstantiateSceneGraph()
         {
-            modelFern = gameModelRegister.GetGameModel("polygon-plant1");
-            cubeModel0 = gameModelRegister2.CreateModel("unitcube");
-            cubeModel1 = gameModelRegister2.CreateModel("unitcube");
-            cubeModel1.SetTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0f).S(5, 5, 0.25f).Get());
-            cubeModel2 = gameModelRegister2.CreateModel("unitcube");
-            cubeModel2.SetTransform(BuildTransform.Ident().T(-0.5f, -0.5f, 0f).S(5, 5, 0.25f).Get());
+            skybox = gameModelRegister2.CreateModel("skybox");
 
-            gameModelRegister2.RegisterModelPrimitive(GraphicsDevice, "axismodel");
+            // -- previous scene models
+            modelReeds1 = gameModelRegister2.CreateModel("reeds1");
+            modelAcaciaTree1 = gameModelRegister2.CreateModel("acaciatree1");
+            modePineTree3 = gameModelRegister2.CreateModel("pinetree3");
+            modelPolygonPlant2 = gameModelRegister2.CreateModel("polygon-plant2");
+            modelBirchTree1 = gameModelRegister2.CreateModel("polygon-plant2");
+            modelRockTile1 = gameModelRegister2.CreateModel("polygon-plant2");
+            modelOneSidedFlower = gameModelRegister2.CreateModel("plant-example");
+
+            // -- models for scene graph testing
             axisModel0 = gameModelRegister2.CreateModel("axismodel");
             axisModel1 = gameModelRegister2.CreateModel("axismodel");
-        }
+            cubeModel0 = gameModelRegister2.CreateModel("unitcube");
+            cubeModel1 = gameModelRegister2.CreateModel("unitcube");
+            cubeModel2 = gameModelRegister2.CreateModel("unitcube");
+            modelFern0 = gameModelRegister2.CreateModel("polygon-plant1");
+            modelFern1 = gameModelRegister2.CreateModel("polygon-plant1");
 
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(CLEAR_COLOR);
-            gameModelRegister.GetGameModel("skybox").Draw();
-            // PreviousScene(gameTime);
+            cubeModel0.SetTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0).S(5, 5, 0.25f).Get());
+            // cubeModel0.Draw(BuildTransform.Ident().S(5, 5, 0.25f).T(2.5f, 2.5f, 0).Get());
+            cubeModel1.SetTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0f).S(5, 5, 0.25f).Get());
+            cubeModel2.SetTransform(BuildTransform.Ident().T(-0.5f, -0.5f, 0f).S(5, 5, 0.25f).Get());
+            axisModel0.SetTransform(BuildTransform.Ident().S(5, 5, 5).Get());
+            axisModel1.SetTransform(BuildTransform.Ident().S(0.5f, 0.5f, 0.5f).T(2.5f, 2.5f, 0).Get());
 
             Vector3 TRL1 = new Vector3(0, 0, 0);
             // Vector3 TRL1 = new Vector3(0.25f, 0.25f, 0.5f);
             float RZ1 = 0;
             // float RZ1 = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
 
-            modelFern.Draw(BuildTransform.Ident().T(1, 1, 0.25f).T(TRL1).Get());
-            modelFern.Draw(BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Rz(30).Ry(25).T(4.7f, 0.3f, 0.25f).T(TRL1).Get());
+            modelFern0.SetTransform(BuildTransform.Ident().T(1, 1, 0.25f).T(TRL1).Get());
+            modelFern1.SetTransform(BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Rz(RZ1).Ry(25).T(4.7f, 0.3f, 0.25f).T(TRL1).Get());
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(CLEAR_COLOR);
+            skybox.Draw();
+            // PreviousScene(gameTime);
+
+            modelFern0.Draw();
+            modelFern1.Draw();
 
             if (SHOW_AXIS)
             {
-                axisModel0.SetTransform(BuildTransform.Ident().S(5, 5, 5).Get());
                 axisModel0.Draw();
             }
-            axisModel1.SetTransform(BuildTransform.Ident().S(0.5f, 0.5f, 0.5f).T(2.5f, 2.5f, 0).Get());
             axisModel1.Draw();
 
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
-            cubeModel0.SetTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0).S(5, 5, 0.25f).Get());
             cubeModel0.Draw();
-            // cubeModel0.Draw(BuildTransform.Ident().S(5, 5, 0.25f).T(2.5f, 2.5f, 0).Get());
             // cubeModel1.Draw();
             // cubeModel2.Draw();
             GraphicsDevice.BlendState = BlendState.Opaque;
 
             base.Draw(gameTime);
         }
+
 
         private void PreviousScene(GameTime gameTime)
         {
@@ -293,20 +305,30 @@ namespace LSystemsMG
                     terrainRenderer.DrawRandom(i, j);
                 }
             }
-            modelAcaciaTree1.Draw(BuildTransform.Ident().T(-4, -13, 0).Get());
-            modelReeds1.Draw(BuildTransform.Ident().S(0.8f, 0.8f, 1.4f).Rz(40).T(4, 4, 0).Get());
-            gameModelRegister.GetGameModel("polygon-plant2").Draw(BuildTransform.Ident().T(2, 2, 0).Get());
-            gameModelRegister.GetGameModel("birchtree1").Draw(BuildTransform.Ident().T(-2, 4, 0).Get());
-            gameModelRegister.GetGameModel("rocktile1").Draw(BuildTransform.Ident().T(2, 5, 0).Get());
+
+            modelAcaciaTree1.SetTransform(BuildTransform.Ident().T(-4, -13, 0).Get());
+            modelAcaciaTree1.Draw();
+            modelReeds1.SetTransform(BuildTransform.Ident().S(0.8f, 0.8f, 1.4f).Rz(40).T(4, 4, 0).Get());
+            modelReeds1.Draw();
+
+            modelPolygonPlant2.SetTransform(BuildTransform.Ident().T(2, 2, 0).Get());
+            modelPolygonPlant2.Draw();
+            modelBirchTree1.SetTransform(BuildTransform.Ident().T(-2, 4, 0).Get());
+            modelBirchTree1.Draw();
+            modelRockTile1.SetTransform(BuildTransform.Ident().T(2, 5, 0).Get());
+            modelRockTile1.Draw();
 
             // -- spins the tree
-            float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
-            modePineTree3.Draw(BuildTransform.Ident().Rz(rotZ).Get());
+            // float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
+            // -- stationary tree
+            float rotZ = 0;
+            modePineTree3.SetTransform(BuildTransform.Ident().Rz(rotZ).Get());
+            modePineTree3.Draw();
 
             // -- some one-sided models may need the CullNone setting
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-            Matrix transform1 = BuildTransform.Ident().Tx(1).Ry(-30).Rx(-130).S(2, 2, 2).T(2, 2, 0).Get();
-            gameModelRegister.GetGameModel("plant-example").Draw(transform1);
+            modelOneSidedFlower.SetTransform(BuildTransform.Ident().Tx(1).Ry(-30).Rx(-130).S(2, 2, 2).T(3, 2, 0).Get());
+            modelOneSidedFlower.Draw();
             GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
         }
     }

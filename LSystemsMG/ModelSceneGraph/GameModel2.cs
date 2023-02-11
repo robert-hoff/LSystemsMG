@@ -7,7 +7,9 @@ namespace LSystemsMG.ModelSceneGraph
     {
         public string modelName { get; }
         protected CameraTransforms cameraTransforms;
+        protected Matrix baseTransform = Matrix.Identity;
         protected Matrix modelTransform = Matrix.Identity;
+        protected Matrix combinedTransform = Matrix.Identity;
         protected BasicEffect basicEffect;
 
         protected GameModel2(CameraTransforms cameraTransforms, string modelName)
@@ -16,13 +18,24 @@ namespace LSystemsMG.ModelSceneGraph
             this.cameraTransforms = cameraTransforms;
         }
 
+        public void SetBaseTransform(Matrix transform)
+        {
+            this.baseTransform = transform;
+            CalculateTransform();
+        }
         public void SetTransform(Matrix transform)
         {
             this.modelTransform = transform;
+            CalculateTransform();
         }
         public void AppendTransform(Matrix transform)
         {
             this.modelTransform = Matrix.Multiply(modelTransform, transform);
+            CalculateTransform();
+        }
+        private void CalculateTransform()
+        {
+            combinedTransform = Matrix.Multiply(baseTransform, modelTransform);
         }
 
         abstract public void SetAmbientColor(Vector3 color);
