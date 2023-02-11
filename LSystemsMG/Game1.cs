@@ -144,21 +144,23 @@ namespace LSystemsMG
         private int mouseDragY = 0;
         private bool leftMouseIsReleased = true;
 
+
         protected override void Update(GameTime gameTime)
         {
             cameraTransforms.UpdateViewportDimensions(Window.ClientBounds.Width, Window.ClientBounds.Height);
 
-            // TESTING ONLY, print camera position
-            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            Keys keyEvent = KeyEvent();
+            if (keyEvent == Keys.Escape)
+            {
+                Exit();
+                return;
+            }
+            // -- Show camera position
+            if (keyEvent == Keys.P)
             {
                 Debug.WriteLine($"camera position {cameraTransforms.cameraPosition}");
                 Debug.WriteLine($"rotation {MathHelper.ToDegrees(cameraTransforms.cameraRotation)}");
                 Debug.WriteLine($"distance from origin {Vector3.Distance(cameraTransforms.cameraPosition, new Vector3(0, 0, 0))}");
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                Exit();
             }
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
@@ -197,6 +199,25 @@ namespace LSystemsMG
             }
 
             base.Update(gameTime);
+        }
+
+        private bool[] keyIsDown = new bool[100];
+        private Keys KeyEvent()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                return Keys.Escape;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && !keyIsDown[(int) Keys.P])
+            {
+                keyIsDown[(int) Keys.P] = true;
+                return Keys.P;
+            }
+            if (Keyboard.GetState().IsKeyUp(Keys.P) && keyIsDown[(int) Keys.P])
+            {
+                keyIsDown[(int) Keys.P] = false;
+            }
+            return Keys.None;
         }
 
         protected override void Draw(GameTime gameTime)
