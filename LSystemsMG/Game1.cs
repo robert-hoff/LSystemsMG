@@ -128,9 +128,18 @@ namespace LSystemsMG
             modelAcaciaTree1 = gameModelRegister.GetGameModel("acaciatree1");
             modePineTree3 = gameModelRegister.GetGameModel("pinetree3");
 
-            modelCubeWedge0 = Content.Load<Model>("geometries/cube-wedge0");
-            modelCubeWedge1 = Content.Load<Model>("geometries/cube-wedge1");
-            groundTiles = new GroundTiles(cameraTransforms, modelCubeWedge0, modelCubeWedge1);
+            // modelCubeWedge0 = Content.Load<Model>("geometries/cube-wedge0");
+            // modelCubeWedge1 = Content.Load<Model>("geometries/cube-wedge1");
+            // groundTiles = new GroundTiles(cameraTransforms, modelCubeWedge0, modelCubeWedge1);
+
+            RegisterModel("geometries/unitcube");
+
+            // Color whitecolor = Color.White;
+            // Color mycolor = Color.White * 0.5f;
+
+
+
+
         }
 
         private GameModel RegisterModel(string modelnamepath)
@@ -240,13 +249,12 @@ namespace LSystemsMG
             //gameModelRegister.GetGameModel("birchtree1").Draw(BuildTransform.Ident().T(-2, 4, 0).Get());
             //gameModelRegister.GetGameModel("rocktile1").Draw(BuildTransform.Ident().T(2, 5, 0).Get());
 
-            // modelFern.T(2, -5, 0).Draw();
-            // modelFern.Draw(BuildTransform.Ident().T(2, -5, 0).Get());
-
+            // modelFern.Draw(BuildTransform.Ident().T(1, 2, 0.25f).Get());
+            // modelFern.Draw(BuildTransform.Ident().T(1, 2, 0.25f).Rx(45).Get());
 
             // -- spins the tree
-            float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
-            modePineTree3.Draw(BuildTransform.Ident().Rz(rotZ).Get());
+            // float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
+            // modePineTree3.Draw(BuildTransform.Ident().Rz(rotZ).Get());
 
 
             // -- some one-sided models may need the CullNone setting
@@ -257,10 +265,31 @@ namespace LSystemsMG
             GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
 
 
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
+
+
+            Vector3 TRL1 = new Vector3(0.25f, 0.25f, 0.5f);
+            float RZ1 = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
+
+            // modelFern.Draw(BuildTransform.Ident().T(1, 1, 0.25f).T(TRL1).Get());
+            // modelFern.Draw(BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Rz(30).Ry(25).T(4.7f, 0.3f, 0.25f).T(TRL1).Get());
+
+
             if (SHOW_AXIS)
             {
-                drawLine.DrawAxis(GraphicsDevice);
+                drawLine.DrawAxis(GraphicsDevice, 5);
             }
+
+
+            drawLine.DrawAxis(GraphicsDevice, 0.5f, 2.5f, 2.5f, 0);
+
+            // .Rz(RZ1)
+            gameModelRegister.GetGameModel("unitcube").Draw(BuildTransform.Ident().T(0.5f, 0.5f, 0).S(5, 5, 0.25f).Get());
+            // gameModelRegister.GetGameModel("unitcube").Draw(BuildTransform.Ident().S(5, 5, 0.25f).T(2.5f, 2.5f, 0).Get());
+
+
+
+
             base.Draw(gameTime);
         }
     }

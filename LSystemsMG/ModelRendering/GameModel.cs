@@ -54,6 +54,11 @@ namespace LSystemsMG.ModelRendering
             ((BasicEffect) model.Meshes[0].Effects[0]).DirectionalLight0.DiffuseColor = dir;
         }
 
+        public void SetAlpha(float val)
+        {
+            ((BasicEffect) model.Meshes[0].Effects[0]).Alpha = val;
+        }
+
         public void Draw()
         {
             Draw(Matrix.Identity);

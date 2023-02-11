@@ -49,6 +49,10 @@ namespace LSystemsMG.ModelRendering
         public BuildTransform Tx(float tX) { return T(tX, 0, 0); }
         public BuildTransform Ty(float tY) { return T(0, tY, 0); }
         public BuildTransform Tz(float tZ) { return T(0, 0, tZ); }
+        public BuildTransform T(Vector3 tV3)
+        {
+            return T(tV3.X, tV3.Y, tV3.Z);
+        }
         public BuildTransform T(float tX, float tY, float tZ)
         {
             Matrix translation = Matrix.CreateTranslation(new Vector3(tX, tY, tZ));

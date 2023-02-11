@@ -22,6 +22,13 @@ namespace LSystemsMG.ModelRendering
 
             switch (modelName)
             {
+
+                case "unitcube":
+                {
+                    gameModel.SetAlpha(0.5f);
+                    break;
+                }
+
                 case "acaciatree1":
                 {
                     Matrix defaultTransform = BuildTransform.Ident().S(1.1f, 1.1f, 1.1f).Rz(-30).Get();
