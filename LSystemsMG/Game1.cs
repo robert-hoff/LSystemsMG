@@ -163,7 +163,7 @@ namespace LSystemsMG
                 Debug.WriteLine($"distance from origin {Vector3.Distance(cameraTransforms.cameraPosition, new Vector3(0, 0, 0))}");
             }
 
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+            if (this.IsActive && Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 if (leftMouseIsReleased)
                 {
