@@ -3,8 +3,8 @@ using System.Runtime.ExceptionServices;
 using Environment;
 using LSystemsMG.Environment;
 using LSystemsMG.ModelRendering;
+using LSystemsMG.ModelFactory.Models;
 using LSystemsMG.ModelSceneGraph;
-using LSystemsMG.Primitives;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -110,7 +110,7 @@ namespace LSystemsMG
             terrainRenderer = new TerrainRenderer(Content, cameraTransforms);
 
             // modelLine = new ModelLinePrimitive(GraphicsDevice, cameraTransforms);
-            modelAxis = new ModelAxisPrimitive(GraphicsDevice, cameraTransforms);
+            // modelAxis = new ModelAxisPrimitive(GraphicsDevice, cameraTransforms);
 
             RegisterModel("various/skybox");
             RegisterModel("plants/reeds1");
@@ -144,7 +144,7 @@ namespace LSystemsMG
         {
             Model model = Content.Load<Model>(modelPathName);
             string modelName = modelPathName.Substring(modelPathName.IndexOf('/') + 1);
-            gameModelRegister2.RegisterModel(modelName, model);
+            gameModelRegister2.RegisterModelFbx(modelName, model);
             return gameModelRegister.LoadModelFromFile(modelName, model);
         }
 
@@ -233,6 +233,8 @@ namespace LSystemsMG
         private GameModel2 cubeModel0;
         private GameModel2 cubeModel1;
         private GameModel2 cubeModel2;
+        private GameModel2 axisModel0;
+        private GameModel2 axisModel1;
 
         private void LoadSelectedModels()
         {
@@ -242,6 +244,10 @@ namespace LSystemsMG
             cubeModel1.SetTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0f).S(5, 5, 0.25f).Get());
             cubeModel2 = gameModelRegister2.CreateModel("unitcube");
             cubeModel2.SetTransform(BuildTransform.Ident().T(-0.5f, -0.5f, 0f).S(5, 5, 0.25f).Get());
+
+            gameModelRegister2.RegisterModelPrimitive(GraphicsDevice, "axismodel");
+            axisModel0 = gameModelRegister2.CreateModel("axismodel");
+            axisModel1 = gameModelRegister2.CreateModel("axismodel");
         }
 
         protected override void Draw(GameTime gameTime)
@@ -250,21 +256,26 @@ namespace LSystemsMG
             gameModelRegister.GetGameModel("skybox").Draw();
             // PreviousScene(gameTime);
 
-            Vector3 TRL1 = new Vector3(0.25f, 0.25f, 0.5f);
-            float RZ1 = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
+            Vector3 TRL1 = new Vector3(0, 0, 0);
+            // Vector3 TRL1 = new Vector3(0.25f, 0.25f, 0.5f);
+            float RZ1 = 0;
+            // float RZ1 = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
 
             modelFern.Draw(BuildTransform.Ident().T(1, 1, 0.25f).T(TRL1).Get());
             modelFern.Draw(BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Rz(30).Ry(25).T(4.7f, 0.3f, 0.25f).T(TRL1).Get());
 
             if (SHOW_AXIS)
             {
-                modelAxis.Draw(BuildTransform.Ident().S(5, 5, 5).Get());
+                axisModel0.SetTransform(BuildTransform.Ident().S(5, 5, 5).Get());
+                axisModel0.Draw();
             }
-            modelAxis.Draw(BuildTransform.Ident().S(0.5f, 0.5f, 0.5f).T(2.5f, 2.5f, 0).Get());
+            axisModel1.SetTransform(BuildTransform.Ident().S(0.5f, 0.5f, 0.5f).T(2.5f, 2.5f, 0).Get());
+            axisModel1.Draw();
 
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
-            // cubeModel0.Draw(BuildTransform.Ident().T(0.5f, 0.5f, 0).S(5, 5, 0.25f).Get());
-            cubeModel0.Draw(BuildTransform.Ident().S(5, 5, 0.25f).T(2.5f, 2.5f, 0).Get());
+            cubeModel0.SetTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0).S(5, 5, 0.25f).Get());
+            cubeModel0.Draw();
+            // cubeModel0.Draw(BuildTransform.Ident().S(5, 5, 0.25f).T(2.5f, 2.5f, 0).Get());
             // cubeModel1.Draw();
             // cubeModel2.Draw();
             GraphicsDevice.BlendState = BlendState.Opaque;
@@ -294,7 +305,7 @@ namespace LSystemsMG
 
             // -- some one-sided models may need the CullNone setting
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-            Matrix transform1 = BuildTransform.Ident().Tx(1).Ry(-30).Rx(-130).S(2,2,2).T(2,2,0).Get();
+            Matrix transform1 = BuildTransform.Ident().Tx(1).Ry(-30).Rx(-130).S(2, 2, 2).T(2, 2, 0).Get();
             gameModelRegister.GetGameModel("plant-example").Draw(transform1);
             GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
         }
