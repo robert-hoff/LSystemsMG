@@ -8,7 +8,7 @@ namespace LSystemsMG.ModelRendering
 
         public BuildTransform()
         {
-            this.transform = Matrix.Identity;
+            transform = Matrix.Identity;
         }
         public static BuildTransform Ident()
         {

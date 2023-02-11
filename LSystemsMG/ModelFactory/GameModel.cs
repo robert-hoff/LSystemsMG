@@ -1,7 +1,8 @@
+using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace LSystemsMG.ModelSceneGraph
+namespace LSystemsMG.ModelFactory
 {
     abstract class GameModel
     {
@@ -20,17 +21,17 @@ namespace LSystemsMG.ModelSceneGraph
 
         public void SetBaseTransform(Matrix transform)
         {
-            this.baseTransform = transform;
+            baseTransform = transform;
             CalculateTransform();
         }
         public void SetTransform(Matrix transform)
         {
-            this.modelTransform = transform;
+            modelTransform = transform;
             CalculateTransform();
         }
         public void AppendTransform(Matrix transform)
         {
-            this.modelTransform = Matrix.Multiply(modelTransform, transform);
+            modelTransform = Matrix.Multiply(modelTransform, transform);
             CalculateTransform();
         }
         private void CalculateTransform()

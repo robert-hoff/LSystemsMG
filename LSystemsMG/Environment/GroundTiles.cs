@@ -2,9 +2,8 @@ using System;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using LSystemsMG;
 using LSystemsMG.Environment;
-// using LSystemsMG.ModelRendering;
+using LSystemsMG.ModelRendering;
 
 /*
  * groundTiles.DrawGroundTiles(cameraTransforms);

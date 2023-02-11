@@ -1,10 +1,11 @@
 using System.Diagnostics;
 using LSystemsMG.Environment;
+using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace LSystemsMG.ModelRendering
+namespace LSystemsMG.ModelSpecial
 {
     class TerrainRenderer
     {
@@ -16,8 +17,9 @@ namespace LSystemsMG.ModelRendering
         private Model terrainM13;
 
 
-        public TerrainRenderer(ContentManager Content, CameraTransforms cameraTransforms) {
-            this.cameraTransforms= cameraTransforms;
+        public TerrainRenderer(ContentManager Content, CameraTransforms cameraTransforms)
+        {
+            this.cameraTransforms = cameraTransforms;
             for (int i = 0; i < TERRAIN_TILES; i++)
             {
                 terrainModels[i] = Content.Load<Model>($"terrain-tiles/terrain{i:000}");
@@ -29,13 +31,13 @@ namespace LSystemsMG.ModelRendering
 
         public void DrawRandom(int tX, int tY)
         {
-            int ordinal = 101 * (tX + 50) + (tY + 50);
+            int ordinal = 101 * (tX + 50) + tY + 50;
             if (!tileAssigned[ordinal])
             {
                 int roll = RandomNum.GetRandomInt(0, 100);
                 if (tX * tX + tY * tY >= 6 && roll > 90)
                 {
-                    randomSelected[ordinal] = RandomNum.GetRandomInt(1, TERRAIN_TILES-1);
+                    randomSelected[ordinal] = RandomNum.GetRandomInt(1, TERRAIN_TILES - 1);
                 }
                 else
                 {

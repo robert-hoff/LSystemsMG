@@ -1,11 +1,12 @@
+using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace LSystemsMG.ModelFactory.Models
+namespace LSystemsMG.ModelFactory.ModelsPrimitive
 {
-    class ModelAxisPrimitive : ModelPrimitive
+    class ModelLineAxis : ModelPrimitive
     {
-        public ModelAxisPrimitive(
+        public ModelLineAxis(
             GraphicsDevice graphicsDevice,
             CameraTransforms cameraTransforms,
             string modelName) :

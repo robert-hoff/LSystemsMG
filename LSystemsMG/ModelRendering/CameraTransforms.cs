@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
-namespace LSystemsMG
+namespace LSystemsMG.ModelRendering
 {
     /*
      * It's not perfect, it is the world that rotates rather than calculating
@@ -43,12 +43,12 @@ namespace LSystemsMG
         }
         public void SetCameraOrbitDegrees(float rotateDeg)
         {
-            this.cameraRotation = MathHelper.ToRadians(rotateDeg / 2f);
+            cameraRotation = MathHelper.ToRadians(rotateDeg / 2f);
             CalculateWorldMatrix();
         }
         public void IncrementCameraOrbitDegrees(float rotateDeg)
         {
-            this.cameraRotation += MathHelper.ToRadians(rotateDeg / 2f);
+            cameraRotation += MathHelper.ToRadians(rotateDeg / 2f);
             CalculateWorldMatrix();
         }
 

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LSystemsMG.ModelSceneGraph
+namespace LSystemsMG.ModelRendering
 {
-    class ModelRenderer
+    class SceneGraphRenderer
     {
     }
 }

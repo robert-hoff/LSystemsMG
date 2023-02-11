@@ -1,7 +1,7 @@
 using System.Diagnostics;
+using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using LSystemsMG.ModelSceneGraph;
 
 namespace LSystemsMG.ModelFactory
 {

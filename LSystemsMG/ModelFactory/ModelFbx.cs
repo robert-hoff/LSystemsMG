@@ -1,6 +1,5 @@
 using System;
-
-using LSystemsMG.ModelSceneGraph;
+using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

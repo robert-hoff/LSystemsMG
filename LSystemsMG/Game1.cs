@@ -3,8 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using LSystemsMG.ModelFactory;
+using LSystemsMG.ModelSpecial;
 using LSystemsMG.ModelRendering;
-using LSystemsMG.ModelSceneGraph;
 
 /**
  *

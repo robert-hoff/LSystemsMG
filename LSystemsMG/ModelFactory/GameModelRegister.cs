@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using LSystemsMG.ModelFactory;
-using LSystemsMG.ModelFactory.Models;
+using LSystemsMG.ModelFactory.ModelsPrimitive;
 using LSystemsMG.ModelRendering;
 
-namespace LSystemsMG.ModelSceneGraph
+namespace LSystemsMG.ModelFactory
 {
     class GameModelRegister
     {
@@ -66,7 +65,7 @@ namespace LSystemsMG.ModelSceneGraph
                     modelLight0Diffuse = new Vector3(0.8f, 0.8f, 0.8f);
                     break;
             }
-            modelRegister.Add(modelName, (string modelName) =>
+            modelRegister.Add(modelName, (modelName) =>
             {
                 ModelFbx gameModel = new ModelFbx(cameraTransforms, modelName, model);
                 gameModel.SetAmbientColor(modelAmbientColor);
@@ -84,9 +83,9 @@ namespace LSystemsMG.ModelSceneGraph
             switch (modelName)
             {
                 case "axismodel":
-                    modelRegister.Add(modelName, (string modelName) =>
+                    modelRegister.Add(modelName, (modelName) =>
                     {
-                        ModelAxisPrimitive gameModel = new ModelAxisPrimitive(graphicsDevice, cameraTransforms, modelName);
+                        ModelLineAxis gameModel = new ModelLineAxis(graphicsDevice, cameraTransforms, modelName);
                         return gameModel;
                     });
                     break;
