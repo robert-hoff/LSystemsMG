@@ -8,15 +8,19 @@ namespace LSystemsMG.ModelFactory
     {
         public string modelName { get; }
         protected CameraTransforms cameraTransforms;
-        protected Matrix baseTransform = Matrix.Identity;
-        protected Matrix modelTransform = Matrix.Identity;
-        protected Matrix combinedTransform = Matrix.Identity;
+        public Matrix baseTransform {get; private set;}
+        public Matrix modelTransform { get; private set; }
+        public Matrix combinedTransform { get; private set; }
+
         protected BasicEffect basicEffect;
 
         protected GameModel(CameraTransforms cameraTransforms, string modelName)
         {
             this.modelName = modelName;
             this.cameraTransforms = cameraTransforms;
+            baseTransform = Matrix.Identity;
+            modelTransform = Matrix.Identity;
+            combinedTransform = Matrix.Identity;
         }
 
         public void SetBaseTransform(Matrix transform)

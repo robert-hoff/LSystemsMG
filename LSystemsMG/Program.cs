@@ -1,6 +1,6 @@
 using System;
-using LSystemsMG.Environment;
 using LSystemsMG.Util;
+using LSystemsMG.Util.Extras;
 
 namespace LSystemsMG
 {
@@ -11,14 +11,15 @@ namespace LSystemsMG
         {
             using Game1 game = new();
             game.Run();
+            // RunOther();
+        }
+
+        public static void RunOther()
+        {
+            MatrixEvaluations();
             // AnalyseFiles();
         }
-
-        public static void AnalyseFiles()
-        {
-            ParseFbxFiles.Run();
-        }
-
-
+        public static void MatrixEvaluations() { MatrixCalculations.Run(); }
+        public static void AnalyseFiles() { ParseFbxFiles.Run(); }
     }
 }

@@ -255,20 +255,37 @@ namespace LSystemsMG
             modelFern0 = gameModelRegister2.CreateModel("polygon-plant1");
             modelFern1 = gameModelRegister2.CreateModel("polygon-plant1");
 
-            cubeModel0.SetTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0).S(5, 5, 0.25f).Get());
-            // cubeModel0.Draw(BuildTransform.Ident().S(5, 5, 0.25f).T(2.5f, 2.5f, 0).Get());
-            cubeModel1.SetTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0f).S(5, 5, 0.25f).Get());
-            cubeModel2.SetTransform(BuildTransform.Ident().T(-0.5f, -0.5f, 0f).S(5, 5, 0.25f).Get());
-            axisModel0.SetTransform(BuildTransform.Ident().S(5, 5, 5).Get());
-            axisModel1.SetTransform(BuildTransform.Ident().S(0.5f, 0.5f, 0.5f).T(2.5f, 2.5f, 0).Get());
 
+            /*
+            cubeModel0.SetBaseTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0).S(5, 5, 0.25f).Get());
+            // cubeModel0.Draw(BuildTransform.Ident().S(5, 5, 0.25f).T(2.5f, 2.5f, 0).Get());
+            cubeModel1.SetBaseTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0f).S(5, 5, 0.25f).Get());
+            cubeModel2.SetBaseTransform(BuildTransform.Ident().T(-0.5f, -0.5f, 0f).S(5, 5, 0.25f).Get());
+            axisModel0.SetBaseTransform(BuildTransform.Ident().S(5, 5, 5).Get());
+            axisModel1.SetBaseTransform(BuildTransform.Ident().S(0.5f, 0.5f, 0.5f).T(2.5f, 2.5f, 0).Get());
             Vector3 TRL1 = new Vector3(0, 0, 0);
             // Vector3 TRL1 = new Vector3(0.25f, 0.25f, 0.5f);
             float RZ1 = 0;
             // float RZ1 = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
+            modelFern0.SetBaseTransform(BuildTransform.Ident().T(1, 1, 0.25f).T(TRL1).Get());
+            modelFern1.SetBaseTransform(BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Rz(RZ1).Ry(25).T(4.7f, 0.3f, 0.25f).T(TRL1).Get());
+            */
 
-            modelFern0.SetTransform(BuildTransform.Ident().T(1, 1, 0.25f).T(TRL1).Get());
-            modelFern1.SetTransform(BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Rz(RZ1).Ry(25).T(4.7f, 0.3f, 0.25f).T(TRL1).Get());
+
+            Vector3 T1 = new Vector3(0, 0, 0);
+            float RZ1 = 0;
+
+            axisModel0.SetBaseTransform(BuildTransform.Ident().S(1).Get());
+            cubeModel0.SetBaseTransform(BuildTransform.Ident().S(5, 5, 0.25f).Get());
+            // axisModel1.SetBaseTransform(BuildTransform.Ident().S(1f).Tz(0.25f).Get());
+            axisModel1.SetBaseTransform(BuildTransform.Ident().S(1f).T(-2.5f, -2.5f, 0.25f).Get());
+
+            // modelFern1.SetBaseTransform(BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Rz(RZ1).Ry(25).T(4.7f, 0.3f, 0.25f).T(T1).Get());
+            // modelFern1.SetBaseTransform(BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Rz(RZ1).Ry(25).T(2.2f, -2.2f, 0.25f).T(T1).Get());
+            // Matrix fernTransform = BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Ry(25).T(2.2f, -2.2f, 0.25f).Get();
+
+            Matrix fernTransform = BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Ry(25).T(1, 1, 0.25f).Get();
+            modelFern1.SetBaseTransform(fernTransform);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -277,7 +294,7 @@ namespace LSystemsMG
             skybox.Draw();
             // PreviousScene(gameTime);
 
-            modelFern0.Draw();
+            // modelFern0.Draw();
             modelFern1.Draw();
 
             if (SHOW_AXIS)
