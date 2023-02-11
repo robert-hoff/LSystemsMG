@@ -25,6 +25,31 @@ namespace LSystemsMG.ModelSceneGraph
             basicEffect.Alpha = modelDefaults.modelAlpha;
         }
 
+        public void SetAmbientColor(Vector3 color)
+        {
+            ((BasicEffect) model.Meshes[0].Effects[0]).AmbientLightColor = color;
+        }
+
+        public void SetLight0Enabled(bool enabled)
+        {
+            ((BasicEffect) model.Meshes[0].Effects[0]).DirectionalLight0.Enabled = enabled;
+        }
+
+        public void SetLight0Direction(Vector3 dir)
+        {
+            ((BasicEffect) model.Meshes[0].Effects[0]).DirectionalLight0.Direction = dir;
+        }
+
+        public void SetLight0Diffuse(Vector3 dir)
+        {
+            ((BasicEffect) model.Meshes[0].Effects[0]).DirectionalLight0.DiffuseColor = dir;
+        }
+
+        public void SetAlpha(float val)
+        {
+            ((BasicEffect) model.Meshes[0].Effects[0]).Alpha = val;
+        }
+
 
         public void SetTransform(Matrix transform)
         {

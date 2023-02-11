@@ -17,12 +17,12 @@ using Microsoft.Xna.Framework.Graphics;
  */
 namespace LSystemsMG.Primitives
 {
-    class DrawTriangle
+    class ModelTrianglePrimitive
     {
         private CameraTransforms cameraTransforms;
         private BasicEffect basicEffect;
 
-        public DrawTriangle(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms)
+        public ModelTrianglePrimitive(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms)
         {
             this.cameraTransforms = cameraTransforms;
             this.basicEffect = new BasicEffect(graphicsDevice);

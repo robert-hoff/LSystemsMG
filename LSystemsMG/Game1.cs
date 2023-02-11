@@ -81,7 +81,9 @@ namespace LSystemsMG
 
 
         // -- models and model collections
-        private DrawLine drawLine;
+        // private ModelLinePrimitive modelLine;
+        private ModelAxisPrimitive modelAxis;
+
         private TerrainRenderer terrainRenderer;
 
         private Model modelCubeWedge0;
@@ -96,8 +98,7 @@ namespace LSystemsMG
         private GameModelRegister gameModelRegister;
         private GameModelRegister2 gameModelRegister2;
 
-        private GameModel2 cubeModel1;
-        private GameModel2 cubeModel2;
+
 
         protected override void LoadContent()
         {
@@ -108,8 +109,8 @@ namespace LSystemsMG
 
             terrainRenderer = new TerrainRenderer(Content, cameraTransforms);
 
-            // drawTriangle = new DrawTriangle(GraphicsDevice, cameraTransforms);
-            drawLine = new DrawLine(GraphicsDevice, cameraTransforms);
+            // modelLine = new ModelLinePrimitive(GraphicsDevice, cameraTransforms);
+            modelAxis = new ModelAxisPrimitive(GraphicsDevice, cameraTransforms);
 
             RegisterModel("various/skybox");
             RegisterModel("plants/reeds1");
@@ -127,7 +128,6 @@ namespace LSystemsMG
             RegisterModel("plants/plant-example");
             RegisterModel("trees/tree-example");
 
-            modelFern = gameModelRegister.GetGameModel("polygon-plant1");
             modelReeds1 = gameModelRegister.GetGameModel("reeds1");
             modelAcaciaTree1 = gameModelRegister.GetGameModel("acaciatree1");
             modePineTree3 = gameModelRegister.GetGameModel("pinetree3");
@@ -137,15 +137,7 @@ namespace LSystemsMG
             // groundTiles = new GroundTiles(cameraTransforms, modelCubeWedge0, modelCubeWedge1);
 
             RegisterModel("geometries/unitcube");
-
-            // Color whitecolor = Color.White;
-            // Color mycolor = Color.White * 0.5f;
-
-
-            cubeModel1 = gameModelRegister2.CreateModel("unitcube");
-            cubeModel1.SetTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0f).S(5, 5, 0.25f).Get());
-            cubeModel2 = gameModelRegister2.CreateModel("unitcube");
-            cubeModel2.SetTransform(BuildTransform.Ident().T(-0.5f, -0.5f, 0f).S(5, 5, 0.25f).Get());
+            LoadSelectedModels();
         }
 
         private GameModel RegisterModel(string modelPathName)
@@ -237,74 +229,75 @@ namespace LSystemsMG
             return Keys.None;
         }
 
+
+        private GameModel2 cubeModel0;
+        private GameModel2 cubeModel1;
+        private GameModel2 cubeModel2;
+
+        private void LoadSelectedModels()
+        {
+            modelFern = gameModelRegister.GetGameModel("polygon-plant1");
+            cubeModel0 = gameModelRegister2.CreateModel("unitcube");
+            cubeModel1 = gameModelRegister2.CreateModel("unitcube");
+            cubeModel1.SetTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0f).S(5, 5, 0.25f).Get());
+            cubeModel2 = gameModelRegister2.CreateModel("unitcube");
+            cubeModel2.SetTransform(BuildTransform.Ident().T(-0.5f, -0.5f, 0f).S(5, 5, 0.25f).Get());
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(CLEAR_COLOR);
             gameModelRegister.GetGameModel("skybox").Draw();
-
-            // groundTiles.DrawGroundTiles();
-            //for (int i = -7; i <= 7; i++)
-            //{
-            //    for (int j = -7; j <= 7; j++)
-            //    {
-            //        terrainRenderer.DrawRandom(i, j);
-            //    }
-            //}
-
-            //modelAcaciaTree1.Draw(BuildTransform.Ident().T(-4, -13, 0).Get());
-            //modelReeds1.Draw(BuildTransform.Ident().S(0.8f, 0.8f, 1.4f).Rz(40).T(4, 4, 0).Get());
-            //gameModelRegister.GetGameModel("polygon-plant2").Draw(BuildTransform.Ident().T(2, 2, 0).Get());
-            //gameModelRegister.GetGameModel("birchtree1").Draw(BuildTransform.Ident().T(-2, 4, 0).Get());
-            //gameModelRegister.GetGameModel("rocktile1").Draw(BuildTransform.Ident().T(2, 5, 0).Get());
-
-            // modelFern.Draw(BuildTransform.Ident().T(1, 2, 0.25f).Get());
-            // modelFern.Draw(BuildTransform.Ident().T(1, 2, 0.25f).Rx(45).Get());
-
-            // -- spins the tree
-            // float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
-            // modePineTree3.Draw(BuildTransform.Ident().Rz(rotZ).Get());
-
-
-            // -- some one-sided models may need the CullNone setting
-            GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-            // float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 10;
-            // Matrix transform1 = BuildTransform.Ident().Tx(1).Ry(-30).Rx(-130).S(2,2,2).Rz(rotZ).T(2,2,0).Get();
-            // gameModelRegister.GetGameModel("plant-example").Draw(transform1);
-            GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
-
-
-            GraphicsDevice.BlendState = BlendState.AlphaBlend;
-
+            // PreviousScene(gameTime);
 
             Vector3 TRL1 = new Vector3(0.25f, 0.25f, 0.5f);
             float RZ1 = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
 
-            // modelFern.Draw(BuildTransform.Ident().T(1, 1, 0.25f).T(TRL1).Get());
-            // modelFern.Draw(BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Rz(30).Ry(25).T(4.7f, 0.3f, 0.25f).T(TRL1).Get());
-
+            modelFern.Draw(BuildTransform.Ident().T(1, 1, 0.25f).T(TRL1).Get());
+            modelFern.Draw(BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Rz(30).Ry(25).T(4.7f, 0.3f, 0.25f).T(TRL1).Get());
 
             if (SHOW_AXIS)
             {
-                drawLine.DrawAxis(5);
+                modelAxis.Draw(BuildTransform.Ident().S(5, 5, 5).Get());
             }
+            modelAxis.Draw(BuildTransform.Ident().S(0.5f, 0.5f, 0.5f).T(2.5f, 2.5f, 0).Get());
 
-
-            // drawLine.DrawAxis(0.5f, 2.5f, 2.5f, 0);
-
-            // .Rz(RZ1)
-            // gameModelRegister.GetGameModel("unitcube").Draw(BuildTransform.Ident().T(0.5f, 0.5f, 0).S(5, 5, 0.25f).Get());
-            // gameModelRegister.GetGameModel("unitcube").Draw(BuildTransform.Ident().S(5, 5, 0.25f).T(2.5f, 2.5f, 0).Get());
-
-
-            cubeModel1.Draw();
-
-
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            // cubeModel0.Draw(BuildTransform.Ident().T(0.5f, 0.5f, 0).S(5, 5, 0.25f).Get());
+            cubeModel0.Draw(BuildTransform.Ident().S(5, 5, 0.25f).T(2.5f, 2.5f, 0).Get());
+            // cubeModel1.Draw();
             // cubeModel2.Draw();
-
+            GraphicsDevice.BlendState = BlendState.Opaque;
 
             base.Draw(gameTime);
         }
+
+        private void PreviousScene(GameTime gameTime)
+        {
+            // groundTiles.DrawGroundTiles();
+            for (int i = -7; i <= 7; i++)
+            {
+                for (int j = -7; j <= 7; j++)
+                {
+                    terrainRenderer.DrawRandom(i, j);
+                }
+            }
+            modelAcaciaTree1.Draw(BuildTransform.Ident().T(-4, -13, 0).Get());
+            modelReeds1.Draw(BuildTransform.Ident().S(0.8f, 0.8f, 1.4f).Rz(40).T(4, 4, 0).Get());
+            gameModelRegister.GetGameModel("polygon-plant2").Draw(BuildTransform.Ident().T(2, 2, 0).Get());
+            gameModelRegister.GetGameModel("birchtree1").Draw(BuildTransform.Ident().T(-2, 4, 0).Get());
+            gameModelRegister.GetGameModel("rocktile1").Draw(BuildTransform.Ident().T(2, 5, 0).Get());
+
+            // -- spins the tree
+            float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
+            modePineTree3.Draw(BuildTransform.Ident().Rz(rotZ).Get());
+
+            // -- some one-sided models may need the CullNone setting
+            GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            Matrix transform1 = BuildTransform.Ident().Tx(1).Ry(-30).Rx(-130).S(2,2,2).T(2,2,0).Get();
+            gameModelRegister.GetGameModel("plant-example").Draw(transform1);
+            GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+        }
     }
 }
-
 

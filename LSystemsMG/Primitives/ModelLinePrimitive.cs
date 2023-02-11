@@ -3,13 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace LSystemsMG.Primitives
 {
-    class DrawLine
+    class ModelLinePrimitive
     {
         private GraphicsDevice graphicsDevice;
         private CameraTransforms cameraTransforms;
         private BasicEffect basicEffect;
 
-        public DrawLine(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms)
+        public ModelLinePrimitive(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms)
         {
             this.graphicsDevice = graphicsDevice;
             this.cameraTransforms = cameraTransforms;
@@ -23,16 +23,11 @@ namespace LSystemsMG.Primitives
             VertexPositionColor[] vertexList = new VertexPositionColor[2];
             vertexList[0] = new VertexPositionColor(vertices[0], color);
             vertexList[1] = new VertexPositionColor(vertices[1], color);
-            ApplyCameraTransform();
-            basicEffect.CurrentTechnique.Passes[0].Apply();
-            graphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, vertexList, 0, 1);
-        }
-
-        private void ApplyCameraTransform()
-        {
             basicEffect.World = cameraTransforms.worldMatrix;
             basicEffect.View = cameraTransforms.viewMatrix;
             basicEffect.Projection = cameraTransforms.projectionMatrix;
+            basicEffect.CurrentTechnique.Passes[0].Apply();
+            graphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, vertexList, 0, 1);
         }
 
         public void DrawTestLine()

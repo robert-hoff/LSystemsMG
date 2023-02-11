@@ -11,18 +11,18 @@ using SharpDX.Direct2D1;
 
 namespace LSystemsMG.Primitives
 {
-    class DrawCube
+    class ModelCubePrimitive
     {
 
         private CameraTransforms cameraTransforms;
         private BasicEffect basicEffect;
         private readonly static Color DEFAULT_COLOR = Color.Green;
 
-        public DrawCube(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms) :
+        public ModelCubePrimitive(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms) :
             this(graphicsDevice, cameraTransforms, DEFAULT_COLOR)
         { }
 
-        public DrawCube(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms, Color color)
+        public ModelCubePrimitive(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms, Color color)
         {
             this.cameraTransforms = cameraTransforms;
             this.basicEffect = new BasicEffect(graphicsDevice);
