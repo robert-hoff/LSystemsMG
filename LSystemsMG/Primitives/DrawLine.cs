@@ -41,33 +41,43 @@ namespace LSystemsMG.Primitives
             DrawLinePrimitive(graphicsDevice, vertices, Color.Blue);
         }
 
+        private const float AXIS_LEN = 5f;
+
         public void DrawAxis(GraphicsDevice graphicsDevice)
         {
             Vector3[] positiveX = new Vector3[2];
             positiveX[0] = new Vector3(0, 0, 0);
-            positiveX[1] = new Vector3(2f, 0, 0);
+            positiveX[1] = new Vector3(AXIS_LEN, 0, 0);
             DrawLinePrimitive(graphicsDevice, positiveX, Color.Red);
             Vector3[] negativeX = new Vector3[2];
             negativeX[0] = new Vector3(0, 0, 0);
-            negativeX[1] = new Vector3(-2f, 0, 0);
+            negativeX[1] = new Vector3(-AXIS_LEN, 0, 0);
             DrawLinePrimitive(graphicsDevice, negativeX, Color.Black);
+
+            // Vector3[] gridline= new Vector3[2];
+            // gridline[0] = new Vector3(0, AXIS_LEN, 0);
+            // gridline[1] = new Vector3(AXIS_LEN, AXIS_LEN, 0);
+            // DrawLinePrimitive(graphicsDevice, gridline, Color.Black);
+            // gridline[0] = new Vector3(AXIS_LEN, 0, 0);
+            // gridline[1] = new Vector3(AXIS_LEN, AXIS_LEN, 0);
+            // DrawLinePrimitive(graphicsDevice, gridline, Color.Black);
 
             Vector3[] positiveY = new Vector3[2];
             positiveY[0] = new Vector3(0, 0, 0);
-            positiveY[1] = new Vector3(0, 2f, 0);
+            positiveY[1] = new Vector3(0, AXIS_LEN, 0);
             DrawLinePrimitive(graphicsDevice, positiveY, Color.Green);
             Vector3[] negativeY = new Vector3[2];
             negativeY[0] = new Vector3(0, 0, 0);
-            negativeY[1] = new Vector3(0, -2f, 0);
+            negativeY[1] = new Vector3(0, -AXIS_LEN, 0);
             DrawLinePrimitive(graphicsDevice, negativeY, Color.Black);
 
             Vector3[] positiveZ = new Vector3[2];
             positiveZ[0] = new Vector3(0, 0, 0);
-            positiveZ[1] = new Vector3(0, 0, 2f);
+            positiveZ[1] = new Vector3(0, 0, AXIS_LEN);
             DrawLinePrimitive(graphicsDevice, positiveZ, Color.Blue);
             Vector3[] negativeZ = new Vector3[2];
             negativeZ[0] = new Vector3(0, 0, 0);
-            negativeZ[1] = new Vector3(0, 0, -2f);
+            negativeZ[1] = new Vector3(0, 0, -AXIS_LEN);
             DrawLinePrimitive(graphicsDevice, negativeZ, Color.Black);
 
         }

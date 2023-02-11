@@ -3,6 +3,9 @@
 # ignore directories or files leading with _
 _*
 
+# links
+*.lnk
+
 # visual studio compiled files
 /.vs/
 /LSystemsMG/bin/

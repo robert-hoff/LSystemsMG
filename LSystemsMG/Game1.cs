@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Runtime.ExceptionServices;
+using Environment;
 using LSystemsMG.Environment;
 using LSystemsMG.ModelRendering;
 using LSystemsMG.Primitives;
@@ -38,7 +39,7 @@ namespace LSystemsMG
     {
         // dev flags
         // --
-        public readonly static bool SHOW_AXIS = false;
+        public readonly static bool SHOW_AXIS = true;
         public readonly static bool RESTRICT_CAMERA = false;
         // --
 
@@ -46,9 +47,10 @@ namespace LSystemsMG
         private const int DEFAULT_VIEWPORT_WIDTH = 1400;
         private const int DEFAULT_VIEWPORT_HEIGHT = 800;
         private CameraTransforms cameraTransforms;
-        private DrawLine drawLine;
-        private GameModelRegister gameModelRegister;
-        private TerrainRenderer terrainRenderer;
+
+
+        public static GameModelRegister gameModelRegister;
+
 
         public Game1()
         {
@@ -71,7 +73,7 @@ namespace LSystemsMG
             int screenWidth = Window.ClientBounds.Width;
             int screenHeight = Window.ClientBounds.Height;
             cameraTransforms = new CameraTransforms(screenWidth, screenHeight);
-            gameModelRegister = new GameModelRegister(cameraTransforms);
+            Game1.gameModelRegister = new GameModelRegister(cameraTransforms);
         }
 
         protected override void Initialize()
@@ -81,34 +83,60 @@ namespace LSystemsMG
         }
 
 
-        private GameModel modelAcaciaTree1;
-        private GameModel modelTree1;
-        private GameModel modelTestModel;
+        // -- models and model collections
+        private DrawLine drawLine;
+        // private GameModelRegister gameModelRegister;
+        private TerrainRenderer terrainRenderer;
+
+        private Model modelCubeWedge0;
+        private Model modelCubeWedge1;
+        private GroundTiles groundTiles;
+
+        private GameModel modelFern;
         private GameModel modelReeds1;
+        private GameModel modelAcaciaTree1;
+        private GameModel modePineTree3;
 
 
         protected override void LoadContent()
         {
             Content = new ContentManager(this.Services, "Content");
+
             terrainRenderer = new TerrainRenderer(Content, cameraTransforms);
+
+            // drawTriangle = new DrawTriangle(GraphicsDevice, cameraTransforms);
+            drawLine = new DrawLine(GraphicsDevice, cameraTransforms);
+
             RegisterModel("various/skybox");
+            RegisterModel("plants/reeds1");
             RegisterModel("polygon-nature/polygon-plant1");
             RegisterModel("polygon-nature/polygon-plant2");
             RegisterModel("polygon-nature/polygon-plant3");
+            RegisterModel("trees/acaciatree1");
             RegisterModel("trees/acaciatree2");
             RegisterModel("trees/birchtree1");
+            RegisterModel("trees/birchtree2");
+            RegisterModel("trees/pinetree1");
+            RegisterModel("trees/pinetree2");
+            RegisterModel("trees/pinetree3");
             RegisterModel("rocks/rocktile1");
+            RegisterModel("plants/plant-example");
+            RegisterModel("trees/tree-example");
 
-            modelReeds1 = RegisterModel("plants/reeds1");
-            modelAcaciaTree1 = RegisterModel("trees/acaciatree1");
-            modelTree1 = RegisterModel("trees/tree1");
-            modelTestModel = RegisterModel("plants/testobject");
+            modelFern = gameModelRegister.GetGameModel("polygon-plant1");
+            modelReeds1 = gameModelRegister.GetGameModel("reeds1");
+            modelAcaciaTree1 = gameModelRegister.GetGameModel("acaciatree1");
+            modePineTree3 = gameModelRegister.GetGameModel("pinetree3");
+
+            modelCubeWedge0 = Content.Load<Model>("geometries/cube-wedge0");
+            modelCubeWedge1 = Content.Load<Model>("geometries/cube-wedge1");
+            groundTiles = new GroundTiles(cameraTransforms, modelCubeWedge0, modelCubeWedge1);
         }
 
         private GameModel RegisterModel(string modelnamepath)
         {
             Model model = Content.Load<Model>(modelnamepath);
-            return gameModelRegister.RegisterGameModel(modelnamepath, model);
+            return gameModelRegister.LoadModelFromFile(modelnamepath, model);
         }
 
         private int previousMouseScroll = 0;
@@ -175,24 +203,38 @@ namespace LSystemsMG
         {
             GraphicsDevice.Clear(CLEAR_COLOR);
             gameModelRegister.GetGameModel("skybox").Draw();
-            for (int i = -7; i <= 7; i++)
-            {
-                for (int j = -7; j <= 7; j++)
-                {
-                    terrainRenderer.DrawRandom(i, j);
-                }
-            }
 
-            modelAcaciaTree1.T(-4, -13, -0.5f).Draw();
-            gameModelRegister.GetGameModel("polygon-plant1").T(0,0,0).Draw();
-            gameModelRegister.GetGameModel("polygon-plant2").T(2, 2, 0).Draw();
-            // fixme - rotation is a bit messed up
-            gameModelRegister.GetGameModel("birchtree1").T(-2, 4, 0).Draw();
-            modelReeds1.Rdeg(40).S(2f, 2f, 2f).T(4, 4, 0).Draw();
-            gameModelRegister.GetGameModel("rocktile1").T(2, 5, 0).Draw();
-            modelTree1.T(8, -9, 0).Draw();
-            modelTestModel.T(5, 5, 0).Draw();
-            // modelTestModel.T(0.1f, 0.1f, 0).Apply().Draw();
+            // groundTiles.DrawGroundTiles();
+            //for (int i = -7; i <= 7; i++)
+            //{
+            //    for (int j = -7; j <= 7; j++)
+            //    {
+            //        terrainRenderer.DrawRandom(i, j);
+            //    }
+            //}
+
+            //modelAcaciaTree1.Draw(BuildTransform.Ident().T(-4, -13, 0).Get());
+            //modelReeds1.Draw(BuildTransform.Ident().S(0.8f, 0.8f, 1.4f).Rz(40).T(4, 4, 0).Get());
+            //gameModelRegister.GetGameModel("polygon-plant2").Draw(BuildTransform.Ident().T(2, 2, 0).Get());
+            //gameModelRegister.GetGameModel("birchtree1").Draw(BuildTransform.Ident().T(-2, 4, 0).Get());
+            //gameModelRegister.GetGameModel("rocktile1").Draw(BuildTransform.Ident().T(2, 5, 0).Get());
+
+            // modelFern.T(2, -5, 0).Draw();
+            // modelFern.Draw(BuildTransform.Ident().T(2, -5, 0).Get());
+
+
+            // -- spins the tree
+            float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
+            modePineTree3.Draw(BuildTransform.Ident().Rz(rotZ).Get());
+
+
+            // -- some one-sided models may need the CullNone setting
+            GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            // float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 10;
+            // Matrix transform1 = BuildTransform.Ident().Tx(1).Ry(-30).Rx(-130).S(2,2,2).Rz(rotZ).T(2,2,0).Get();
+            // gameModelRegister.GetGameModel("plant-example").Draw(transform1);
+            GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+
 
             if (SHOW_AXIS)
             {

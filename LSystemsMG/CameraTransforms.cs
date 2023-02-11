@@ -9,11 +9,11 @@ namespace LSystemsMG
      * a true orbit
      *
      */
-    class CameraTransforms
+    public class CameraTransforms
     {
         // public Vector3 cameraPosition = new Vector3(3f, -7f, 3f);
         public Vector3 cameraPosition = new Vector3(8f, -19f, 8f);
-        public float cameraRotation = MathHelper.ToRadians(-85f);
+        public float cameraRotation = MathHelper.ToRadians(-5f);
         private int viewportWidth;
         private int viewportHeight;
 

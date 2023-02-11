@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using LSystemsMG;
 using LSystemsMG.Environment;
-using LSystemsMG.ModelRendering;
+// using LSystemsMG.ModelRendering;
 
 /*
  * groundTiles.DrawGroundTiles(cameraTransforms);
@@ -14,6 +14,7 @@ namespace Environment
 {
     class GroundTiles
     {
+        CameraTransforms cameraTransforms;
         private Matrix[,] transforms;
         private Vector3[,,] colors;
         public float[,] tileHeights;
@@ -23,8 +24,9 @@ namespace Environment
         private int gridSize = 21;
         private int offset;
 
-        public GroundTiles(Model wedge0, Model wedge1)
+        public GroundTiles(CameraTransforms cameraTransforms, Model wedge0, Model wedge1)
         {
+            this.cameraTransforms = cameraTransforms;
             this.wedge0 = wedge0;
             this.wedge1 = wedge1;
             offset = gridSize / 2;
@@ -65,7 +67,6 @@ namespace Environment
                     // colors[i, j, 1] = colors[i, j, 0];
                 }
             }
-            Debug.WriteLine($"done");
         }
 
 
@@ -75,7 +76,7 @@ namespace Environment
         }
 
 
-        public void DrawGroundTiles(CameraTransforms cameraTransforms)
+        public void DrawGroundTiles()
         {
             foreach (ModelMesh mesh in wedge0.Meshes)
             {
@@ -86,7 +87,11 @@ namespace Environment
                         for (int j = 0; j < transforms.GetLength(1); j++)
                         {
                             BasicEffect basicEffect = (BasicEffect) effect;
-                            CommonBasicEffects.SetEffectsDarker(basicEffect);
+                            basicEffect.EnableDefaultLighting();
+                            basicEffect.AmbientLightColor = new Vector3(0.4f, 0.3f, 0.3f);
+                            basicEffect.DirectionalLight0.Enabled = true;
+                            basicEffect.DirectionalLight0.Direction = new Vector3(0.8f, 0.8f, -1);
+                            basicEffect.DirectionalLight0.DiffuseColor = new Vector3(0.65f, 0.65f, 0.5f);
                             basicEffect.DiffuseColor = new Vector3(colors[i, j, 0].X, colors[i, j, 0].Y, colors[i, j, 0].Z);
                             basicEffect.World = cameraTransforms.worldMatrix;
                             basicEffect.View = cameraTransforms.viewMatrix;
@@ -107,7 +112,11 @@ namespace Environment
                         for (int j = 0; j < transforms.GetLength(1); j++)
                         {
                             BasicEffect basicEffect = (BasicEffect) effect;
-                            CommonBasicEffects.SetEffectsDarker(basicEffect);
+                            basicEffect.EnableDefaultLighting();
+                            basicEffect.AmbientLightColor = new Vector3(0.4f, 0.3f, 0.3f);
+                            basicEffect.DirectionalLight0.Enabled = true;
+                            basicEffect.DirectionalLight0.Direction = new Vector3(0.8f, 0.8f, -1);
+                            basicEffect.DirectionalLight0.DiffuseColor = new Vector3(0.65f, 0.65f, 0.5f);
                             basicEffect.DiffuseColor = new Vector3(colors[i, j, 1].X, colors[i, j, 1].Y, colors[i, j, 1].Z);
                             basicEffect.World = cameraTransforms.worldMatrix;
                             basicEffect.View = cameraTransforms.viewMatrix;
