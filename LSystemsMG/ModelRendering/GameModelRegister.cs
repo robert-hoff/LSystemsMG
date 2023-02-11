@@ -14,9 +14,8 @@ namespace LSystemsMG.ModelRendering
             this.cameraTransforms = cameraTransforms;
         }
 
-        public GameModel LoadModelFromFile(string modelnamepath, Model model)
+        public GameModel LoadModelFromFile(string modelName, Model model)
         {
-            string modelName = modelnamepath.Substring(modelnamepath.IndexOf('/') + 1);
             GameModel gameModel = new GameModel(cameraTransforms, modelName, model);
             modelRegister.Add(modelName, gameModel);
 

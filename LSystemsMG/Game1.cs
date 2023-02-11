@@ -3,6 +3,7 @@ using System.Runtime.ExceptionServices;
 using Environment;
 using LSystemsMG.Environment;
 using LSystemsMG.ModelRendering;
+using LSystemsMG.ModelSceneGraph;
 using LSystemsMG.Primitives;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -49,9 +50,6 @@ namespace LSystemsMG
         private CameraTransforms cameraTransforms;
 
 
-        public static GameModelRegister gameModelRegister;
-
-
         public Game1()
         {
             Content.RootDirectory = "Content";
@@ -73,7 +71,6 @@ namespace LSystemsMG
             int screenWidth = Window.ClientBounds.Width;
             int screenHeight = Window.ClientBounds.Height;
             cameraTransforms = new CameraTransforms(screenWidth, screenHeight);
-            Game1.gameModelRegister = new GameModelRegister(cameraTransforms);
         }
 
         protected override void Initialize()
@@ -85,7 +82,6 @@ namespace LSystemsMG
 
         // -- models and model collections
         private DrawLine drawLine;
-        // private GameModelRegister gameModelRegister;
         private TerrainRenderer terrainRenderer;
 
         private Model modelCubeWedge0;
@@ -97,9 +93,17 @@ namespace LSystemsMG
         private GameModel modelAcaciaTree1;
         private GameModel modePineTree3;
 
+        private GameModelRegister gameModelRegister;
+        private GameModelRegister2 gameModelRegister2;
+
+        private GameModel2 cubeModel1;
+        private GameModel2 cubeModel2;
 
         protected override void LoadContent()
         {
+            gameModelRegister = new GameModelRegister(cameraTransforms);
+            gameModelRegister2 = new GameModelRegister2(cameraTransforms);
+
             Content = new ContentManager(this.Services, "Content");
 
             terrainRenderer = new TerrainRenderer(Content, cameraTransforms);
@@ -138,14 +142,18 @@ namespace LSystemsMG
             // Color mycolor = Color.White * 0.5f;
 
 
-
-
+            cubeModel1 = gameModelRegister2.CreateModel("unitcube");
+            cubeModel1.SetTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0f).S(5, 5, 0.25f).Get());
+            cubeModel2 = gameModelRegister2.CreateModel("unitcube");
+            cubeModel2.SetTransform(BuildTransform.Ident().T(-0.5f, -0.5f, 0f).S(5, 5, 0.25f).Get());
         }
 
-        private GameModel RegisterModel(string modelnamepath)
+        private GameModel RegisterModel(string modelPathName)
         {
-            Model model = Content.Load<Model>(modelnamepath);
-            return gameModelRegister.LoadModelFromFile(modelnamepath, model);
+            Model model = Content.Load<Model>(modelPathName);
+            string modelName = modelPathName.Substring(modelPathName.IndexOf('/') + 1);
+            gameModelRegister2.RegisterModel(modelName, model);
+            return gameModelRegister.LoadModelFromFile(modelName, model);
         }
 
         private int previousMouseScroll = 0;
@@ -277,17 +285,21 @@ namespace LSystemsMG
 
             if (SHOW_AXIS)
             {
-                drawLine.DrawAxis(GraphicsDevice, 5);
+                drawLine.DrawAxis(5);
             }
 
 
-            drawLine.DrawAxis(GraphicsDevice, 0.5f, 2.5f, 2.5f, 0);
+            // drawLine.DrawAxis(0.5f, 2.5f, 2.5f, 0);
 
             // .Rz(RZ1)
-            gameModelRegister.GetGameModel("unitcube").Draw(BuildTransform.Ident().T(0.5f, 0.5f, 0).S(5, 5, 0.25f).Get());
+            // gameModelRegister.GetGameModel("unitcube").Draw(BuildTransform.Ident().T(0.5f, 0.5f, 0).S(5, 5, 0.25f).Get());
             // gameModelRegister.GetGameModel("unitcube").Draw(BuildTransform.Ident().S(5, 5, 0.25f).T(2.5f, 2.5f, 0).Get());
 
 
+            cubeModel1.Draw();
+
+
+            // cubeModel2.Draw();
 
 
             base.Draw(gameTime);
