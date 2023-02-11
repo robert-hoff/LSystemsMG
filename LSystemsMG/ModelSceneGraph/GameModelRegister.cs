@@ -8,14 +8,14 @@ using LSystemsMG.ModelRendering;
 
 namespace LSystemsMG.ModelSceneGraph
 {
-    class GameModelRegister2
+    class GameModelRegister
     {
         private GraphicsDevice graphicsDevice;
         private CameraTransforms cameraTransforms;
         private Dictionary<string, InstantiateGameModel> modelRegister = new();
-        private delegate GameModel2 InstantiateGameModel(string modelName);
+        private delegate GameModel InstantiateGameModel(string modelName);
 
-        public GameModelRegister2(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms)
+        public GameModelRegister(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms)
         {
             this.graphicsDevice = graphicsDevice;
             this.cameraTransforms = cameraTransforms;
@@ -95,7 +95,7 @@ namespace LSystemsMG.ModelSceneGraph
             }
         }
 
-        public GameModel2 CreateModel(string modelName)
+        public GameModel CreateModel(string modelName)
         {
             return modelRegister[modelName](modelName);
         }

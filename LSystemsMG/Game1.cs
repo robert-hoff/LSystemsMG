@@ -83,7 +83,7 @@ namespace LSystemsMG
         // private GroundTiles groundTiles;
 
         // -- model factory
-        private GameModelRegister2 gameModelRegister2;
+        private GameModelRegister gameModelRegister2;
 
         protected override void LoadContent()
         {
@@ -93,7 +93,7 @@ namespace LSystemsMG
             // modelCubeWedge1 = Content.Load<Model>("geometries/cube-wedge1");
             // groundTiles = new GroundTiles(cameraTransforms, modelCubeWedge0, modelCubeWedge1);
 
-            gameModelRegister2 = new GameModelRegister2(GraphicsDevice, cameraTransforms);
+            gameModelRegister2 = new GameModelRegister(GraphicsDevice, cameraTransforms);
             // -- fbx models
             RegisterModel("various/skybox");
             RegisterModel("plants/reeds1");
@@ -211,22 +211,22 @@ namespace LSystemsMG
         }
 
 
-        private GameModel2 skybox;
-        private GameModel2 modelReeds1;
-        private GameModel2 modelAcaciaTree1;
-        private GameModel2 modePineTree3;
-        private GameModel2 modelPolygonPlant2;
-        private GameModel2 modelBirchTree1;
-        private GameModel2 modelRockTile1;
-        private GameModel2 modelOneSidedFlower;
+        private GameModel skybox;
+        private GameModel modelReeds1;
+        private GameModel modelAcaciaTree1;
+        private GameModel modePineTree3;
+        private GameModel modelPolygonPlant2;
+        private GameModel modelBirchTree1;
+        private GameModel modelRockTile1;
+        private GameModel modelOneSidedFlower;
 
-        private GameModel2 cubeModel0;
-        private GameModel2 cubeModel1;
-        private GameModel2 cubeModel2;
-        private GameModel2 axisModel0;
-        private GameModel2 axisModel1;
-        private GameModel2 modelFern0;
-        private GameModel2 modelFern1;
+        private GameModel cubeModel0;
+        private GameModel cubeModel1;
+        private GameModel cubeModel2;
+        private GameModel axisModel0;
+        private GameModel axisModel1;
+        private GameModel modelFern0;
+        private GameModel modelFern1;
 
         /*
          * not a scene graph yet, experimenting with transforms ..

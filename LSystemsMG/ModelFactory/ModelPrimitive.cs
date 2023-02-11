@@ -5,7 +5,7 @@ using LSystemsMG.ModelSceneGraph;
 
 namespace LSystemsMG.ModelFactory
 {
-    abstract class ModelPrimitive : GameModel2
+    abstract class ModelPrimitive : GameModel
     {
         protected GraphicsDevice graphicsDevice;
 

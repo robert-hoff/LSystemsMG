@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace LSystemsMG.ModelFactory
 {
-    class ModelFbx : GameModel2
+    class ModelFbx : GameModel
     {
         private Model model;
         public ModelFbx(CameraTransforms cameraTransforms, string modelName, Model model) :

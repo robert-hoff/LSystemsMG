@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace LSystemsMG.ModelSceneGraph
 {
-    abstract class GameModel2
+    abstract class GameModel
     {
         public string modelName { get; }
         protected CameraTransforms cameraTransforms;
@@ -12,7 +12,7 @@ namespace LSystemsMG.ModelSceneGraph
         protected Matrix combinedTransform = Matrix.Identity;
         protected BasicEffect basicEffect;
 
-        protected GameModel2(CameraTransforms cameraTransforms, string modelName)
+        protected GameModel(CameraTransforms cameraTransforms, string modelName)
         {
             this.modelName = modelName;
             this.cameraTransforms = cameraTransforms;
