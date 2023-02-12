@@ -1,6 +1,6 @@
 using System;
 
-namespace LSystemsMG.Environment
+namespace LSystemsMG.Util
 {
     class RandomNum
     {
@@ -8,7 +8,8 @@ namespace LSystemsMG.Environment
         static Random random = new Random(randomSeed);
         public static int GetRandomInt(int min, int max)
         {
-            return random.Next(min, max+1);
+            return random.Next(min, max);
         }
     }
 }
+

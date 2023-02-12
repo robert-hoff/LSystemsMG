@@ -11,8 +11,8 @@ namespace LSystemsMG.ModelFactory
 
         public ModelPrimitive(
             GraphicsDevice graphicsDevice,
-            CameraTransforms cameraTransforms,
-            string modelName) : base(cameraTransforms, modelName) {
+            CameraTransform cameraTransform,
+            string modelName) : base(cameraTransform, modelName) {
             this.graphicsDevice = graphicsDevice;
         }
 

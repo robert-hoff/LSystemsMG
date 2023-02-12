@@ -1,9 +1,9 @@
 using System.Diagnostics;
-using LSystemsMG.Environment;
-using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using LSystemsMG.ModelRendering;
+using LSystemsMG.Util;
 
 namespace LSystemsMG.ModelSpecial
 {
@@ -12,14 +12,11 @@ namespace LSystemsMG.ModelSpecial
         private const int TERRAIN_TILES = 6;
         private int TERRAIN_SIDE = 50;
         private Model[] terrainModels = new Model[TERRAIN_TILES];
-        CameraTransforms cameraTransforms;
+        CameraTransform cameraTransform;
 
-        private Model terrainM13;
-
-
-        public TerrainRenderer(ContentManager Content, CameraTransforms cameraTransforms)
+        public TerrainRenderer(ContentManager Content, CameraTransform cameraTransform)
         {
-            this.cameraTransforms = cameraTransforms;
+            this.cameraTransform = cameraTransform;
             for (int i = 0; i < TERRAIN_TILES; i++)
             {
                 terrainModels[i] = Content.Load<Model>($"terrain-tiles/terrain{i:000}");
@@ -37,7 +34,7 @@ namespace LSystemsMG.ModelSpecial
                 int roll = RandomNum.GetRandomInt(0, 100);
                 if (tX * tX + tY * tY >= 6 && roll > 90)
                 {
-                    randomSelected[ordinal] = RandomNum.GetRandomInt(1, TERRAIN_TILES - 1);
+                    randomSelected[ordinal] = RandomNum.GetRandomInt(1, TERRAIN_TILES);
                 }
                 else
                 {
@@ -71,17 +68,15 @@ namespace LSystemsMG.ModelSpecial
                     basicEffect.DirectionalLight0.Enabled = true;
                     basicEffect.DirectionalLight0.Direction = new Vector3(0.8f, 0.8f, -1);
                     basicEffect.DirectionalLight0.DiffuseColor = diffuseColor;
-                    basicEffect.World = cameraTransforms.worldMatrix;
-                    basicEffect.View = cameraTransforms.viewMatrix;
-                    basicEffect.Projection = cameraTransforms.projectionMatrix;
+                    basicEffect.World = cameraTransform.worldMatrix;
+                    basicEffect.View = cameraTransform.viewMatrix;
+                    basicEffect.Projection = cameraTransform.projectionMatrix;
                     Matrix transform = Matrix.CreateTranslation(tX * TERRAIN_SIDE, tY * TERRAIN_SIDE, 0);
                     basicEffect.World = Matrix.Multiply(transform, basicEffect.World);
                 }
                 mesh.Draw();
             }
         }
-
-
     }
 }
 

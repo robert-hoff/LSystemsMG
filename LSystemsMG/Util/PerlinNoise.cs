@@ -1,4 +1,4 @@
-namespace LSystemsMG.Environment
+namespace LSystemsMG.Util
 {
     public class PerlinNoise
     {
@@ -108,3 +108,4 @@ namespace LSystemsMG.Environment
         }
     }
 }
+

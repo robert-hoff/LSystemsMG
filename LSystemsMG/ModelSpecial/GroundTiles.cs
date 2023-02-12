@@ -2,18 +2,18 @@ using System;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using LSystemsMG.Environment;
 using LSystemsMG.ModelRendering;
+using LSystemsMG.Util;
 
 /*
- * groundTiles.DrawGroundTiles(cameraTransforms);
+ * groundTiles.DrawGroundTiles(cameraTransform);
  *
  */
-namespace Environment
+namespace LSystemsMG.ModelSpecial
 {
     class GroundTiles
     {
-        CameraTransforms cameraTransforms;
+        CameraTransform cameraTransform;
         private Matrix[,] transforms;
         private Vector3[,,] colors;
         public float[,] tileHeights;
@@ -23,9 +23,9 @@ namespace Environment
         private int gridSize = 21;
         private int offset;
 
-        public GroundTiles(CameraTransforms cameraTransforms, Model wedge0, Model wedge1)
+        public GroundTiles(CameraTransform cameraTransform, Model wedge0, Model wedge1)
         {
-            this.cameraTransforms = cameraTransforms;
+            this.cameraTransform = cameraTransform;
             this.wedge0 = wedge0;
             this.wedge1 = wedge1;
             offset = gridSize / 2;
@@ -68,12 +68,10 @@ namespace Environment
             }
         }
 
-
         public float GetTileHeight(int x, int y)
         {
             return tileHeights[x, y];
         }
-
 
         public void DrawGroundTiles()
         {
@@ -92,9 +90,9 @@ namespace Environment
                             basicEffect.DirectionalLight0.Direction = new Vector3(0.8f, 0.8f, -1);
                             basicEffect.DirectionalLight0.DiffuseColor = new Vector3(0.65f, 0.65f, 0.5f);
                             basicEffect.DiffuseColor = new Vector3(colors[i, j, 0].X, colors[i, j, 0].Y, colors[i, j, 0].Z);
-                            basicEffect.World = cameraTransforms.worldMatrix;
-                            basicEffect.View = cameraTransforms.viewMatrix;
-                            basicEffect.Projection = cameraTransforms.projectionMatrix;
+                            basicEffect.World = cameraTransform.worldMatrix;
+                            basicEffect.View = cameraTransform.viewMatrix;
+                            basicEffect.Projection = cameraTransform.projectionMatrix;
                             basicEffect.World = Matrix.Multiply(transforms[i, j], basicEffect.World);
                             mesh.Draw();
                         }
@@ -117,9 +115,9 @@ namespace Environment
                             basicEffect.DirectionalLight0.Direction = new Vector3(0.8f, 0.8f, -1);
                             basicEffect.DirectionalLight0.DiffuseColor = new Vector3(0.65f, 0.65f, 0.5f);
                             basicEffect.DiffuseColor = new Vector3(colors[i, j, 1].X, colors[i, j, 1].Y, colors[i, j, 1].Z);
-                            basicEffect.World = cameraTransforms.worldMatrix;
-                            basicEffect.View = cameraTransforms.viewMatrix;
-                            basicEffect.Projection = cameraTransforms.projectionMatrix;
+                            basicEffect.World = cameraTransform.worldMatrix;
+                            basicEffect.View = cameraTransform.viewMatrix;
+                            basicEffect.Projection = cameraTransform.projectionMatrix;
                             basicEffect.World = Matrix.Multiply(transforms[i, j], basicEffect.World);
                             mesh.Draw();
                         }

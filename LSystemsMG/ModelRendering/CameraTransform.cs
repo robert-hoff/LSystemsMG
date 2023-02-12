@@ -7,9 +7,10 @@ namespace LSystemsMG.ModelRendering
     /*
      * It's not perfect, it is the world that rotates rather than calculating
      * a true orbit
+     * Is this statement correct? Is there any implications regarding direction of lighting?
      *
      */
-    public class CameraTransforms
+    public class CameraTransform
     {
         // public Vector3 cameraPosition = new Vector3(3f, -7f, 3f);
         public Vector3 cameraPosition = new Vector3(8f, -19f, 8f);
@@ -26,7 +27,7 @@ namespace LSystemsMG.ModelRendering
         public Matrix viewMatrix { get; private set; }
         public Matrix projectionMatrix { get; private set; }
 
-        public CameraTransforms(int viewportWidth, int viewportHeight)
+        public CameraTransform(int viewportWidth, int viewportHeight)
         {
             this.viewportWidth = viewportWidth;
             this.viewportHeight = viewportHeight;
@@ -35,8 +36,8 @@ namespace LSystemsMG.ModelRendering
             CalculateProjectionMatrix();
         }
 
-        // -- World matrix and related updates
         //
+        // -- World matrix and related updates
         private void CalculateWorldMatrix()
         {
             worldMatrix = Matrix.CreateRotationZ(cameraRotation);

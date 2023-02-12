@@ -4,8 +4,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using LSystemsMG.ModelFactory;
-using LSystemsMG.ModelSpecial;
 using LSystemsMG.ModelRendering;
+using LSystemsMG.ModelSpecial;
 
 /**
  *
@@ -44,7 +44,7 @@ namespace LSystemsMG
         private Color CLEAR_COLOR = Color.CornflowerBlue; // Using CornflowerBlue, Black, White
         private const int DEFAULT_VIEWPORT_WIDTH = 1400;
         private const int DEFAULT_VIEWPORT_HEIGHT = 800;
-        private CameraTransforms cameraTransforms;
+        private CameraTransform cameraTransform;
 
         public Game1()
         {
@@ -66,7 +66,7 @@ namespace LSystemsMG
             };
             int screenWidth = Window.ClientBounds.Width;
             int screenHeight = Window.ClientBounds.Height;
-            cameraTransforms = new CameraTransforms(screenWidth, screenHeight);
+            cameraTransform = new CameraTransform(screenWidth, screenHeight);
         }
 
         protected override void Initialize()
@@ -74,8 +74,6 @@ namespace LSystemsMG
             GraphicsDevice.PresentationParameters.MultiSampleCount = 2;
             base.Initialize();
         }
-
-
 
         // -- special models
         private TerrainRenderer terrainRenderer;
@@ -92,9 +90,9 @@ namespace LSystemsMG
             LoadSpecialObjects();
             // modelCubeWedge0 = Content.Load<Model>("geometries/cube-wedge0");
             // modelCubeWedge1 = Content.Load<Model>("geometries/cube-wedge1");
-            // groundTiles = new GroundTiles(cameraTransforms, modelCubeWedge0, modelCubeWedge1);
+            // groundTiles = new GroundTiles(cameraTransform, modelCubeWedge0, modelCubeWedge1);
 
-            gameModelRegister = new GameModelRegister(GraphicsDevice, cameraTransforms);
+            gameModelRegister = new GameModelRegister(GraphicsDevice, cameraTransform);
             // -- fbx models
             RegisterModel("various/skybox");
             RegisterModel("plants/reeds1");
@@ -127,7 +125,7 @@ namespace LSystemsMG
 
         private void LoadSpecialObjects()
         {
-            terrainRenderer = new TerrainRenderer(Content, cameraTransforms);
+            terrainRenderer = new TerrainRenderer(Content, cameraTransform);
         }
 
 
@@ -157,7 +155,7 @@ namespace LSystemsMG
 
         protected override void Update(GameTime gameTime)
         {
-            cameraTransforms.UpdateViewportDimensions(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            cameraTransform.UpdateViewportDimensions(Window.ClientBounds.Width, Window.ClientBounds.Height);
 
             Keys keyEvent = KeyEvent();
             if (keyEvent == Keys.Escape)
@@ -168,9 +166,9 @@ namespace LSystemsMG
             // -- Show camera position
             if (keyEvent == Keys.P)
             {
-                Debug.WriteLine($"camera position {cameraTransforms.cameraPosition}");
-                Debug.WriteLine($"rotation {MathHelper.ToDegrees(cameraTransforms.cameraRotation)}");
-                Debug.WriteLine($"distance from origin {Vector3.Distance(cameraTransforms.cameraPosition, new Vector3(0, 0, 0))}");
+                Debug.WriteLine($"camera position {cameraTransform.cameraPosition}");
+                Debug.WriteLine($"rotation {MathHelper.ToDegrees(cameraTransform.cameraRotation)}");
+                Debug.WriteLine($"distance from origin {Vector3.Distance(cameraTransform.cameraPosition, new Vector3(0, 0, 0))}");
             }
 
             if (this.IsActive && Mouse.GetState().LeftButton == ButtonState.Pressed)
@@ -185,8 +183,8 @@ namespace LSystemsMG
                 {
                     float diffX = Mouse.GetState().X - mouseDragX;
                     float diffY = Mouse.GetState().Y - mouseDragY;
-                    cameraTransforms.IncrementCameraOrbitDegrees(diffX / 4);
-                    cameraTransforms.OrbitUpDown(diffY / 20);
+                    cameraTransform.IncrementCameraOrbitDegrees(diffX / 4);
+                    cameraTransform.OrbitUpDown(diffY / 20);
                     mouseDragX = Mouse.GetState().X;
                     mouseDragY = Mouse.GetState().Y;
                 }
@@ -199,20 +197,19 @@ namespace LSystemsMG
             int currentMouseScroll = Mouse.GetState().ScrollWheelValue;
             if (previousMouseScroll > currentMouseScroll)
             {
-                cameraTransforms.ZoomOut();
+                cameraTransform.ZoomOut();
                 previousMouseScroll = currentMouseScroll;
             }
             if (previousMouseScroll < currentMouseScroll)
             {
-                cameraTransforms.ZoomIn();
+                cameraTransform.ZoomIn();
                 previousMouseScroll = currentMouseScroll;
             }
 
-
-
+            // -- update specific to the demo scene
             float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 20;
             float rotY = (float) gameTime.TotalGameTime.TotalMilliseconds / 20;
-            sceneGraph.cubeBaseCoordFrame.Update(BuildTransform.Ident().Rz(rotZ).Ry(rotY).T(2.5f, 2.5f, 0).Get());
+            sceneGraph.cubeBaseCoordFrame.Update(Transforms.Ident().Rz(rotZ).Ry(rotY).T(2.5f, 2.5f, 0).Get());
             base.Update(gameTime);
         }
 
@@ -350,28 +347,28 @@ namespace LSystemsMG
                 }
             }
 
-            modelAcaciaTree1.SetTransform(BuildTransform.Ident().T(-4, -13, 0).Get());
+            modelAcaciaTree1.SetTransform(Transforms.Ident().T(-4, -13, 0).Get());
             modelAcaciaTree1.Draw();
-            modelReeds1.SetTransform(BuildTransform.Ident().S(0.8f, 0.8f, 1.4f).Rz(40).T(4, 4, 0).Get());
+            modelReeds1.SetTransform(Transforms.Ident().S(0.8f, 0.8f, 1.4f).Rz(40).T(4, 4, 0).Get());
             modelReeds1.Draw();
 
-            modelPolygonPlant2.SetTransform(BuildTransform.Ident().T(2, 2, 0).Get());
+            modelPolygonPlant2.SetTransform(Transforms.Ident().T(2, 2, 0).Get());
             modelPolygonPlant2.Draw();
-            modelBirchTree1.SetTransform(BuildTransform.Ident().T(-2, 4, 0).Get());
+            modelBirchTree1.SetTransform(Transforms.Ident().T(-2, 4, 0).Get());
             modelBirchTree1.Draw();
-            modelRockTile1.SetTransform(BuildTransform.Ident().T(2, 5, 0).Get());
+            modelRockTile1.SetTransform(Transforms.Ident().T(2, 5, 0).Get());
             modelRockTile1.Draw();
 
             // -- spins the tree
             // float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
             // -- stationary tree
             float rotZ = 0;
-            modePineTree3.SetTransform(BuildTransform.Ident().Rz(rotZ).Get());
+            modePineTree3.SetTransform(Transforms.Ident().Rz(rotZ).Get());
             modePineTree3.Draw();
 
             // -- some one-sided models may need the CullNone setting
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-            modelOneSidedFlower.SetTransform(BuildTransform.Ident().Tx(1).Ry(-30).Rx(-130).S(2, 2, 2).T(3, 2, 0).Get());
+            modelOneSidedFlower.SetTransform(Transforms.Ident().Tx(1).Ry(-30).Rx(-130).S(2, 2, 2).T(3, 2, 0).Get());
             modelOneSidedFlower.Draw();
             GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
         }

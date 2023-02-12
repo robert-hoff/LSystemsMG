@@ -8,12 +8,12 @@ namespace LSystemsMG.ModelFactory.ModelsPrimitive
     {
         public ModelLineAxis(
             GraphicsDevice graphicsDevice,
-            CameraTransforms cameraTransforms,
+            CameraTransform cameraTransform,
             string modelName) :
-            base(graphicsDevice, cameraTransforms, modelName)
+            base(graphicsDevice, cameraTransform, modelName)
         {
             this.graphicsDevice = graphicsDevice;
-            this.cameraTransforms = cameraTransforms;
+            this.cameraTransform = cameraTransform;
             basicEffect = new BasicEffect(graphicsDevice);
             // per-polygon vertex colors
             basicEffect.VertexColorEnabled = true;
@@ -49,15 +49,15 @@ namespace LSystemsMG.ModelFactory.ModelsPrimitive
             DrawLinePrimitive(negativeZ, Color.Black);
         }
 
-        public void DrawLinePrimitive(Vector3[] vertices, Color color)
+        private void DrawLinePrimitive(Vector3[] vertices, Color color)
         {
             VertexPositionColor[] vertexList = new VertexPositionColor[2];
             vertexList[0] = new VertexPositionColor(vertices[0], color);
             vertexList[1] = new VertexPositionColor(vertices[1], color);
-            basicEffect.World = cameraTransforms.worldMatrix;
-            basicEffect.View = cameraTransforms.viewMatrix;
-            basicEffect.Projection = cameraTransforms.projectionMatrix;
-            basicEffect.World = Matrix.Multiply(fullTransform, basicEffect.World);
+            basicEffect.World = cameraTransform.worldMatrix;
+            basicEffect.View = cameraTransform.viewMatrix;
+            basicEffect.Projection = cameraTransform.projectionMatrix;
+            basicEffect.World = Matrix.Multiply(worldTransform, basicEffect.World);
             basicEffect.CurrentTechnique.Passes[0].Apply();
             graphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, vertexList, 0, 1);
         }

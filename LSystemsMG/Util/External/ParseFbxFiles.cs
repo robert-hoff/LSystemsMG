@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace LSystemsMG.Util
+namespace LSystemsMG.Util.External
 {
     class ParseFbxFiles
     {
@@ -52,7 +52,8 @@ namespace LSystemsMG.Util
                 if (!match)
                 {
                     cleanedData.Add(sourceData[i]);
-                } else
+                }
+                else
                 {
                     i += targetData.Length - 1;
                 }
@@ -76,7 +77,7 @@ namespace LSystemsMG.Util
             }
             for (int i = 0; i < targetData.Length; i++)
             {
-                if (sourceData[i+ind] != targetData[i])
+                if (sourceData[i + ind] != targetData[i])
                 {
                     return false;
                 }

@@ -1,6 +1,5 @@
 using System;
-using LSystemsMG.Util;
-using LSystemsMG.Util.Extras;
+using LSystemsMG.Util.External;
 
 namespace LSystemsMG
 {
@@ -23,3 +22,4 @@ namespace LSystemsMG
         public static void AnalyseFiles() { ParseFbxFiles.Run(); }
     }
 }
+

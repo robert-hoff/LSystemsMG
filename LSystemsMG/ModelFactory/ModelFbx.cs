@@ -1,4 +1,3 @@
-using System;
 using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,8 +7,8 @@ namespace LSystemsMG.ModelFactory
     class ModelFbx : GameModel
     {
         private Model model;
-        public ModelFbx(CameraTransforms cameraTransforms, string modelName, Model model) :
-            base(cameraTransforms, modelName)
+        public ModelFbx(CameraTransform cameraTransform, string modelName, Model model) :
+            base(cameraTransform, modelName)
         {
             this.model = model;
             basicEffect = (BasicEffect) model.Meshes[0].Effects[0];
@@ -47,10 +46,10 @@ namespace LSystemsMG.ModelFactory
                 foreach (Effect effect in mesh.Effects)
                 {
                     BasicEffect basicEffect = (BasicEffect) effect;
-                    basicEffect.World = cameraTransforms.worldMatrix;
-                    basicEffect.View = cameraTransforms.viewMatrix;
-                    basicEffect.Projection = cameraTransforms.projectionMatrix;
-                    basicEffect.World = Matrix.Multiply(fullTransform, basicEffect.World);
+                    basicEffect.World = cameraTransform.worldMatrix;
+                    basicEffect.View = cameraTransform.viewMatrix;
+                    basicEffect.Projection = cameraTransform.projectionMatrix;
+                    basicEffect.World = Matrix.Multiply(worldTransform, basicEffect.World);
                 }
                 mesh.Draw();
             }

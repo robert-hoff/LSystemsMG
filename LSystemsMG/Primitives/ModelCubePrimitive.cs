@@ -1,66 +1,54 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct2D1;
+using LSystemsMG.ModelRendering;
 
+/*
+ * attempt at drawing a cube as a collection of primitives
+ * method is too slow to be a suitable target for repeat calls
+ *
+ */
 namespace LSystemsMG.Primitives
 {
     class ModelCubePrimitive
     {
-
-        private CameraTransforms cameraTransforms;
+        private CameraTransform cameraTransform;
         private BasicEffect basicEffect;
         private readonly static Color DEFAULT_COLOR = Color.Green;
 
-        public ModelCubePrimitive(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms) :
-            this(graphicsDevice, cameraTransforms, DEFAULT_COLOR)
+        public ModelCubePrimitive(GraphicsDevice graphicsDevice, CameraTransform cameraTransform) :
+            this(graphicsDevice, cameraTransform, DEFAULT_COLOR)
         { }
 
-        public ModelCubePrimitive(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms, Color color)
+        public ModelCubePrimitive(GraphicsDevice graphicsDevice, CameraTransform cameraTransform, Color color)
         {
-            this.cameraTransforms = cameraTransforms;
+            this.cameraTransform = cameraTransform;
             this.basicEffect = new BasicEffect(graphicsDevice);
             basicEffect.VertexColorEnabled = true; // enables apply color to the vertices
             this.color = color;
         }
 
         private Color color;
-
         private const PrimitiveType TRIANGLE_LIST = PrimitiveType.TriangleList;
         private const int VERTEX_OFFSET = 0;
         public void DrawCubeAsPrimitives(GraphicsDevice graphicsDevice, Vector3 cubeCenter, float side, float depth)
         {
-            //VertexPositionColor[] vertexList = new VertexPositionColor[3];
-            //vertexList[0] = new VertexPositionColor(vertices[0], color);
-            //vertexList[1] = new VertexPositionColor(vertices[1], color);
-            //vertexList[2] = new VertexPositionColor(vertices[2], color);
-
             List<VertexPositionColor> vertexList = new();
-            // vertexList.Add(new VertexPositionColor(new Vector3(0, 0, 0), color));
-
-
             PopulateVerticesForSide(vertexList, cubeCenter, side / 2, side / 2, depth / 2, 1, 0, 0);
             PopulateVerticesForSide(vertexList, cubeCenter, side / 2, side / 2, depth / 2, -1, 0, 0);
             PopulateVerticesForSide(vertexList, cubeCenter, side / 2, side / 2, depth / 2, 0, 1, 0);
             PopulateVerticesForSide(vertexList, cubeCenter, side / 2, side / 2, depth / 2, 0, -1, 0);
             PopulateVerticesForSide(vertexList, cubeCenter, depth / 2, side / 2, side / 2, 0, 0, 1);
             PopulateVerticesForSide(vertexList, cubeCenter, depth / 2, side / 2, side / 2, 0, 0, -1);
-
-            basicEffect.World = cameraTransforms.worldMatrix;
-            basicEffect.View = cameraTransforms.viewMatrix;
-            basicEffect.Projection = cameraTransforms.projectionMatrix;
+            basicEffect.World = cameraTransform.worldMatrix;
+            basicEffect.View = cameraTransform.viewMatrix;
+            basicEffect.Projection = cameraTransform.projectionMatrix;
             basicEffect.CurrentTechnique.Passes[0].Apply();
             int primitiveCount = vertexList.Count / 3;
             graphicsDevice.DrawUserPrimitives<VertexPositionColor>(TRIANGLE_LIST, vertexList.ToArray(), VERTEX_OFFSET, primitiveCount);
         }
-
 
         private void PopulateVerticesForSide(List<VertexPositionColor> vertexList,
             Vector3 cubeCenter, float disp, float halfside1, float halfside2, int dx, int dy, int dz)
@@ -82,13 +70,11 @@ namespace LSystemsMG.Primitives
             Vector3 v2 = squareCenter - Vector3.Multiply(v.s1, halfside1) - Vector3.Multiply(v.s2, halfside2);
             Vector3 v3 = squareCenter + Vector3.Multiply(v.s1, halfside1) - Vector3.Multiply(v.s2, halfside2);
 
-
             //Debug.WriteLine($"squareCenter = {squareCenter}");
             Debug.WriteLine($"v0 = {v0}");
             Debug.WriteLine($"v1 = {v1}");
             Debug.WriteLine($"v2 = {v2}");
             Debug.WriteLine($"v3 = {v3}");
-
 
             // Using same winding rule
             // [0]   [1]
@@ -102,25 +88,6 @@ namespace LSystemsMG.Primitives
             vertexList.Add(new VertexPositionColor(v2, color));
             vertexList.Add(new VertexPositionColor(v3, color));
         }
-
-
-
-        /*
-        private Vector3 SquareCentre(Vector3 cubeCenter, int dx, int dy, int dz)
-        {
-
-        }
-        private void PopulateVerticesForSquare(List<VertexPositionColor> vertexList,
-            Vector3 center, Vector3 unit1, Vector3 unit2, float side, Color color)
-        {
-
-        }
-        */
-
-
-
-
-
-
     }
 }
+

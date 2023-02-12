@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
 using static LSystemsMG.ModelRendering.SceneGraph;
 
-namespace LSystemsMG.ModelSceneGraph
+namespace LSystemsMG.ModelRendering
 {
     class SceneGraphNode : SceneGraphMember
     {
@@ -32,14 +32,13 @@ namespace LSystemsMG.ModelSceneGraph
             combinedTransform = Matrix.Multiply(coordinateFrameTransform, parent.CoordinateTransform());
             foreach (GameModel gameModel in models)
             {
-                gameModel.SetParentTransform(combinedTransform);
+                gameModel.ApplyCoordinateTransform(combinedTransform);
             }
             foreach (SceneGraphNode node in nodes)
             {
                 node.UpdateChildren();
             }
         }
-
 
         public Matrix CoordinateTransform()
         {
@@ -54,7 +53,7 @@ namespace LSystemsMG.ModelSceneGraph
         public void AddModel(GameModel gameModel)
         {
             models.Add(gameModel);
-            gameModel.SetParentTransform(combinedTransform);
+            gameModel.ApplyCoordinateTransform(combinedTransform);
         }
 
         public void DrawModels()
@@ -66,5 +65,4 @@ namespace LSystemsMG.ModelSceneGraph
         }
     }
 }
-
 

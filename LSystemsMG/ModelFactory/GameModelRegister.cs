@@ -10,14 +10,14 @@ namespace LSystemsMG.ModelFactory
     class GameModelRegister
     {
         private GraphicsDevice graphicsDevice;
-        private CameraTransforms cameraTransforms;
+        private CameraTransform cameraTransform;
         private Dictionary<string, InstantiateGameModel> modelRegister = new();
         private delegate GameModel InstantiateGameModel(string modelName);
 
-        public GameModelRegister(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms)
+        public GameModelRegister(GraphicsDevice graphicsDevice, CameraTransform cameraTransform)
         {
             this.graphicsDevice = graphicsDevice;
-            this.cameraTransforms = cameraTransforms;
+            this.cameraTransform = cameraTransform;
         }
 
         private Vector3 DEFAULT_AMBIENT_COLOR = new Vector3(0.4f, 0.3f, 0.3f);
@@ -41,25 +41,25 @@ namespace LSystemsMG.ModelFactory
                     modelAlpha = 0.5f;
                     break;
                 case "acaciatree1":
-                    baseTransform = BuildTransform.Ident().S(1.1f, 1.1f, 1.1f).Rz(-30).Get();
+                    baseTransform = Transforms.Ident().S(1.1f, 1.1f, 1.1f).Rz(-30).Get();
                     break;
                 case "fern1":
-                    baseTransform = BuildTransform.Ident().S(1.5f, 1.5f, 1.5f).Tz(0.1f).Get();
+                    baseTransform = Transforms.Ident().S(1.5f, 1.5f, 1.5f).Tz(0.1f).Get();
                     break;
                 case "pineTree1":
-                    baseTransform = BuildTransform.Ident().S(0.5f, 0.5f, 0.5f).Get();
+                    baseTransform = Transforms.Ident().S(0.5f, 0.5f, 0.5f).Get();
                     break;
                 case "pineTree2":
-                    baseTransform = BuildTransform.Ident().S(0.5f, 0.5f, 0.5f).Get();
+                    baseTransform = Transforms.Ident().S(0.5f, 0.5f, 0.5f).Get();
                     break;
                 case "plant1":
-                    baseTransform = BuildTransform.Ident().Rx(-90).S(3.5f, 3.5f, 4.5f).Get();
+                    baseTransform = Transforms.Ident().Rx(-90).S(3.5f, 3.5f, 4.5f).Get();
                     break;
                 case "reeds1":
-                    baseTransform = BuildTransform.Ident().S(2, 2, 2).Get();
+                    baseTransform = Transforms.Ident().S(2, 2, 2).Get();
                     break;
                 case "skybox":
-                    baseTransform = BuildTransform.Ident().S(1000, 1000, 1000).Get();
+                    baseTransform = Transforms.Ident().S(1000, 1000, 1000).Get();
                     modelAmbientColor = new Vector3(0.7f, 0.7f, 0.7f);
                     modelLight0Direction = new Vector3(0, 1f, 0);
                     modelLight0Diffuse = new Vector3(0.8f, 0.8f, 0.8f);
@@ -67,7 +67,7 @@ namespace LSystemsMG.ModelFactory
             }
             modelRegister.Add(modelName, (modelName) =>
             {
-                ModelFbx gameModel = new ModelFbx(cameraTransforms, modelName, model);
+                ModelFbx gameModel = new ModelFbx(cameraTransform, modelName, model);
                 gameModel.SetAmbientColor(modelAmbientColor);
                 gameModel.SetLight0Enabled(modelLight0Enabled);
                 gameModel.SetLight0Direction(modelLight0Direction);
@@ -85,7 +85,7 @@ namespace LSystemsMG.ModelFactory
                 case "axismodel":
                     modelRegister.Add(modelName, (modelName) =>
                     {
-                        ModelLineAxis gameModel = new ModelLineAxis(graphicsDevice, cameraTransforms, modelName);
+                        ModelLineAxis gameModel = new ModelLineAxis(graphicsDevice, cameraTransform, modelName);
                         return gameModel;
                     });
                     break;
@@ -100,3 +100,4 @@ namespace LSystemsMG.ModelFactory
         }
     }
 }
+

@@ -1,7 +1,7 @@
 using System.Diagnostics;
-using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using LSystemsMG.ModelRendering;
 
 /**
  * <remarks>BasicEffect</remarks>
@@ -20,12 +20,12 @@ namespace LSystemsMG.Primitives
 {
     class ModelTrianglePrimitive
     {
-        private CameraTransforms cameraTransforms;
+        private CameraTransform cameraTransform;
         private BasicEffect basicEffect;
 
-        public ModelTrianglePrimitive(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms)
+        public ModelTrianglePrimitive(GraphicsDevice graphicsDevice, CameraTransform cameraTransform)
         {
-            this.cameraTransforms = cameraTransforms;
+            this.cameraTransform = cameraTransform;
             this.basicEffect = new BasicEffect(graphicsDevice);
             basicEffect.VertexColorEnabled = true; // enables apply color to the vertices
         }
@@ -48,9 +48,9 @@ namespace LSystemsMG.Primitives
 
         private void ApplyCameraTransform()
         {
-            basicEffect.World = cameraTransforms.worldMatrix;
-            basicEffect.View = cameraTransforms.viewMatrix;
-            basicEffect.Projection = cameraTransforms.projectionMatrix;
+            basicEffect.World = cameraTransform.worldMatrix;
+            basicEffect.View = cameraTransform.viewMatrix;
+            basicEffect.Projection = cameraTransform.projectionMatrix;
         }
 
         public void DrawTestTriangle(GraphicsDevice graphicsDevice)
@@ -91,7 +91,4 @@ namespace LSystemsMG.Primitives
         }
     }
 }
-
-
-
 

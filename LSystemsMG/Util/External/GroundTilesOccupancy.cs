@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using LSystemsMG.Environment;
 
-namespace LSystemsMG.Util
+namespace LSystemsMG.Util.External
 {
     class GroundTilesOccupancy
     {
@@ -80,11 +79,4 @@ namespace LSystemsMG.Util
         }
     }
 }
-
-
-
-
-
-
-
 

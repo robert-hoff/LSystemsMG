@@ -1,21 +1,21 @@
-using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using LSystemsMG.ModelRendering;
 
 namespace LSystemsMG.Primitives
 {
     class ModelLinePrimitive
     {
         private GraphicsDevice graphicsDevice;
-        private CameraTransforms cameraTransforms;
+        private CameraTransform cameraTransform;
         private BasicEffect basicEffect;
 
-        public ModelLinePrimitive(GraphicsDevice graphicsDevice, CameraTransforms cameraTransforms)
+        public ModelLinePrimitive(GraphicsDevice graphicsDevice, CameraTransform cameraTransform)
         {
             this.graphicsDevice = graphicsDevice;
-            this.cameraTransforms = cameraTransforms;
+            this.cameraTransform = cameraTransform;
             this.basicEffect = new BasicEffect(graphicsDevice);
-            // -- enable per-polygon vertex colors
+            // per-polygon vertex colors
             basicEffect.VertexColorEnabled = true;
         }
 
@@ -24,9 +24,9 @@ namespace LSystemsMG.Primitives
             VertexPositionColor[] vertexList = new VertexPositionColor[2];
             vertexList[0] = new VertexPositionColor(vertices[0], color);
             vertexList[1] = new VertexPositionColor(vertices[1], color);
-            basicEffect.World = cameraTransforms.worldMatrix;
-            basicEffect.View = cameraTransforms.viewMatrix;
-            basicEffect.Projection = cameraTransforms.projectionMatrix;
+            basicEffect.World = cameraTransform.worldMatrix;
+            basicEffect.View = cameraTransform.viewMatrix;
+            basicEffect.Projection = cameraTransform.projectionMatrix;
             basicEffect.CurrentTechnique.Passes[0].Apply();
             graphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, vertexList, 0, 1);
         }
@@ -50,12 +50,13 @@ namespace LSystemsMG.Primitives
             negativeX[1] = new Vector3(x - axisLength, y, z);
             DrawLinePrimitive(negativeX, Color.Black);
 
+            // -- grid lines along (0,1),(1,1) and (1,0),(1,1)
             // Vector3[] gridline= new Vector3[2];
-            // gridline[0] = new Vector3(0, AXIS_LEN, 0);
-            // gridline[1] = new Vector3(AXIS_LEN, AXIS_LEN, 0);
+            // gridline[0] = new Vector3(x, y + axisLength, z);
+            // gridline[1] = new Vector3(x + axisLength, y + axisLength, z);
             // DrawLinePrimitive(gridline, Color.Black);
-            // gridline[0] = new Vector3(AXIS_LEN, 0, 0);
-            // gridline[1] = new Vector3(AXIS_LEN, AXIS_LEN, 0);
+            // gridline[0] = new Vector3(x + axisLength, y, z);
+            // gridline[1] = new Vector3(x + axisLength, y + axisLength, z);
             // DrawLinePrimitive(gridline, Color.Black);
 
             Vector3[] positiveY = new Vector3[2];
@@ -79,5 +80,4 @@ namespace LSystemsMG.Primitives
         }
     }
 }
-
 
