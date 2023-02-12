@@ -2,26 +2,25 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
-using static LSystemsMG.ModelRendering.SceneGraph;
 
 namespace LSystemsMG.ModelRendering
 {
-    class SceneGraph : SceneGraphMember
+    class SceneGraph
     {
         private GameModelRegister gameModelRegister;
         public List<SceneGraphNode> nodes = new();
         public List<GameModel> models = new();
-
-        // key models
-        public SceneGraphNode cubeBaseCoordFrame;
-        public SceneGraphNode plantsCoordFrame;
-
 
         public SceneGraph(GameModelRegister gameModelRegister)
         {
             this.gameModelRegister = gameModelRegister;
             LoadExampleScene();
         }
+
+
+        // key models
+        public SceneGraphNode cubeBaseCoordFrame;
+        public SceneGraphNode plantsCoordFrame;
 
         private void LoadExampleScene()
         {
@@ -31,7 +30,7 @@ namespace LSystemsMG.ModelRendering
             models.Add(axisModel0);
 
             // the coordinate system starts coincident with world coordinates
-            cubeBaseCoordFrame = new SceneGraphNode(Matrix.Identity, this);
+            cubeBaseCoordFrame = new SceneGraphNode(Matrix.Identity, Matrix.Identity);
             nodes.Add(cubeBaseCoordFrame);
             GameModel cubeBaseModel = gameModelRegister.CreateModel("unitcube");
             cubeBaseCoordFrame.AddModel(cubeBaseModel);
@@ -40,7 +39,7 @@ namespace LSystemsMG.ModelRendering
             cubeBaseModel.SetBaseTransform(Transforms.Ident().S(5, 5, 0.25f).Get());
             // the plants coordinates frame is related to this scaling,
             // setting it manually here
-            plantsCoordFrame = new SceneGraphNode(Transforms.Ident().T(-2.5f, -2.5f, 0.25f).Get(), cubeBaseCoordFrame);
+            plantsCoordFrame = new SceneGraphNode(Transforms.Ident().T(-2.5f, -2.5f, 0.25f).Get(), cubeBaseCoordFrame.transform);
             cubeBaseCoordFrame.AddNode(plantsCoordFrame);
 
             GameModel plantsAxis = gameModelRegister.CreateModel("axismodel");
@@ -57,32 +56,14 @@ namespace LSystemsMG.ModelRendering
             plantsCoordFrame.AddModel(modelFern1);
         }
 
-        /*
-         * The transform of the root node is always the identity matrix
-         */
-        public Matrix CoordinateTransform()
-        {
-            return Matrix.Identity;
-        }
-
         public void Draw()
-        {
-            DrawModels();
-            plantsCoordFrame.DrawModels();
-            cubeBaseCoordFrame.DrawModels();
-        }
-
-        public void DrawModels()
         {
             foreach (GameModel gameModel in models)
             {
                 gameModel.Draw();
             }
-        }
-
-        public interface SceneGraphMember
-        {
-            public Matrix CoordinateTransform();
+            plantsCoordFrame.DrawModels();
+            cubeBaseCoordFrame.DrawModels();
         }
     }
 }

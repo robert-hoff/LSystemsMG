@@ -12,9 +12,9 @@ namespace LSystemsMG.ModelRendering
      */
     public class CameraTransform
     {
-        // public Vector3 cameraPosition = new Vector3(3f, -7f, 3f);
-        public Vector3 cameraPosition = new Vector3(8f, -19f, 8f);
-        public float cameraRotation = MathHelper.ToRadians(-5f);
+        // public Vector3 cameraPosition { get; private set; }  = new Vector3(3f, -7f, 3f);
+        public Vector3 cameraPosition { get; private set; } = new Vector3(8f, -19f, 8f);
+        public float cameraRotation { get; private set; } = MathHelper.ToRadians(-5f);
         private int viewportWidth;
         private int viewportHeight;
 

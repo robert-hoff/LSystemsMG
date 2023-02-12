@@ -206,10 +206,13 @@ namespace LSystemsMG
                 previousMouseScroll = currentMouseScroll;
             }
 
+
             // -- update specific to the demo scene
-            float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 20;
-            float rotY = (float) gameTime.TotalGameTime.TotalMilliseconds / 20;
+            float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
+            float rotY = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
             sceneGraph.cubeBaseCoordFrame.Update(Transforms.Ident().Rz(rotZ).Ry(rotY).T(2.5f, 2.5f, 0).Get());
+
+
             base.Update(gameTime);
         }
 
@@ -246,8 +249,8 @@ namespace LSystemsMG
             modelAcaciaTree1 = gameModelRegister.CreateModel("acaciatree1");
             modePineTree3 = gameModelRegister.CreateModel("pinetree3");
             modelPolygonPlant2 = gameModelRegister.CreateModel("polygon-plant2");
-            modelBirchTree1 = gameModelRegister.CreateModel("polygon-plant2");
-            modelRockTile1 = gameModelRegister.CreateModel("polygon-plant2");
+            modelBirchTree1 = gameModelRegister.CreateModel("birchtree1");
+            modelRockTile1 = gameModelRegister.CreateModel("rocktile1");
             modelOneSidedFlower = gameModelRegister.CreateModel("plant-example");
 
 
@@ -305,17 +308,16 @@ namespace LSystemsMG
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            // GraphicsDevice.BlendState = BlendState.NonPremultiplied;
             GraphicsDevice.Clear(CLEAR_COLOR);
             skybox.Draw();
 
 
             sceneGraph.Draw();
 
-
-
-            /*
             // PreviousScene(gameTime);
 
+            /*
             // modelFern0.Draw();
             modelFern1.Draw();
 
@@ -362,9 +364,9 @@ namespace LSystemsMG
             // -- spins the tree
             // float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
             // -- stationary tree
-            float rotZ = 0;
-            modePineTree3.SetTransform(Transforms.Ident().Rz(rotZ).Get());
-            modePineTree3.Draw();
+            // float rotZ = 0;
+            // modePineTree3.SetTransform(Transforms.Ident().Rz(rotZ).Get());
+            // modePineTree3.Draw();
 
             // -- some one-sided models may need the CullNone setting
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;

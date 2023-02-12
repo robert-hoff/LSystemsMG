@@ -1,48 +1,48 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
-using static LSystemsMG.ModelRendering.SceneGraph;
 
 namespace LSystemsMG.ModelRendering
 {
-    class SceneGraphNode : SceneGraphMember
+    class SceneGraphNode
     {
-        SceneGraphMember parent;
-        public Matrix coordinateFrameTransform;
-        public Matrix combinedTransform;
+        public Matrix parentTransform;
+        public Matrix coordinateTransform;
+        public Matrix transform;
         public List<SceneGraphNode> nodes = new();
         public List<GameModel> models = new();
 
-        public SceneGraphNode(Matrix coordinateFrameTransform, SceneGraphMember parent)
+        public SceneGraphNode(Matrix coordinateFrameTransform, Matrix parentTransform)
         {
-            this.parent = parent;
-            Update(coordinateFrameTransform);
+            this.parentTransform = parentTransform;
+            this.coordinateTransform = coordinateFrameTransform;
+            this.transform = Matrix.Multiply(coordinateFrameTransform, this.parentTransform);
         }
 
         public void Update(Matrix coordinateFrameTransform)
         {
-            this.coordinateFrameTransform = coordinateFrameTransform;
-            // this.combinedTransform = Matrix.Multiply(coordinateFrameTransform, parent.CoordinateTransform());
+            this.coordinateTransform = coordinateFrameTransform;
+            this.transform = Matrix.Multiply(coordinateFrameTransform, parentTransform);
             UpdateChildren();
         }
 
-        public void UpdateChildren()
+        private void UpdateParentTransform(Matrix parentCoordinateTransform)
         {
-            // this.coordinateFrameTransform = coordinateFrameTransform;
-            combinedTransform = Matrix.Multiply(coordinateFrameTransform, parent.CoordinateTransform());
+            this.parentTransform = parentCoordinateTransform;
+            this.transform = Matrix.Multiply(coordinateTransform, parentCoordinateTransform);
+            UpdateChildren();
+        }
+
+        private void UpdateChildren()
+        {
             foreach (GameModel gameModel in models)
             {
-                gameModel.ApplyCoordinateTransform(combinedTransform);
+                gameModel.ApplyCoordinateTransform(transform);
             }
             foreach (SceneGraphNode node in nodes)
             {
-                node.UpdateChildren();
+                node.UpdateParentTransform(transform);
             }
-        }
-
-        public Matrix CoordinateTransform()
-        {
-            return combinedTransform;
         }
 
         public void AddNode(SceneGraphNode node)
@@ -53,7 +53,7 @@ namespace LSystemsMG.ModelRendering
         public void AddModel(GameModel gameModel)
         {
             models.Add(gameModel);
-            gameModel.ApplyCoordinateTransform(combinedTransform);
+            gameModel.ApplyCoordinateTransform(transform);
         }
 
         public void DrawModels()
