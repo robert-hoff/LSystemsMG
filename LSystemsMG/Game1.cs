@@ -84,7 +84,7 @@ namespace LSystemsMG
         // private GroundTiles groundTiles;
 
         // -- model factory
-        private GameModelRegister gameModelRegister2;
+        private GameModelRegister gameModelRegister;
 
         protected override void LoadContent()
         {
@@ -94,7 +94,7 @@ namespace LSystemsMG
             // modelCubeWedge1 = Content.Load<Model>("geometries/cube-wedge1");
             // groundTiles = new GroundTiles(cameraTransforms, modelCubeWedge0, modelCubeWedge1);
 
-            gameModelRegister2 = new GameModelRegister(GraphicsDevice, cameraTransforms);
+            gameModelRegister = new GameModelRegister(GraphicsDevice, cameraTransforms);
             // -- fbx models
             RegisterModel("various/skybox");
             RegisterModel("plants/reeds1");
@@ -113,7 +113,7 @@ namespace LSystemsMG
             RegisterModel("trees/tree-example");
             RegisterModel("geometries/unitcube");
             // -- primitve models
-            gameModelRegister2.RegisterModelPrimitive("axismodel");
+            gameModelRegister.RegisterModelPrimitive("axismodel");
 
             InstantiateSceneGraph();
         }
@@ -122,7 +122,7 @@ namespace LSystemsMG
         {
             Model model = Content.Load<Model>(modelPathName);
             string modelName = modelPathName.Substring(modelPathName.IndexOf('/') + 1);
-            gameModelRegister2.RegisterModelFbx(modelName, model);
+            gameModelRegister.RegisterModelFbx(modelName, model);
         }
 
         private void LoadSpecialObjects()
@@ -135,6 +135,25 @@ namespace LSystemsMG
         private int mouseDragX = 0;
         private int mouseDragY = 0;
         private bool leftMouseIsReleased = true;
+
+        private bool[] keyIsDown = new bool[100];
+        private Keys KeyEvent()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                return Keys.Escape;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && !keyIsDown[(int) Keys.P])
+            {
+                keyIsDown[(int) Keys.P] = true;
+                return Keys.P;
+            }
+            if (Keyboard.GetState().IsKeyUp(Keys.P) && keyIsDown[(int) Keys.P])
+            {
+                keyIsDown[(int) Keys.P] = false;
+            }
+            return Keys.None;
+        }
 
         protected override void Update(GameTime gameTime)
         {
@@ -189,26 +208,12 @@ namespace LSystemsMG
                 previousMouseScroll = currentMouseScroll;
             }
 
-            base.Update(gameTime);
-        }
 
-        private bool[] keyIsDown = new bool[100];
-        private Keys KeyEvent()
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                return Keys.Escape;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.P) && !keyIsDown[(int) Keys.P])
-            {
-                keyIsDown[(int) Keys.P] = true;
-                return Keys.P;
-            }
-            if (Keyboard.GetState().IsKeyUp(Keys.P) && keyIsDown[(int) Keys.P])
-            {
-                keyIsDown[(int) Keys.P] = false;
-            }
-            return Keys.None;
+
+            float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 20;
+            float rotY = (float) gameTime.TotalGameTime.TotalMilliseconds / 20;
+            sceneGraph.cubeBaseCoordFrame.Update(BuildTransform.Ident().Rz(rotZ).Ry(rotY).T(2.5f, 2.5f, 0).Get());
+            base.Update(gameTime);
         }
 
 
@@ -221,13 +226,15 @@ namespace LSystemsMG
         private GameModel modelRockTile1;
         private GameModel modelOneSidedFlower;
 
-        private GameModel cubeModel0;
-        private GameModel cubeModel1;
-        private GameModel cubeModel2;
-        private GameModel axisModel0;
-        private GameModel axisModel1;
-        private GameModel modelFern0;
-        private GameModel modelFern1;
+        //private GameModel cubeModel0;
+        //private GameModel cubeModel1;
+        //private GameModel cubeModel2;
+        //private GameModel axisModel0;
+        //private GameModel axisModel1;
+        //private GameModel modelFern0;
+        //private GameModel modelFern1;
+
+        SceneGraph sceneGraph;
 
         /*
          * not a scene graph yet, experimenting with transforms ..
@@ -235,26 +242,35 @@ namespace LSystemsMG
          */
         private void InstantiateSceneGraph()
         {
-            skybox = gameModelRegister2.CreateModel("skybox");
+            skybox = gameModelRegister.CreateModel("skybox");
 
             // -- previous scene models
-            modelReeds1 = gameModelRegister2.CreateModel("reeds1");
-            modelAcaciaTree1 = gameModelRegister2.CreateModel("acaciatree1");
-            modePineTree3 = gameModelRegister2.CreateModel("pinetree3");
-            modelPolygonPlant2 = gameModelRegister2.CreateModel("polygon-plant2");
-            modelBirchTree1 = gameModelRegister2.CreateModel("polygon-plant2");
-            modelRockTile1 = gameModelRegister2.CreateModel("polygon-plant2");
-            modelOneSidedFlower = gameModelRegister2.CreateModel("plant-example");
+            modelReeds1 = gameModelRegister.CreateModel("reeds1");
+            modelAcaciaTree1 = gameModelRegister.CreateModel("acaciatree1");
+            modePineTree3 = gameModelRegister.CreateModel("pinetree3");
+            modelPolygonPlant2 = gameModelRegister.CreateModel("polygon-plant2");
+            modelBirchTree1 = gameModelRegister.CreateModel("polygon-plant2");
+            modelRockTile1 = gameModelRegister.CreateModel("polygon-plant2");
+            modelOneSidedFlower = gameModelRegister.CreateModel("plant-example");
 
+
+            sceneGraph = new SceneGraph(gameModelRegister);
+
+            // Matrix t = sceneGraph.cubeBaseCoordFrame.coordinateFrameTransform;
+            // int i = 0;
+
+
+
+            /*
             // -- models for scene graph testing
-            axisModel0 = gameModelRegister2.CreateModel("axismodel");
-            axisModel1 = gameModelRegister2.CreateModel("axismodel");
-            cubeModel0 = gameModelRegister2.CreateModel("unitcube");
-            cubeModel1 = gameModelRegister2.CreateModel("unitcube");
-            cubeModel2 = gameModelRegister2.CreateModel("unitcube");
-            modelFern0 = gameModelRegister2.CreateModel("polygon-plant1");
-            modelFern1 = gameModelRegister2.CreateModel("polygon-plant1");
-
+            axisModel0 = gameModelRegister.CreateModel("axismodel");
+            axisModel1 = gameModelRegister.CreateModel("axismodel");
+            cubeModel0 = gameModelRegister.CreateModel("unitcube");
+            cubeModel1 = gameModelRegister.CreateModel("unitcube");
+            cubeModel2 = gameModelRegister.CreateModel("unitcube");
+            modelFern0 = gameModelRegister.CreateModel("polygon-plant1");
+            modelFern1 = gameModelRegister.CreateModel("polygon-plant1");
+            */
 
             /*
             cubeModel0.SetBaseTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0).S(5, 5, 0.25f).Get());
@@ -271,7 +287,7 @@ namespace LSystemsMG
             modelFern1.SetBaseTransform(BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Rz(RZ1).Ry(25).T(4.7f, 0.3f, 0.25f).T(TRL1).Get());
             */
 
-
+            /*
             Vector3 T1 = new Vector3(0, 0, 0);
             float RZ1 = 0;
 
@@ -286,12 +302,21 @@ namespace LSystemsMG
 
             Matrix fernTransform = BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Ry(25).T(1, 1, 0.25f).Get();
             modelFern1.SetBaseTransform(fernTransform);
+            */
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
             GraphicsDevice.Clear(CLEAR_COLOR);
             skybox.Draw();
+
+
+            sceneGraph.Draw();
+
+
+
+            /*
             // PreviousScene(gameTime);
 
             // modelFern0.Draw();
@@ -308,6 +333,7 @@ namespace LSystemsMG
             // cubeModel1.Draw();
             // cubeModel2.Draw();
             GraphicsDevice.BlendState = BlendState.Opaque;
+            */
 
             base.Draw(gameTime);
         }

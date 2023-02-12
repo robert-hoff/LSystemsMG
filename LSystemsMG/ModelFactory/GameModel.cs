@@ -10,7 +10,8 @@ namespace LSystemsMG.ModelFactory
         protected CameraTransforms cameraTransforms;
         public Matrix baseTransform {get; private set;}
         public Matrix modelTransform { get; private set; }
-        public Matrix combinedTransform { get; private set; }
+        private Matrix combinedTransform { get; set; }
+        public Matrix fullTransform { get; private set; }
 
         protected BasicEffect basicEffect;
 
@@ -21,26 +22,30 @@ namespace LSystemsMG.ModelFactory
             baseTransform = Matrix.Identity;
             modelTransform = Matrix.Identity;
             combinedTransform = Matrix.Identity;
+            fullTransform = Matrix.Identity;
         }
 
         public void SetBaseTransform(Matrix transform)
         {
             baseTransform = transform;
-            CalculateTransform();
+            combinedTransform = Matrix.Multiply(baseTransform, modelTransform);
+            fullTransform = combinedTransform;
         }
         public void SetTransform(Matrix transform)
         {
             modelTransform = transform;
-            CalculateTransform();
+            combinedTransform = Matrix.Multiply(baseTransform, modelTransform);
+            fullTransform = combinedTransform;
         }
         public void AppendTransform(Matrix transform)
         {
             modelTransform = Matrix.Multiply(modelTransform, transform);
-            CalculateTransform();
-        }
-        private void CalculateTransform()
-        {
             combinedTransform = Matrix.Multiply(baseTransform, modelTransform);
+            fullTransform = combinedTransform;
+        }
+        public void SetParentTransform(Matrix parentTransform)
+        {
+            fullTransform = Matrix.Multiply(combinedTransform, parentTransform);
         }
 
         abstract public void SetAmbientColor(Vector3 color);
