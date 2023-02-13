@@ -66,10 +66,10 @@ namespace LSystemsMG.ModelRendering
             plantsCoordFrame.AddModel(modelFern1);
 
             // call after populating scene, evaluating all transformations
-            UpdateTransformations();
+            UpdateTransforms();
         }
 
-        public void UpdateTransformations()
+        public void UpdateTransforms()
         {
             rootNode.UpdateTransforms(Matrix.Identity);
         }
@@ -80,8 +80,7 @@ namespace LSystemsMG.ModelRendering
             {
                 worldAxes.Draw();
             }
-            plantsCoordFrame.DrawModels();
-            cubeBaseCoordFrame.DrawModels();
+            rootNode.DrawModels();
         }
     }
 }

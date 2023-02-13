@@ -225,11 +225,11 @@ namespace LSystemsMG
             float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
             float rotY = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
             sceneGraph.cubeBaseCoordFrame.SetTransform(Transforms.Ident().Rz(rotZ).Ry(rotY).T(2.5f, 2.5f, 0).Get());
-            sceneGraph.UpdateTransformations();
+
+
+            sceneGraph.UpdateTransforms();
             base.Update(gameTime);
         }
-
-        private int counter = 0;
 
 
         private GameModel skybox;

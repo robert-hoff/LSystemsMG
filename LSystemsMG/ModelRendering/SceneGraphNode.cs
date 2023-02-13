@@ -83,6 +83,10 @@ namespace LSystemsMG.ModelRendering
             {
                 gameModel.Draw();
             }
+            foreach (SceneGraphNode node in nodes)
+            {
+                node.DrawModels();
+            }
         }
     }
 }
