@@ -15,9 +15,11 @@ namespace LSystemsMG
 
         public static void RunOther()
         {
-            MatrixEvaluations();
+            CSharpSnippets();
+            // MatrixEvaluations();
             // AnalyseFiles();
         }
+        public static void CSharpSnippets() { SortableItem.TrialRun(); }
         public static void MatrixEvaluations() { MatrixCalculations.Run(); }
         public static void AnalyseFiles() { ParseFbxFiles.Run(); }
     }

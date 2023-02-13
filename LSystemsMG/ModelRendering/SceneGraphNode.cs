@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
 
@@ -6,54 +7,72 @@ namespace LSystemsMG.ModelRendering
 {
     class SceneGraphNode
     {
-        public Matrix parentTransform;
-        public Matrix coordinateTransform;
-        public Matrix transform;
+        public string name { get; private set; }
+        private Matrix coordinateTransform;
+        public Matrix worldTransform { get; private set; }
         public List<SceneGraphNode> nodes = new();
-        public List<GameModel> models = new();
+        private List<GameModel> models = new();
+        public bool needsUpdate { get; private set; } = true;
 
-        public SceneGraphNode(Matrix coordinateFrameTransform, Matrix parentTransform)
+        private SceneGraphNode(Matrix coordinateFrameTransform, string name)
         {
-            this.parentTransform = parentTransform;
+            this.name = name;
             this.coordinateTransform = coordinateFrameTransform;
-            this.transform = Matrix.Multiply(coordinateFrameTransform, this.parentTransform);
         }
 
-        public void Update(Matrix coordinateFrameTransform)
+        public static SceneGraphNode CreateRootNode()
         {
-            this.coordinateTransform = coordinateFrameTransform;
-            this.transform = Matrix.Multiply(coordinateFrameTransform, parentTransform);
-            UpdateChildren();
+            return new SceneGraphNode(Matrix.Identity, name: "root");
         }
 
-        private void UpdateParentTransform(Matrix parentCoordinateTransform)
+        public SceneGraphNode AddNode(Matrix coordinateTransform, string name = "[not-given]")
         {
-            this.parentTransform = parentCoordinateTransform;
-            this.transform = Matrix.Multiply(coordinateTransform, parentCoordinateTransform);
-            UpdateChildren();
-        }
-
-        private void UpdateChildren()
-        {
-            foreach (GameModel gameModel in models)
-            {
-                gameModel.ApplyCoordinateTransform(transform);
-            }
-            foreach (SceneGraphNode node in nodes)
-            {
-                node.UpdateParentTransform(transform);
-            }
-        }
-
-        public void AddNode(SceneGraphNode node)
-        {
+            SceneGraphNode node = new SceneGraphNode(coordinateTransform, name);
             nodes.Add(node);
+            return node;
+        }
+
+        public void SetTransform(Matrix coordinateTransform)
+        {
+            this.coordinateTransform = coordinateTransform;
+            this.needsUpdate = true;
+        }
+
+        public void AppendTransform(Matrix coordinateTransform)
+        {
+            this.coordinateTransform = Matrix.Multiply(this.coordinateTransform, coordinateTransform);
+            this.needsUpdate = true;
+        }
+
+        public void UpdateTransforms(Matrix parentTransform, bool propagateUpdate = false)
+        {
+            if (needsUpdate || propagateUpdate)
+            {
+                Debug.WriteLine($"{name} was updated");
+                needsUpdate = false;
+                this.worldTransform = Matrix.Multiply(coordinateTransform, parentTransform);
+                foreach (SceneGraphNode node in nodes)
+                {
+                    node.UpdateTransforms(coordinateTransform, propagateUpdate: true);
+                }
+                foreach (GameModel gameModel in models)
+                {
+                    Debug.WriteLine($"{gameModel.modelName} was updated");
+                    gameModel.ApplyCoordinateTransform(worldTransform);
+                }
+            } else
+            {
+                foreach (SceneGraphNode node in nodes)
+                {
+                    node.UpdateTransforms(coordinateTransform);
+                }
+            }
         }
 
         public void AddModel(GameModel gameModel)
         {
             models.Add(gameModel);
-            gameModel.ApplyCoordinateTransform(transform);
+            gameModel.ApplyCoordinateTransform(worldTransform);
         }
 
         public void DrawModels()

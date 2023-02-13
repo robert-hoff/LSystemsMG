@@ -150,6 +150,15 @@ namespace LSystemsMG
             {
                 keyIsDown[(int) Keys.P] = false;
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.S) && !keyIsDown[(int) Keys.S])
+            {
+                keyIsDown[(int) Keys.S] = true;
+                return Keys.S;
+            }
+            if (Keyboard.GetState().IsKeyUp(Keys.S) && keyIsDown[(int) Keys.S])
+            {
+                keyIsDown[(int) Keys.S] = false;
+            }
             return Keys.None;
         }
 
@@ -169,6 +178,10 @@ namespace LSystemsMG
                 Debug.WriteLine($"camera position {cameraTransform.cameraPosition}");
                 Debug.WriteLine($"rotation {MathHelper.ToDegrees(cameraTransform.cameraRotation)}");
                 Debug.WriteLine($"distance from origin {Vector3.Distance(cameraTransform.cameraPosition, new Vector3(0, 0, 0))}");
+            }
+            if (keyEvent == Keys.S)
+            {
+                Debug.WriteLine($"not assigned");
             }
 
             if (this.IsActive && Mouse.GetState().LeftButton == ButtonState.Pressed)
@@ -207,14 +220,30 @@ namespace LSystemsMG
             }
 
 
+
+
             // -- update specific to the demo scene
-            float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
-            float rotY = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
-            sceneGraph.cubeBaseCoordFrame.Update(Transforms.Ident().Rz(rotZ).Ry(rotY).T(2.5f, 2.5f, 0).Get());
+            // float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
+            // float rotY = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
+            // sceneGraph.cubeBaseCoordFrame.SetTransform(Transforms.Ident().Rz(rotZ).Ry(rotY).T(2.5f, 2.5f, 0).Get());
+            // sceneGraph.UpdateTransformations();
+
+            if (counter == 0)
+            {
+                // sceneGraph.cubeBaseCoordFrame.AppendTransform(Transforms.RotZ(15));
+                // sceneGraph.cubeBaseCoordFrame.AppendTransform(Transforms.RotY(15));
+                // sceneGraph.cubeBaseCoordFrame.AppendTransform(Transforms.Translate(2.5f, 2.5f, 0));
+                sceneGraph.plantsCoordFrame.AppendTransform(Transforms.Translate(0.1f, 0.1f, 0));
+                Debug.WriteLine($"--");
+            }
 
 
+            sceneGraph.UpdateTransformations();
+            counter++;
             base.Update(gameTime);
         }
+
+        private int counter = 0;
 
 
         private GameModel skybox;
@@ -255,6 +284,7 @@ namespace LSystemsMG
 
 
             sceneGraph = new SceneGraph(gameModelRegister);
+            sceneGraph.ShowWorldAxes(true, axesLen: 3);
 
             // Matrix t = sceneGraph.cubeBaseCoordFrame.coordinateFrameTransform;
             // int i = 0;
@@ -273,34 +303,34 @@ namespace LSystemsMG
             */
 
             /*
-            cubeModel0.SetBaseTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0).S(5, 5, 0.25f).Get());
-            // cubeModel0.Draw(BuildTransform.Ident().S(5, 5, 0.25f).T(2.5f, 2.5f, 0).Get());
-            cubeModel1.SetBaseTransform(BuildTransform.Ident().T(0.5f, 0.5f, 0f).S(5, 5, 0.25f).Get());
-            cubeModel2.SetBaseTransform(BuildTransform.Ident().T(-0.5f, -0.5f, 0f).S(5, 5, 0.25f).Get());
-            axisModel0.SetBaseTransform(BuildTransform.Ident().S(5, 5, 5).Get());
-            axisModel1.SetBaseTransform(BuildTransform.Ident().S(0.5f, 0.5f, 0.5f).T(2.5f, 2.5f, 0).Get());
+            cubeModel0.SetBaseTransform(Transforms.Ident().T(0.5f, 0.5f, 0).S(5, 5, 0.25f).Get());
+            // cubeModel0.Draw(Transforms.Ident().S(5, 5, 0.25f).T(2.5f, 2.5f, 0).Get());
+            cubeModel1.SetBaseTransform(Transforms.Ident().T(0.5f, 0.5f, 0f).S(5, 5, 0.25f).Get());
+            cubeModel2.SetBaseTransform(Transforms.Ident().T(-0.5f, -0.5f, 0f).S(5, 5, 0.25f).Get());
+            axisModel0.SetBaseTransform(Transforms.Ident().S(5, 5, 5).Get());
+            axisModel1.SetBaseTransform(Transforms.Ident().S(0.5f, 0.5f, 0.5f).T(2.5f, 2.5f, 0).Get());
             Vector3 TRL1 = new Vector3(0, 0, 0);
             // Vector3 TRL1 = new Vector3(0.25f, 0.25f, 0.5f);
             float RZ1 = 0;
             // float RZ1 = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
-            modelFern0.SetBaseTransform(BuildTransform.Ident().T(1, 1, 0.25f).T(TRL1).Get());
-            modelFern1.SetBaseTransform(BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Rz(RZ1).Ry(25).T(4.7f, 0.3f, 0.25f).T(TRL1).Get());
+            modelFern0.SetBaseTransform(Transforms.Ident().T(1, 1, 0.25f).T(TRL1).Get());
+            modelFern1.SetBaseTransform(Transforms.Ident().S(0.8f, 0.8f, 0.8f).Rz(RZ1).Ry(25).T(4.7f, 0.3f, 0.25f).T(TRL1).Get());
             */
 
             /*
             Vector3 T1 = new Vector3(0, 0, 0);
             float RZ1 = 0;
 
-            axisModel0.SetBaseTransform(BuildTransform.Ident().S(1).Get());
-            cubeModel0.SetBaseTransform(BuildTransform.Ident().S(5, 5, 0.25f).Get());
-            // axisModel1.SetBaseTransform(BuildTransform.Ident().S(1f).Tz(0.25f).Get());
-            axisModel1.SetBaseTransform(BuildTransform.Ident().S(1f).T(-2.5f, -2.5f, 0.25f).Get());
+            axisModel0.SetBaseTransform(Transforms.Ident().S(1).Get());
+            cubeModel0.SetBaseTransform(Transforms.Ident().S(5, 5, 0.25f).Get());
+            // axisModel1.SetBaseTransform(Transforms.Ident().S(1f).Tz(0.25f).Get());
+            axisModel1.SetBaseTransform(Transforms.Ident().S(1f).T(-2.5f, -2.5f, 0.25f).Get());
 
-            // modelFern1.SetBaseTransform(BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Rz(RZ1).Ry(25).T(4.7f, 0.3f, 0.25f).T(T1).Get());
-            // modelFern1.SetBaseTransform(BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Rz(RZ1).Ry(25).T(2.2f, -2.2f, 0.25f).T(T1).Get());
-            // Matrix fernTransform = BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Ry(25).T(2.2f, -2.2f, 0.25f).Get();
+            // modelFern1.SetBaseTransform(Transforms.Ident().S(0.8f, 0.8f, 0.8f).Rz(RZ1).Ry(25).T(4.7f, 0.3f, 0.25f).T(T1).Get());
+            // modelFern1.SetBaseTransform(Transforms.Ident().S(0.8f, 0.8f, 0.8f).Rz(RZ1).Ry(25).T(2.2f, -2.2f, 0.25f).T(T1).Get());
+            // Matrix fernTransform = Transforms.Ident().S(0.8f, 0.8f, 0.8f).Ry(25).T(2.2f, -2.2f, 0.25f).Get();
 
-            Matrix fernTransform = BuildTransform.Ident().S(0.8f, 0.8f, 0.8f).Ry(25).T(1, 1, 0.25f).Get();
+            Matrix fernTransform = Transforms.Ident().S(0.8f, 0.8f, 0.8f).Ry(25).T(1, 1, 0.25f).Get();
             modelFern1.SetBaseTransform(fernTransform);
             */
         }
