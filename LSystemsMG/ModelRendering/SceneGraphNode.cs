@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
 
@@ -44,11 +43,15 @@ namespace LSystemsMG.ModelRendering
             this.needsUpdate = true;
         }
 
+        /*
+         * When walking the tree, will only apply transforms if needsUpdate is true.
+         * Where found propagate update is set so that all child nodes and models are updated too.
+         *
+         */
         public void UpdateTransforms(Matrix parentTransform, bool propagateUpdate = false)
         {
             if (needsUpdate || propagateUpdate)
             {
-                Debug.WriteLine($"{name} was updated");
                 needsUpdate = false;
                 this.worldTransform = Matrix.Multiply(coordinateTransform, parentTransform);
                 foreach (SceneGraphNode node in nodes)
@@ -57,7 +60,6 @@ namespace LSystemsMG.ModelRendering
                 }
                 foreach (GameModel gameModel in models)
                 {
-                    Debug.WriteLine($"{gameModel.modelName} was updated");
                     gameModel.ApplyCoordinateTransform(worldTransform);
                 }
             } else

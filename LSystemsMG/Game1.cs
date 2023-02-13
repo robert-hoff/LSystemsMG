@@ -221,25 +221,11 @@ namespace LSystemsMG
 
 
 
-
             // -- update specific to the demo scene
-            // float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
-            // float rotY = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
-            // sceneGraph.cubeBaseCoordFrame.SetTransform(Transforms.Ident().Rz(rotZ).Ry(rotY).T(2.5f, 2.5f, 0).Get());
-            // sceneGraph.UpdateTransformations();
-
-            if (counter == 0)
-            {
-                // sceneGraph.cubeBaseCoordFrame.AppendTransform(Transforms.RotZ(15));
-                // sceneGraph.cubeBaseCoordFrame.AppendTransform(Transforms.RotY(15));
-                // sceneGraph.cubeBaseCoordFrame.AppendTransform(Transforms.Translate(2.5f, 2.5f, 0));
-                sceneGraph.plantsCoordFrame.AppendTransform(Transforms.Translate(0.1f, 0.1f, 0));
-                Debug.WriteLine($"--");
-            }
-
-
+            float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
+            float rotY = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
+            sceneGraph.cubeBaseCoordFrame.SetTransform(Transforms.Ident().Rz(rotZ).Ry(rotY).T(2.5f, 2.5f, 0).Get());
             sceneGraph.UpdateTransformations();
-            counter++;
             base.Update(gameTime);
         }
 

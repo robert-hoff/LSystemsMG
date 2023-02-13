@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
 
@@ -67,14 +65,10 @@ namespace LSystemsMG.ModelRendering
             modelFern1.SetBaseTransform(Transforms.Ident().S(0.8f, 0.8f, 0.8f).T(1, 1, 0).Get());
             plantsCoordFrame.AddModel(modelFern1);
 
-
+            // call after populating scene, evaluating all transformations
             UpdateTransformations();
         }
 
-        /*
-         * Update transformations by checking against a list
-         *
-         */
         public void UpdateTransformations()
         {
             rootNode.UpdateTransforms(Matrix.Identity);
