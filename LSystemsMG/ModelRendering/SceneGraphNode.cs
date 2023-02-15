@@ -6,29 +6,71 @@ namespace LSystemsMG.ModelRendering
 {
     class SceneGraphNode
     {
+        /*
+         * the references sceneGraph and gameModelRegister are the same for all,
+         * we use them for the methods
+         *
+         *  CreateNode
+         *  CreateModel
+         *
+         */
+        private SceneGraph sceneGraph;
+        private GameModelRegister gameModelRegister;
+
         public string name { get; private set; }
         private Matrix coordinateTransform;
-        public Matrix worldTransform { get; private set; }
-        public List<SceneGraphNode> nodes = new();
+        private Matrix worldTransform;
+        private List<SceneGraphNode> childNodes = new();
         private List<GameModel> models = new();
-        public bool needsUpdate { get; private set; } = true;
+        private bool needsUpdate = true;
 
-        private SceneGraphNode(Matrix coordinateFrameTransform, string name)
+        private SceneGraphNode(
+            string name,
+            SceneGraph sceneGraph,
+            GameModelRegister gameModelRegister,
+            Matrix coordinateFrameTransform)
         {
             this.name = name;
             this.coordinateTransform = coordinateFrameTransform;
+            this.sceneGraph = sceneGraph;
+            this.gameModelRegister = gameModelRegister;
         }
 
-        public static SceneGraphNode CreateRootNode()
+        public static SceneGraphNode CreateRootNode(string name, SceneGraph sceneGraph, GameModelRegister gameModelRegister)
         {
-            return new SceneGraphNode(Matrix.Identity, name: "root");
+            return new SceneGraphNode(name, sceneGraph, gameModelRegister, Matrix.Identity);
+        }
+        public SceneGraphNode CreateNode(string name) { return CreateNode(name, Matrix.Identity); }
+        public SceneGraphNode CreateNode(string name, Matrix coordinateTransform)
+        {
+            SceneGraphNode childNode = new SceneGraphNode(name, this.sceneGraph, this.gameModelRegister, coordinateTransform);
+            childNodes.Add(childNode);
+            sceneGraph.nodes[name] = childNode;
+            return childNode;
         }
 
-        public SceneGraphNode AddNode(Matrix coordinateTransform, string name = "[not-given]")
+        public GameModel CreateModel(string modelName)
         {
-            SceneGraphNode node = new SceneGraphNode(coordinateTransform, name);
-            nodes.Add(node);
-            return node;
+            return CreateModel(modelName, "", Matrix.Identity);
+        }
+        public GameModel CreateModel(string modelName, string modelId)
+        {
+            return CreateModel(modelName, modelId, Matrix.Identity);
+        }
+        public GameModel CreateModel(string modelName, Matrix baseTransform)
+        {
+            return CreateModel(modelName, "", baseTransform);
+        }
+        public GameModel CreateModel(string modelName, string modelId, Matrix baseTransform)
+        {
+            GameModel gameModel = gameModelRegister.CreateModel(modelName);
+            if (modelId.Length > 0)
+            {
+                sceneGraph.models[modelId] = gameModel;
+            }
+            models.Add(gameModel);
+            gameModel.AppendBaseTransform(baseTransform);
+            return gameModel;
         }
 
         public void SetTransform(Matrix coordinateTransform)
@@ -36,7 +78,6 @@ namespace LSystemsMG.ModelRendering
             this.coordinateTransform = coordinateTransform;
             this.needsUpdate = true;
         }
-
         public void AppendTransform(Matrix coordinateTransform)
         {
             this.coordinateTransform = Matrix.Multiply(this.coordinateTransform, coordinateTransform);
@@ -44,8 +85,8 @@ namespace LSystemsMG.ModelRendering
         }
 
         /*
-         * When walking the tree, will only apply transforms if needsUpdate is true.
-         * Where found propagate update is set so that all child nodes and models are updated too.
+         * When walking the tree, transforms are applied only if needsUpdate is true.
+         * But if found propagateUpdate is set so all child nodes are updated too.
          *
          */
         public void UpdateTransforms(Matrix parentTransform, bool propagateUpdate = false)
@@ -54,7 +95,7 @@ namespace LSystemsMG.ModelRendering
             {
                 needsUpdate = false;
                 this.worldTransform = Matrix.Multiply(coordinateTransform, parentTransform);
-                foreach (SceneGraphNode node in nodes)
+                foreach (SceneGraphNode node in childNodes)
                 {
                     node.UpdateTransforms(coordinateTransform, propagateUpdate: true);
                 }
@@ -62,19 +103,14 @@ namespace LSystemsMG.ModelRendering
                 {
                     gameModel.ApplyCoordinateTransform(worldTransform);
                 }
-            } else
+            }
+            else
             {
-                foreach (SceneGraphNode node in nodes)
+                foreach (SceneGraphNode node in childNodes)
                 {
                     node.UpdateTransforms(coordinateTransform);
                 }
             }
-        }
-
-        public void AddModel(GameModel gameModel)
-        {
-            models.Add(gameModel);
-            gameModel.ApplyCoordinateTransform(worldTransform);
         }
 
         public void DrawModels()
@@ -83,7 +119,7 @@ namespace LSystemsMG.ModelRendering
             {
                 gameModel.Draw();
             }
-            foreach (SceneGraphNode node in nodes)
+            foreach (SceneGraphNode node in childNodes)
             {
                 node.DrawModels();
             }

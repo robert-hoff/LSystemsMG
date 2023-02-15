@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using LSystemsMG.ModelFactory;
 using LSystemsMG.ModelRendering;
 using LSystemsMG.ModelSpecial;
+using LSystemsMG.ModelRendering.TestScenes;
 
 /**
  *
@@ -181,7 +182,11 @@ namespace LSystemsMG
             }
             if (keyEvent == Keys.S)
             {
-                Debug.WriteLine($"not assigned");
+                Debug.WriteLine($"Keys.S (not assigned)");
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.T))
+            {
+                Debug.WriteLine($"Keys.T (not assigned, fires continuously)");
             }
 
             if (this.IsActive && Mouse.GetState().LeftButton == ButtonState.Pressed)
@@ -220,13 +225,7 @@ namespace LSystemsMG
             }
 
 
-
-            // -- update specific to the demo scene
-            float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
-            float rotY = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
-            sceneGraph.cubeBaseCoordFrame.SetTransform(Transforms.Ident().Rz(rotZ).Ry(rotY).T(2.5f, 2.5f, 0).Get());
-
-
+            sceneGraph.Update(gameTime);
             sceneGraph.UpdateTransforms();
             base.Update(gameTime);
         }
@@ -241,20 +240,8 @@ namespace LSystemsMG
         private GameModel modelRockTile1;
         private GameModel modelOneSidedFlower;
 
-        //private GameModel cubeModel0;
-        //private GameModel cubeModel1;
-        //private GameModel cubeModel2;
-        //private GameModel axisModel0;
-        //private GameModel axisModel1;
-        //private GameModel modelFern0;
-        //private GameModel modelFern1;
-
         SceneGraph sceneGraph;
 
-        /*
-         * not a scene graph yet, experimenting with transforms ..
-         *
-         */
         private void InstantiateSceneGraph()
         {
             skybox = gameModelRegister.CreateModel("skybox");
@@ -269,11 +256,11 @@ namespace LSystemsMG
             modelOneSidedFlower = gameModelRegister.CreateModel("plant-example");
 
 
-            sceneGraph = new SceneGraph(gameModelRegister);
-            sceneGraph.ShowWorldAxes(true, axesLen: 3);
-
-            // Matrix t = sceneGraph.cubeBaseCoordFrame.coordinateFrameTransform;
-            // int i = 0;
+            sceneGraph = new Scene01RotatingPlatform(gameModelRegister);
+            if (SHOW_AXIS)
+            {
+                sceneGraph.ShowWorldAxes(true, axesLen: 5);
+            }
 
 
 
@@ -321,35 +308,14 @@ namespace LSystemsMG
             */
         }
 
+
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
             // GraphicsDevice.BlendState = BlendState.NonPremultiplied;
             GraphicsDevice.Clear(CLEAR_COLOR);
-            skybox.Draw();
-
-
             sceneGraph.Draw();
-
-            // PreviousScene(gameTime);
-
-            /*
-            // modelFern0.Draw();
-            modelFern1.Draw();
-
-            if (SHOW_AXIS)
-            {
-                axisModel0.Draw();
-            }
-            axisModel1.Draw();
-
-            GraphicsDevice.BlendState = BlendState.AlphaBlend;
-            cubeModel0.Draw();
-            // cubeModel1.Draw();
-            // cubeModel2.Draw();
-            GraphicsDevice.BlendState = BlendState.Opaque;
-            */
-
             base.Draw(gameTime);
         }
 
