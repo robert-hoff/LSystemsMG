@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using LSystemsMG.ModelFactory;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace LSystemsMG.ModelRendering
 {
@@ -9,9 +10,15 @@ namespace LSystemsMG.ModelRendering
         public SceneGraphNode rootNode;
         public Dictionary<string, SceneGraphNode> nodes = new();
         public Dictionary<string, GameModel> models = new();
+        protected GameModelRegister gameModelRegister;
+        private Color clearColor;
+        private readonly static Color DEFAULT_CLEAR_COLOR = Color.CornflowerBlue; // Using CornflowerBlue, Black, White
 
-        public SceneGraph(GameModelRegister gameModelRegister)
+        public SceneGraph(GameModelRegister gameModelRegister) : this(gameModelRegister, DEFAULT_CLEAR_COLOR) { }
+        public SceneGraph(GameModelRegister gameModelRegister, Color clearColor)
         {
+            this.gameModelRegister= gameModelRegister;
+            this.clearColor = clearColor;
             rootNode = SceneGraphNode.CreateRootNode("root", this, gameModelRegister);
             nodes["root"] = rootNode;
             LoadDefaultModels(gameModelRegister);
@@ -32,8 +39,9 @@ namespace LSystemsMG.ModelRendering
             rootNode.UpdateTransforms(Matrix.Identity);
         }
 
-        public void Draw()
+        public void Draw(GraphicsDevice graphicsDevice)
         {
+            graphicsDevice.Clear(clearColor);
             if (showWorldAxes)
             {
                 worldAxes.Draw();

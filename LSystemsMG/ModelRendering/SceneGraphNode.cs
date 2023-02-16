@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
+using System;
 
 namespace LSystemsMG.ModelRendering
 {
@@ -66,10 +67,28 @@ namespace LSystemsMG.ModelRendering
             GameModel gameModel = gameModelRegister.CreateModel(modelName);
             if (modelId.Length > 0)
             {
+                if (sceneGraph.models.ContainsKey(modelId))
+                {
+                    throw new Exception($"In SceneGraphNode.CreateModel, modelId already exists {modelId}");
+                }
                 sceneGraph.models[modelId] = gameModel;
             }
             models.Add(gameModel);
             gameModel.AppendBaseTransform(baseTransform);
+            return gameModel;
+        }
+
+        public GameModel AddModel(GameModel gameModel, string modelId = "")
+        {
+            if (modelId.Length > 0)
+            {
+                if (sceneGraph.models.ContainsKey(modelId))
+                {
+                    throw new Exception($"In SceneGraphNode.AddModel, modelId already exists {modelId}");
+                }
+                sceneGraph.models[modelId] = gameModel;
+            }
+            models.Add(gameModel);
             return gameModel;
         }
 
