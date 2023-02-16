@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
-using System;
 
 namespace LSystemsMG.ModelRendering
 {
