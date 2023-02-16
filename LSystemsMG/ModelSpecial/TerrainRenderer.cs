@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using LSystemsMG.ModelRendering;
+using LSystemsMG.ModelTransforms;
 using LSystemsMG.Util;
 
 namespace LSystemsMG.ModelSpecial

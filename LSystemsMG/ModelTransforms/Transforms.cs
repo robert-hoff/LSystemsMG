@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
-namespace LSystemsMG.ModelRendering
+namespace LSystemsMG.ModelTransforms
 {
     class Transforms
     {
