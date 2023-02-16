@@ -7,15 +7,35 @@ namespace LSystemsMG.Util.External
     {
         public static void Run()
         {
-            WriteAllSourceFilesLinuxEndings();
+            RemoveTrailingSpacesAllFiles();
+            // WriteAllSourceFilesLinuxEndings();
         }
 
-        public static void WriteAllSourceFilesLinuxEndings()
+        public static void RemoveTrailingSpacesAllFiles()
+        {
+            foreach (string filenamepath in FindCsFiles(@"../../../"))
+            {
+                RemoveTrailingSpacesForfile(filenamepath);
+            }
+        }
+
+        public static void WriteLinuxEndingsAllFiles()
         {
             foreach (string filenamepath in FindCsFiles(@"../../../"))
             {
                 ReplaceLineEndingsForFile(filenamepath);
             }
+        }
+
+        public static void RemoveTrailingSpacesForfile(string filenamepath)
+        {
+            string[] sourceLines = File.ReadAllLines(filenamepath);
+            FileWriter fw = new FileWriter(filenamepath);
+            foreach (string line in sourceLines)
+            {
+                fw.WriteLine(line.TrimEnd());
+            }
+            fw.CloseStreamWriter();
         }
 
         public static void ReplaceLineEndingsForFile(string filenamepath)
