@@ -7,6 +7,7 @@ using LSystemsMG.ModelFactory;
 using LSystemsMG.ModelRendering;
 using LSystemsMG.ModelRendering.ModelGroups;
 using LSystemsMG.ModelRendering.TestScenes;
+using LSystemsMG.Util.Demos;
 
 namespace LSystemsMG
 {
@@ -14,7 +15,7 @@ namespace LSystemsMG
     {
         // dev settings
         // --
-        private readonly static bool SHOW_AXIS = true;
+        private readonly static bool SHOW_AXIS = false;
         public readonly static bool RESTRICT_CAMERA = false;
         // --
 
@@ -63,6 +64,7 @@ namespace LSystemsMG
                 model: Content.Load<Model>(modelPathName)
             );
         }
+
         protected override void LoadContent()
         {
             gameModelRegister = new GameModelRegister(GraphicsDevice, cameraTransform);
@@ -93,12 +95,11 @@ namespace LSystemsMG
             RegisterModel("geometries/cube-wedge0");
             RegisterModel("geometries/cube-wedge1");
 
-
             sceneGraph = new S01_RotatingPlatform(gameModelRegister);
             // sceneGraph = new S02_PlantsAndTerrain(gameModelRegister);
+            // sceneGraph = new GrowingAndShrinkingPlatform(gameModelRegister);
+            // sceneGraph = new FernsAndTiles(gameModelRegister);
             // sceneGraph = new TestScene(gameModelRegister);
-
-
             if (SHOW_AXIS)
             {
                 sceneGraph.ShowWorldAxes(true, axesLen: 5);

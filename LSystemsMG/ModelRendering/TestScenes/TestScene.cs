@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
 using LSystemsMG.ModelRendering.ModelGroups;
+using LSystemsMG.Util;
 
 namespace LSystemsMG.ModelRendering.TestScenes
 {
@@ -10,9 +11,7 @@ namespace LSystemsMG.ModelRendering.TestScenes
 
         public override void LoadModels()
         {
-            SceneGraphNode root = CreateNode();
-            StylizedGround stylizedGround = new StylizedGround(gameModelRegister);
-            root.AddNode(stylizedGround);
+
         }
 
         public override void Update(GameTime gameTime) { }

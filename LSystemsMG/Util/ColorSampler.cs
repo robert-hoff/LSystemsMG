@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Globalization;
 using Microsoft.Xna.Framework;
 
 namespace LSystemsMG.Util
@@ -16,6 +17,7 @@ namespace LSystemsMG.Util
             baseB = baseColor & 0xff;
 
         }
+
         public Color GetVariationColor()
         {
             return new Color(GetVariationVector3());
@@ -42,9 +44,22 @@ namespace LSystemsMG.Util
             { newG -= 255; }
             if (newB > 255)
             { newB -= 255; }
-
             Vector3 colorV = new Vector3((newR - 0.1f) / 255f, (newG - 0.1f) / 255f, (newB - 0.1f) / 255f);
             return colorV;
+        }
+
+        public static Vector3 GetColor(string rgb)
+        {
+            int val = int.Parse(rgb[^6..], NumberStyles.HexNumber);
+            return GetColor(val);
+        }
+
+        public static Vector3 GetColor(int rgb)
+        {
+            float r = (rgb >> 16 & 0xff) / 256f;
+            float g = (rgb >> 8 & 0xff) / 256f;
+            float b = (rgb & 0xff) / 256f;
+            return new Vector3(r, g, b);
         }
     }
 }

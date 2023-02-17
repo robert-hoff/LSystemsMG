@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
+using LSystemsMG.ModelRendering.ModelGroups;
 
 namespace LSystemsMG.ModelRendering.TestScenes
 {
@@ -14,27 +15,37 @@ namespace LSystemsMG.ModelRendering.TestScenes
         {
             node1 = CreateNode();
             node1.AddModel(gameModelRegister.CreateModel("skybox"), "skybox");
-            node1.CreateNode("platform");
-            node1["platform"].AddModel(gameModelRegister.CreateModel("unitcube"), "cubebase");
-            node1["platform"].models["cubebase"].SetTransform(Transforms.Scale(5, 5, 0.25f));
-            node1["platform"].CreateNode("plants");
-            node1["platform"]["plants"].SetTransform(Transforms.Translate(-2.5f, -2.5f, 0.25f));
-            node1["platform"]["plants"].AddModel(gameModelRegister.CreateModel("polygon-plant1"));
-            node1["platform"]["plants"].AddModel(gameModelRegister.CreateModel("polygon-plant1"));
-            node1["platform"]["plants"].models[0].SetBaseTransform(Transforms.Ident().S(0.8f, 0.8f, 0.8f).Ry(30).T(4.7f, 0.3f, 0).Get());
-            node1["platform"]["plants"].models[1].SetBaseTransform(Transforms.Ident().S(0.8f, 0.8f, 0.8f).T(1, 1, 0).Get());
+            node1.CreateNode("mast");
+            node1["mast"].AddModel(gameModelRegister.CreateModel("unitcube"));
+            node1["mast"].models[0].SetAlpha(1.0f);
+            node1["mast"].models[0].modelDrawLast = false;
+            node1["mast"].models[0].SetTransform(Transforms.Scale(0.3f, 0.3f, 6f));
+            node1["mast"].CreateNode("arm");
+            node1["mast"]["arm"].SetTransform(Transforms.Ident().Rx(90).Tz(6).Get());
+            node1["mast"]["arm"].CreateNode("armbase");
+            node1["mast"]["arm"]["armbase"].AddModel(gameModelRegister.CreateModel("unitcube"));
+            node1["mast"]["arm"]["armbase"].models[0].SetAlpha(1.0f);
+            node1["mast"]["arm"]["armbase"].models[0].modelDrawLast = false;
+            // node1["mast"]["arm"]["armbase"].AddModel(gameModelRegister.CreateModel("axismodel"));
+            node1["mast"]["arm"]["armbase"].models[0].SetTransform(Transforms.Ident().S(0.2f, 0.2f, 3).Get());
+            node1["mast"]["arm"]["armbase"].CreateNode("armend");
+            node1["mast"]["arm"]["armbase"]["armend"].SetTransform(Transforms.Translate(0, 0, 3));
+            node1["mast"]["arm"]["armbase"]["armend"].AddNode(new BaseAndFerns(gameModelRegister));
+            node1.AddNode(new StylizedGround(gameModelRegister), "terrain");
+            node1.AddModel(gameModelRegister.CreateModel("birchtree1"), "birchtree1");
+            node1.models["birchtree1"].SetTransform(Transforms.Translate(7, 5, 0));
         }
 
         public override void Update(GameTime gameTime)
         {
-            float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 30;
-            float scaleZ = (MathF.Cos(rotZ / 30) + 3) * 5;
-            node1.SetTransform(Transforms.Translate(2.5f, 2.5f, 0));
-            node1["platform"].SetTransform(Transforms.RotZ(rotZ));
-            node1["platform"].models["cubebase"].SetTransform(Transforms.Scale(5f, 5f, 0.25f));
-            node1["platform"].models["cubebase"].AppendTransform(Transforms.ScaleZ(scaleZ));
-            node1["platform"]["plants"].SetTransform(Transforms.Translate(-2.5f, -2.5f, 0.25f));
-            node1["platform"]["plants"].ScaleCoordinateSystem(1, 1, scaleZ);
+            float rot1 = (float) gameTime.TotalGameTime.TotalMilliseconds / 30;
+            float rot2 = (float) gameTime.TotalGameTime.TotalMilliseconds / 10;
+            float amplitude = 90 + MathF.Cos(rot1 / 40) * 30;
+            float scaleZ = (MathF.Cos(rot1 / 30) + 3) * 5;
+            node1["mast"]["arm"].SetTransform(Transforms.Ident().Rx(amplitude).Tz(6).Get());
+            node1["mast"].SetTransform(Transforms.RotZ(rot1));
+            node1["mast"].AppendTransform(Transforms.Translate(-4, -2, 0));
+            node1["mast"]["arm"]["armbase"].SetTransform(Transforms.RotZ(rot2));
         }
     }
 }
