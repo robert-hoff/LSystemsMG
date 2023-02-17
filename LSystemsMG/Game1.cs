@@ -94,9 +94,10 @@ namespace LSystemsMG
             RegisterModel("geometries/cube-wedge1");
 
 
-            // sceneGraph = new S01_RotatingPlatform(gameModelRegister);
-            sceneGraph = new S02_PlantsAndTerrain(gameModelRegister);
+            sceneGraph = new S01_RotatingPlatform(gameModelRegister);
+            // sceneGraph = new S02_PlantsAndTerrain(gameModelRegister);
             // sceneGraph = new TestScene(gameModelRegister);
+
 
             if (SHOW_AXIS)
             {

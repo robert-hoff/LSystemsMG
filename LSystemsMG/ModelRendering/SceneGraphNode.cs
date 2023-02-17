@@ -100,7 +100,7 @@ namespace LSystemsMG.ModelRendering
                 this.worldTransform = Matrix.Multiply(coordinateTransform, parentTransform);
                 foreach (SceneGraphNode node in nodes.Values)
                 {
-                    node.UpdateTransforms(coordinateTransform, propagateUpdate: true);
+                    node.UpdateTransforms(worldTransform, propagateUpdate: true);
                 }
                 foreach (GameModel gameModel in models.Values)
                 {

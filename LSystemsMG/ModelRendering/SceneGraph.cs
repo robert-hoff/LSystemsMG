@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using LSystemsMG.ModelFactory;
+using System;
 
 namespace LSystemsMG.ModelRendering
 {
@@ -27,6 +28,18 @@ namespace LSystemsMG.ModelRendering
             SceneGraphNode node = new SceneGraphNode();
             nodes.Add(node);
             return node;
+        }
+
+        public SceneGraphNode this[int ind]
+        {
+            get
+            {
+                if (nodes.Count < ind)
+                {
+                    throw new Exception($"SceneGraph doesn't contain the index {ind}");
+                }
+                return nodes[ind];
+            }
         }
 
         private void LoadDefaultModels(GameModelRegister gameModelRegister)
