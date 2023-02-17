@@ -1,95 +1,99 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
+using LSystemsMG.Util;
+using LSystemsMG.Util.GraphTrials;
+using LSystemsMG.ModelTransforms;
 
 namespace LSystemsMG.ModelRendering
 {
     class SceneGraphNode
     {
-        /*
-         * the references sceneGraph and gameModelRegister are the same for all,
-         * we use them for the methods
-         *
-         *  CreateNode
-         *  CreateModel
-         *
-         */
-        private SceneGraph sceneGraph;
-        private GameModelRegister gameModelRegister;
-
-        public string name { get; private set; }
         private Matrix coordinateTransform;
         private Matrix worldTransform;
-        private List<SceneGraphNode> childNodes = new();
-        private List<GameModel> models = new();
+        public OrderedDictionary<string, SceneGraphNode> nodes = new();
+        public OrderedDictionary<string, GameModel> models = new();
         private bool needsUpdate = true;
 
-        private SceneGraphNode(
-            string name,
-            SceneGraph sceneGraph,
-            GameModelRegister gameModelRegister,
-            Matrix coordinateFrameTransform)
+        public SceneGraphNode()
         {
-            this.name = name;
-            this.coordinateTransform = coordinateFrameTransform;
-            this.sceneGraph = sceneGraph;
-            this.gameModelRegister = gameModelRegister;
+            this.coordinateTransform = Matrix.Identity;
+        }
+        public SceneGraphNode CreateNode(string nodeNameId = null)
+        {
+            return AddNode(new SceneGraphNode(), nodeNameId);
         }
 
-        public static SceneGraphNode CreateRootNode(string name, SceneGraph sceneGraph, GameModelRegister gameModelRegister)
+        public SceneGraphNode AddNode(SceneGraphNode node, string nodeNameId = null)
         {
-            return new SceneGraphNode(name, sceneGraph, gameModelRegister, Matrix.Identity);
-        }
-        public SceneGraphNode CreateNode(string name) { return CreateNode(name, Matrix.Identity); }
-        public SceneGraphNode CreateNode(string name, Matrix coordinateTransform)
-        {
-            SceneGraphNode childNode = new SceneGraphNode(name, this.sceneGraph, this.gameModelRegister, coordinateTransform);
-            childNodes.Add(childNode);
-            sceneGraph.nodes[name] = childNode;
-            return childNode;
+            nodeNameId ??= CreateHashedNodeName();
+            nodes[nodeNameId] = node;
+            return node;
         }
 
-        public GameModel CreateModel(string modelName)
+        public GameModel AddModel(GameModel model, string modelNameId = null)
         {
-            return CreateModel(modelName, "", Matrix.Identity);
+            modelNameId ??= CreateHashedModelName(model.modelName);
+            models[modelNameId] = model;
+            return model;
         }
-        public GameModel CreateModel(string modelName, string modelId)
+
+        public SceneGraphNode this[int ind]
         {
-            return CreateModel(modelName, modelId, Matrix.Identity);
-        }
-        public GameModel CreateModel(string modelName, Matrix baseTransform)
-        {
-            return CreateModel(modelName, "", baseTransform);
-        }
-        public GameModel CreateModel(string modelName, string modelId, Matrix baseTransform)
-        {
-            GameModel gameModel = gameModelRegister.CreateModel(modelName);
-            if (modelId.Length > 0)
+            get
             {
-                if (sceneGraph.models.ContainsKey(modelId))
-                {
-                    throw new Exception($"In SceneGraphNode.CreateModel, modelId already exists {modelId}");
-                }
-                sceneGraph.models[modelId] = gameModel;
+                return nodes[ind];
             }
-            models.Add(gameModel);
-            gameModel.AppendBaseTransform(baseTransform);
-            return gameModel;
         }
 
-        public GameModel AddModel(GameModel gameModel, string modelId = "")
+        public SceneGraphNode this[string nameId]
         {
-            if (modelId.Length > 0)
+            get
             {
-                if (sceneGraph.models.ContainsKey(modelId))
-                {
-                    throw new Exception($"In SceneGraphNode.AddModel, modelId already exists {modelId}");
-                }
-                sceneGraph.models[modelId] = gameModel;
+                return nodes[nameId];
             }
-            models.Add(gameModel);
-            return gameModel;
+        }
+
+        private string CreateHashedModelName(string modelName)
+        {
+            string newName = $"{modelName}-{SimpleHash.Create5LenHash()}";
+            while (models.ContainsKey(newName))
+            {
+                newName = $"{modelName}-{SimpleHash.Create5LenHash()}";
+            }
+            return newName;
+        }
+
+        private string CreateHashedNodeName()
+        {
+            string newName = $"node-{SimpleHash.Create5LenHash()}";
+            while (models.ContainsKey(newName))
+            {
+                newName = $"node-{SimpleHash.Create5LenHash()}";
+            }
+            return newName;
+        }
+
+        public string ToString(string spacing)
+        {
+            string reportStr = "";
+            if (models.Count > 0)
+            {
+                foreach (KeyValuePair<string, GameModel> model in models)
+                {
+                    reportStr += $"{spacing}  <model> {model.Key}\n";
+                }
+            }
+            else if (models.Count == 0 && nodes.Count == 0)
+            {
+                reportStr += $"{spacing}  <no models>\n";
+            }
+            foreach (KeyValuePair<string, SceneGraphNode> node in nodes)
+            {
+                reportStr += $"{spacing}  <node> {node.Key}\n";
+                reportStr += node.Value.ToString($"{spacing}  ");
+            }
+            return reportStr;
         }
 
         public void SetTransform(Matrix coordinateTransform)
@@ -97,6 +101,7 @@ namespace LSystemsMG.ModelRendering
             this.coordinateTransform = coordinateTransform;
             this.needsUpdate = true;
         }
+
         public void AppendTransform(Matrix coordinateTransform)
         {
             this.coordinateTransform = Matrix.Multiply(this.coordinateTransform, coordinateTransform);
@@ -114,18 +119,18 @@ namespace LSystemsMG.ModelRendering
             {
                 needsUpdate = false;
                 this.worldTransform = Matrix.Multiply(coordinateTransform, parentTransform);
-                foreach (SceneGraphNode node in childNodes)
+                foreach (SceneGraphNode node in nodes.Values)
                 {
                     node.UpdateTransforms(coordinateTransform, propagateUpdate: true);
                 }
-                foreach (GameModel gameModel in models)
+                foreach (GameModel gameModel in models.Values)
                 {
                     gameModel.ApplyCoordinateTransform(worldTransform);
                 }
             }
             else
             {
-                foreach (SceneGraphNode node in childNodes)
+                foreach (SceneGraphNode node in nodes.Values)
                 {
                     node.UpdateTransforms(coordinateTransform);
                 }
@@ -134,14 +139,26 @@ namespace LSystemsMG.ModelRendering
 
         public void DrawModels()
         {
-            foreach (GameModel gameModel in models)
+            foreach (GameModel gameModel in models.Values)
             {
                 gameModel.Draw();
             }
-            foreach (SceneGraphNode node in childNodes)
+            foreach (SceneGraphNode node in nodes.Values)
             {
                 node.DrawModels();
             }
+        }
+
+        private void LoadDefaultModels(GameModelRegister gameModelRegister)
+        {
+            this.worldAxes = gameModelRegister.CreateModel("axismodel");
+        }
+        private bool showWorldAxes = false;
+        private GameModel worldAxes;
+        public void ShowWorldAxes(bool showWorldAxes, float axesLen = 1f)
+        {
+            this.showWorldAxes = showWorldAxes;
+            worldAxes.SetBaseTransform(Transforms.Scale(axesLen));
         }
     }
 }

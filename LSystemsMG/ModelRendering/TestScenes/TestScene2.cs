@@ -1,14 +1,14 @@
+using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
 using LSystemsMG.ModelTransforms;
-using Microsoft.Xna.Framework;
 
-namespace LSystemsMG.ModelRendering2.testy
+namespace LSystemsMG.ModelRendering.TestScenes
 {
-    class TestScene2 : SceneGraph2
+    class TestScene2 : SceneGraph
     {
         public TestScene2(GameModelRegister gameModelRegister) : base(gameModelRegister) { }
 
-        SceneGraphNode2 root;
+        SceneGraphNode root;
 
         public override void LoadModels()
         {

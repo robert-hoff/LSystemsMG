@@ -8,20 +8,13 @@ namespace LSystemsMG.ModelRendering
 {
     abstract class SceneGraph
     {
-        public SceneGraphNode rootNode;
-        public Dictionary<string, SceneGraphNode> nodes = new();
-        public Dictionary<string, GameModel> models = new();
+        protected List<SceneGraphNode> nodes = new();
         protected GameModelRegister gameModelRegister;
-        private Color clearColor;
-        private readonly static Color DEFAULT_CLEAR_COLOR = Color.CornflowerBlue; // Using CornflowerBlue, Black, White
+        private Color clearColor = Color.CornflowerBlue; // Using CornflowerBlue, Black, White
 
-        public SceneGraph(GameModelRegister gameModelRegister) : this(gameModelRegister, DEFAULT_CLEAR_COLOR) { }
-        public SceneGraph(GameModelRegister gameModelRegister, Color clearColor)
+        public SceneGraph(GameModelRegister gameModelRegister)
         {
-            this.gameModelRegister= gameModelRegister;
-            this.clearColor = clearColor;
-            rootNode = SceneGraphNode.CreateRootNode("root", this, gameModelRegister);
-            nodes["root"] = rootNode;
+            this.gameModelRegister = gameModelRegister;
             LoadDefaultModels(gameModelRegister);
             LoadModels();
             UpdateTransforms();
@@ -30,6 +23,13 @@ namespace LSystemsMG.ModelRendering
         abstract public void LoadModels();
         abstract public void Update(GameTime gameTime);
 
+        public SceneGraphNode CreateNode()
+        {
+            SceneGraphNode node = new SceneGraphNode();
+            nodes.Add(node);
+            return node;
+        }
+
         private void LoadDefaultModels(GameModelRegister gameModelRegister)
         {
             this.worldAxes = gameModelRegister.CreateModel("axismodel");
@@ -37,7 +37,10 @@ namespace LSystemsMG.ModelRendering
 
         public void UpdateTransforms()
         {
-            rootNode.UpdateTransforms(Matrix.Identity);
+            foreach (SceneGraphNode node in nodes)
+            {
+                node.UpdateTransforms(Matrix.Identity);
+            }
         }
 
         public void Draw(GraphicsDevice graphicsDevice)
@@ -47,7 +50,10 @@ namespace LSystemsMG.ModelRendering
             {
                 worldAxes.Draw();
             }
-            rootNode.DrawModels();
+            foreach (SceneGraphNode node in nodes)
+            {
+                node.DrawModels();
+            }
         }
 
         private bool showWorldAxes = false;
