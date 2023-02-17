@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using LSystemsMG.ModelFactory.ModelsPrimitive;
-using LSystemsMG.ModelTransforms;
+using LSystemsMG.ModelRendering;
 
 namespace LSystemsMG.ModelFactory
 {

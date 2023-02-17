@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
-namespace LSystemsMG.ModelTransforms
+namespace LSystemsMG.ModelRendering
 {
     /*
      * It's not perfect, it is the world that rotates rather than calculating
