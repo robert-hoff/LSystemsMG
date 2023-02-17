@@ -2,22 +2,27 @@ using System.Diagnostics;
 
 namespace LSystemsMG.Util.GraphTrials
 {
-
     class GraphModel
     {
         /*
          * the number of transforms on the model may be more or less, a practical scheme
          * for the models can be deduced separately
          */
-        private MatrixTransform parentTransform = MatrixTransform.Identity();
-        private MatrixTransform coordinateTransform = MatrixTransform.Identity();
-        private MatrixTransform modelBaseTransform = MatrixTransform.Identity();
+        public string modelBaseTransform = "[I]";
+        public string coordinateTransform = "[I]";
+        public string parentTransform = "[I]";
+        public string worldTransform = "[I]";
 
-        private string modelName;
+        public string modelName;
 
         public GraphModel(string modelName)
         {
-            this.modelName= modelName;
+            this.modelName = modelName;
+        }
+        public GraphModel SetTransform(string coordinateTransform)
+        {
+            this.coordinateTransform = coordinateTransform;
+            return this;
         }
 
         public override string ToString()
