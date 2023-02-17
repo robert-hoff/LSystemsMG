@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
 using LSystemsMG.Util;
 using LSystemsMG.Util.GraphTrials;
-using LSystemsMG.ModelTransforms;
+using Microsoft.Xna.Framework;
 
 namespace LSystemsMG.ModelRendering
 {
@@ -19,6 +18,7 @@ namespace LSystemsMG.ModelRendering
         {
             this.coordinateTransform = Matrix.Identity;
         }
+
         public SceneGraphNode CreateNode(string nodeNameId = null)
         {
             return AddNode(new SceneGraphNode(), nodeNameId);
@@ -74,28 +74,6 @@ namespace LSystemsMG.ModelRendering
             return newName;
         }
 
-        public string ToString(string spacing)
-        {
-            string reportStr = "";
-            if (models.Count > 0)
-            {
-                foreach (KeyValuePair<string, GameModel> model in models)
-                {
-                    reportStr += $"{spacing}  <model> {model.Key}\n";
-                }
-            }
-            else if (models.Count == 0 && nodes.Count == 0)
-            {
-                reportStr += $"{spacing}  <no models>\n";
-            }
-            foreach (KeyValuePair<string, SceneGraphNode> node in nodes)
-            {
-                reportStr += $"{spacing}  <node> {node.Key}\n";
-                reportStr += node.Value.ToString($"{spacing}  ");
-            }
-            return reportStr;
-        }
-
         public void SetTransform(Matrix coordinateTransform)
         {
             this.coordinateTransform = coordinateTransform;
@@ -149,16 +127,26 @@ namespace LSystemsMG.ModelRendering
             }
         }
 
-        private void LoadDefaultModels(GameModelRegister gameModelRegister)
+        public string ToString(string spacing)
         {
-            this.worldAxes = gameModelRegister.CreateModel("axismodel");
-        }
-        private bool showWorldAxes = false;
-        private GameModel worldAxes;
-        public void ShowWorldAxes(bool showWorldAxes, float axesLen = 1f)
-        {
-            this.showWorldAxes = showWorldAxes;
-            worldAxes.SetBaseTransform(Transforms.Scale(axesLen));
+            string reportStr = "";
+            if (models.Count > 0)
+            {
+                foreach (KeyValuePair<string, GameModel> model in models)
+                {
+                    reportStr += $"{spacing}  <model> {model.Key}\n";
+                }
+            }
+            else if (models.Count == 0 && nodes.Count == 0)
+            {
+                reportStr += $"{spacing}  <no models>\n";
+            }
+            foreach (KeyValuePair<string, SceneGraphNode> node in nodes)
+            {
+                reportStr += $"{spacing}  <node> {node.Key}\n";
+                reportStr += node.Value.ToString($"{spacing}  ");
+            }
+            return reportStr;
         }
     }
 }

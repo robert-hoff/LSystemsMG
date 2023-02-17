@@ -7,8 +7,6 @@ using LSystemsMG.ModelFactory;
 using LSystemsMG.ModelRendering;
 using LSystemsMG.ModelRendering.TestScenes;
 using LSystemsMG.ModelTransforms;
-using LSystemsMG.ModelRendering2;
-using LSystemsMG.ModelRendering2.testy;
 
 /**
  *
@@ -50,7 +48,7 @@ namespace LSystemsMG
         private GameModelRegister gameModelRegister;
         // -- models are assigned to sceneGraph as members of SceneGraphNode
         // private SceneGraph sceneGraph;
-        private SceneGraph2 sceneGraph;
+        private SceneGraph sceneGraph;
 
         public Game1()
         {
@@ -114,15 +112,9 @@ namespace LSystemsMG
             RegisterModel("trees/tree-example");
             RegisterModel("geometries/unitcube");
 
-            // -- create scenes by extending SceneGraph,
-            // expressing model placement and scene updates
-            // sceneGraph = new Scene01RotatingPlatform(gameModelRegister);
-            // sceneGraph = new Scene02PlantsAndTerrain(gameModelRegister);
 
-            sceneGraph = new MyTestScene(gameModelRegister);
-            sceneGraph = new TestScene2(gameModelRegister);
-
-
+            sceneGraph = new TestScene1(gameModelRegister);
+            // sceneGraph = new TestScene2(gameModelRegister);
             if (SHOW_AXIS)
             {
                 sceneGraph.ShowWorldAxes(true, axesLen: 5);
