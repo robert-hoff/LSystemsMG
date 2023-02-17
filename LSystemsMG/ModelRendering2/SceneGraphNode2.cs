@@ -19,7 +19,7 @@ namespace LSystemsMG.ModelRendering2
         {
             this.coordinateTransform = Matrix.Identity;
         }
-        public SceneGraphNode2 NewNode(string nodeNameId = null)
+        public SceneGraphNode2 CreateNode(string nodeNameId = null)
         {
             return AddNode(new SceneGraphNode2(), nodeNameId);
         }
@@ -31,10 +31,11 @@ namespace LSystemsMG.ModelRendering2
             return node;
         }
 
-        public void AddModel(GameModel model, string modelNameId = null)
+        public GameModel AddModel(GameModel model, string modelNameId = null)
         {
             modelNameId ??= CreateHashedModelName(model.modelName);
             models[modelNameId] = model;
+            return model;
         }
 
         public SceneGraphNode2 this[int ind]
@@ -42,6 +43,14 @@ namespace LSystemsMG.ModelRendering2
             get
             {
                 return nodes[ind];
+            }
+        }
+
+        public SceneGraphNode2 this[string nameId]
+        {
+            get
+            {
+                return nodes[nameId];
             }
         }
 

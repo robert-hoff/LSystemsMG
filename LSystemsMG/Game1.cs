@@ -120,6 +120,9 @@ namespace LSystemsMG
             // sceneGraph = new Scene02PlantsAndTerrain(gameModelRegister);
 
             sceneGraph = new MyTestScene(gameModelRegister);
+            sceneGraph = new TestScene2(gameModelRegister);
+
+
             if (SHOW_AXIS)
             {
                 sceneGraph.ShowWorldAxes(true, axesLen: 5);
@@ -229,7 +232,7 @@ namespace LSystemsMG
         protected override void Draw(GameTime gameTime)
         {
             // FIXME - need to toggle this on the models that require it
-            // GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
             // GraphicsDevice.BlendState = BlendState.NonPremultiplied;
             // GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 

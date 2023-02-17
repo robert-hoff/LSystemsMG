@@ -63,6 +63,5 @@ namespace LSystemsMG.ModelRendering2
             this.showWorldAxes = showWorldAxes;
             worldAxes.SetBaseTransform(Transforms.Scale(axesLen));
         }
-
     }
 }
