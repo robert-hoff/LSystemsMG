@@ -110,10 +110,9 @@ namespace LSystemsMG
             RegisterModel("trees/tree-example");
             RegisterModel("geometries/unitcube");
 
-            // -- create scenes by extending SceneGraph,
-            // expressing model placement and scene updates
-            // sceneGraph = new Scene01RotatingPlatform(gameModelRegister);
-            sceneGraph = new Scene02PlantsAndTerrain(gameModelRegister);
+            // sceneGraph = new TestScene1(gameModelRegister);
+            sceneGraph = new S02_PlantsAndTerrain(gameModelRegister);
+
 
             if (SHOW_AXIS)
             {

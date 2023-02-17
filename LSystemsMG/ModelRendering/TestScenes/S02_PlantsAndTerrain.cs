@@ -3,9 +3,11 @@ using LSystemsMG.ModelFactory;
 
 namespace LSystemsMG.ModelRendering.TestScenes
 {
-    class Scene02PlantsAndTerrain : SceneGraph
+    class S02_PlantsAndTerrain : SceneGraph
     {
-        public Scene02PlantsAndTerrain(GameModelRegister gameModelRegister) : base(gameModelRegister) { }
+        public S02_PlantsAndTerrain(GameModelRegister gameModelRegister) : base(gameModelRegister) { }
+
+        SceneGraphNode root;
 
         public override void LoadModels()
         {
@@ -28,21 +30,23 @@ namespace LSystemsMG.ModelRendering.TestScenes
             GameModel rockTile1 = gameModelRegister.CreateModel("rocktile1");
             GameModel oneSidedFlower = gameModelRegister.CreateModel("plant-example");
 
-            nodes["root"].CreateModel("skybox");
-            nodes["root"].AddModel(acaciaTree1).AppendBaseTransform(Transforms.Translate(-4, -13, 0));
-            nodes["root"].AddModel(reeds1).AppendBaseTransform(Transforms.Ident().S(0.8f, 0.8f, 1.4f).Rz(40).T(4, 4, 0).Get());
-            nodes["root"].AddModel(pineTree3, "pinetree-01").SetTransform(Transforms.Ident().Rz(90).T(-5,-5, 0).Get());
-            nodes["root"].AddModel(polygonPlant2).AppendBaseTransform(Transforms.Ident().T(2, 2, 0).Get());
-            nodes["root"].AddModel(birchTree1).AppendBaseTransform(Transforms.Ident().T(-2, 4, 0).Get());
-            nodes["root"].AddModel(rockTile1).AppendBaseTransform(Transforms.Ident().T(2, 5, 0).Get());
-            nodes["root"].AddModel(oneSidedFlower).AppendBaseTransform(Transforms.Ident().Tx(1).Ry(-30).Rx(-130).S(2, 2, 2).T(3, 2, 0).Get());
+            root = CreateNode();
+            root.AddModel(gameModelRegister.CreateModel("skybox"));
+            root.AddModel(acaciaTree1).AppendBaseTransform(Transforms.Translate(-4, -13, 0));
+            root.AddModel(reeds1).AppendBaseTransform(Transforms.Ident().S(0.8f, 0.8f, 1.4f).Rz(40).T(4, 4, 0).Get());
+            root.AddModel(pineTree3, "pinetree-01").SetTransform(Transforms.Ident().Rz(90).T(-5, -5, 0).Get());
+            root.AddModel(polygonPlant2).AppendBaseTransform(Transforms.Ident().T(2, 2, 0).Get());
+            root.AddModel(birchTree1).AppendBaseTransform(Transforms.Ident().T(-2, 4, 0).Get());
+            root.AddModel(rockTile1).AppendBaseTransform(Transforms.Ident().T(2, 5, 0).Get());
+            root.AddModel(oneSidedFlower).AppendBaseTransform(Transforms.Ident().Tx(1).Ry(-30).Rx(-130).S(2, 2, 2).T(3, 2, 0).Get());
         }
 
         public override void Update(GameTime gameTime)
         {
             // -- spins the tree
             // float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 50;
-            // models["pinetree-01"].SetBaseTransform(Transforms.Ident().Rz(rotZ).Get());
+            float rotZ = 40;
+            root.models["pinetree-01"].SetBaseTransform(Transforms.Ident().Rz(rotZ).Get());
         }
     }
 }
