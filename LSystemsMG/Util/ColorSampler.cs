@@ -23,7 +23,7 @@ namespace LSystemsMG.Util
 
         public Vector3 GetVariationVector3()
         {
-            int max = RandomNum.GetRandomInt(0, 34);
+            int max = RandomNum.GetRandomInt(0, 24);
             int deltaR = RandomNum.GetRandomInt(0, max) - max / 2;
             int deltaB = RandomNum.GetRandomInt(0, max) - max / 2;
             int deltaG = RandomNum.GetRandomInt(0, max) - max / 2;

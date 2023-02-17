@@ -20,11 +20,12 @@ namespace LSystemsMG.ModelFactory
             this.cameraTransform = cameraTransform;
         }
 
-        private Vector3 DEFAULT_AMBIENT_COLOR = new Vector3(0.4f, 0.3f, 0.3f);
-        private bool DEFAULT_LIGHT0_ENABLED = true;
-        private Vector3 DEFAULT_LIGHT0_DIRECTION = new Vector3(0.8f, 0.8f, -1);
-        private Vector3 DEFAULT_LIGHT0_DIFFUSE = new Vector3(0.8f, 0.8f, 0.8f);
-        private float DEFAULT_ALPHA = 1.0F;
+        public readonly static Vector3 DEFAULT_DIFFUSE_COLOR = new Vector3(0.4f, 0.3f, 0.3f);
+        public readonly static float DEFAULT_ALPHA = 1.0F;
+        public readonly static Vector3 DEFAULT_AMBIENT_COLOR = new Vector3(0.4f, 0.3f, 0.3f);
+        public readonly static bool DEFAULT_LIGHT0_ENABLED = true;
+        public readonly static Vector3 DEFAULT_LIGHT0_DIRECTION = new Vector3(0.8f, 0.8f, -1);
+        public readonly static Vector3 DEFAULT_LIGHT0_DIFFUSE = new Vector3(0.8f, 0.8f, 0.8f);
 
         public void RegisterModelFbx(string modelName, Model model)
         {
@@ -68,12 +69,12 @@ namespace LSystemsMG.ModelFactory
             modelRegister.Add(modelName, (modelName) =>
             {
                 ModelFbx gameModel = new ModelFbx(cameraTransform, modelName, model);
+                gameModel.SetBaseTransform(baseTransform);
+                gameModel.SetAlpha(modelAlpha);
                 gameModel.SetAmbientColor(modelAmbientColor);
                 gameModel.SetLight0Enabled(modelLight0Enabled);
                 gameModel.SetLight0Direction(modelLight0Direction);
                 gameModel.SetLight0Diffuse(modelLight0Diffuse);
-                gameModel.SetAlpha(modelAlpha);
-                gameModel.SetBaseTransform(baseTransform);
                 return gameModel;
             });
         }

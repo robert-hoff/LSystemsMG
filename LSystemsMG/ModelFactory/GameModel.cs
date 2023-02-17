@@ -1,6 +1,6 @@
-using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using LSystemsMG.ModelRendering;
 
 namespace LSystemsMG.ModelFactory
 {
@@ -79,6 +79,7 @@ namespace LSystemsMG.ModelFactory
             worldTransform = Matrix.Multiply(combinedTransform, parentTransform);
         }
 
+        abstract public void SetModelDiffuse(Vector3 color);
         abstract public void SetAmbientColor(Vector3 color);
         abstract public void SetLight0Enabled(bool enabled);
         abstract public void SetLight0Direction(Vector3 dir);

@@ -122,7 +122,6 @@ namespace LSystemsMG
             // sceneGraph = new S02_PlantsAndTerrain(gameModelRegister);
             sceneGraph = new TestScene(gameModelRegister);
 
-
             if (SHOW_AXIS)
             {
                 sceneGraph.ShowWorldAxes(true, axesLen: 5);

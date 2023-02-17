@@ -1,7 +1,8 @@
+using System;
 using System.Diagnostics;
-using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using LSystemsMG.ModelRendering;
 
 namespace LSystemsMG.ModelFactory
 {
@@ -16,32 +17,32 @@ namespace LSystemsMG.ModelFactory
             this.graphicsDevice = graphicsDevice;
         }
 
+        public override void SetModelDiffuse(Vector3 color)
+        {
+            throw new NotSupportedException("SetLight0Enabled not valid for ModelPrimitive");
+        }
         public override void SetAlpha(float val)
         {
-            ReportWarning("SetAlpha", $"{val}");
+            throw new NotSupportedException("SetAlpha not valid for ModelPrimitive");
         }
         public override void SetAmbientColor(Vector3 color)
         {
-            ReportWarning("SetAmbientColor", $"{color}");
+            throw new NotSupportedException("SetAmbientColor not valid for ModelPrimitive");
         }
         public override void SetLight0Diffuse(Vector3 dir)
         {
-            ReportWarning("SetLight0Diffuse", $"{dir}");
+            throw new NotSupportedException("SetLight0Diffuse not valid for ModelPrimitive");
         }
         public override void SetLight0Direction(Vector3 dir)
         {
-            ReportWarning("SetLight0Direction", $"{dir}");
+            throw new NotSupportedException("SetLight0Direction not valid for ModelPrimitive");
         }
         public override void SetLight0Enabled(bool enabled)
         {
-            ReportWarning("SetLight0Enabled", $"{enabled}");
-        }
-        private void ReportWarning(string methodName, string argument)
-        {
-            Debug.WriteLine($"WARN {methodName} in ModelPrimitive not observed for this type " +
-                $"modelName ={modelName} argument={argument}");
+            throw new NotSupportedException("SetLight0Enabled not valid for ModelPrimitive");
         }
 
         abstract public override void Draw();
     }
 }
+

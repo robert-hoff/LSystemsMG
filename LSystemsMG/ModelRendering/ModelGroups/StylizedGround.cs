@@ -34,9 +34,12 @@ namespace LSystemsMG.ModelRendering.ModelGroups
                     GameModel cubeWedge0 = gameModelRegister.CreateModel($"cube-wedge0");
                     GameModel cubeWedge1 = gameModelRegister.CreateModel($"cube-wedge1");
                     cubeWedge0.SetAmbientColor(groundAmbientLight);
+                    cubeWedge0.SetModelDiffuse(colors[i, j, 0]);
                     cubeWedge0.SetLight0Diffuse(colors[i, j, 0]);
                     cubeWedge1.SetAmbientColor(groundAmbientLight);
+                    cubeWedge1.SetModelDiffuse(colors[i, j, 1]);
                     cubeWedge1.SetLight0Diffuse(colors[i, j, 1]);
+                    cubeWedge1.SetLight0Diffuse(colors[i, j, 0]);
                     cubeWedge0.SetTransform(Transforms.Scale(1, 1, tileHeights[i, j]));
                     cubeWedge1.SetTransform(Transforms.Scale(1, 1, tileHeights[i, j]));
                     cubeWedge0.AppendTransform(Transforms.Translate(i - gridOffset, j - gridOffset, 0));
