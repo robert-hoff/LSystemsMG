@@ -18,7 +18,7 @@ namespace LSystemsMG.ModelRendering.TestScenes
             GameModel polygonPlant2 = gameModelRegister.CreateModel("polygon-plant2");
             GameModel birchTree1 = gameModelRegister.CreateModel("birchtree1");
             GameModel rockTile1 = gameModelRegister.CreateModel("rocktile1");
-            GameModel oneSidedFlower = gameModelRegister.CreateModel("plant-example");
+            GameModel oneSidedFlower = gameModelRegister.CreateModel("one-sided-flower");
 
             root = CreateNode();
             root.AddModel(gameModelRegister.CreateModel("skybox"));

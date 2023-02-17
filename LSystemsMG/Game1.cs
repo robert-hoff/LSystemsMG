@@ -83,7 +83,7 @@ namespace LSystemsMG
             RegisterModel("trees/pinetree2");
             RegisterModel("trees/pinetree3");
             RegisterModel("rocks/rocktile1");
-            RegisterModel("plants/plant-example");
+            RegisterModel("plants/one-sided-flower");
             RegisterModel("trees/tree-example");
             RegisterModel("geometries/unitcube");
             for (int i = 0; i < TerrainTiles.TERRAIN_MODEL_COUNT; i++)
@@ -94,9 +94,9 @@ namespace LSystemsMG
             RegisterModel("geometries/cube-wedge1");
 
 
-            // sceneGraph = new S01_RotatingPlatform(gameModelRegister);
+            sceneGraph = new S01_RotatingPlatform(gameModelRegister);
             // sceneGraph = new S02_PlantsAndTerrain(gameModelRegister);
-            sceneGraph = new TestScene(gameModelRegister);
+            // sceneGraph = new TestScene(gameModelRegister);
 
             if (SHOW_AXIS)
             {

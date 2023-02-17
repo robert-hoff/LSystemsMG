@@ -42,7 +42,7 @@ namespace LSystemsMG.ModelFactory
             throw new NotSupportedException("SetLight0Enabled not valid for ModelPrimitive");
         }
 
-        abstract public override void Draw();
+        abstract public override void Draw(GraphicsDevice graphicsDevice);
     }
 }
 

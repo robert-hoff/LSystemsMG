@@ -53,7 +53,7 @@ namespace LSystemsMG.ModelFactory
             this.light0Direction = direction;
         }
 
-        public override void Draw()
+        public override void Draw(GraphicsDevice graphicsDevice)
         {
             foreach (ModelMesh mesh in model.Meshes)
             {
@@ -72,6 +72,8 @@ namespace LSystemsMG.ModelFactory
                     basicEffect.DirectionalLight0.DiffuseColor = this.light0Diffuse;
                     basicEffect.DirectionalLight0.Direction = this.light0Direction;
                 }
+                graphicsDevice.RasterizerState = modelGraphicsRasterizerState;
+                graphicsDevice.BlendState = modelGraphicsBlendState;
                 mesh.Draw();
             }
         }

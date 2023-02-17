@@ -79,13 +79,24 @@ namespace LSystemsMG.ModelFactory
             worldTransform = Matrix.Multiply(combinedTransform, parentTransform);
         }
 
+        protected RasterizerState modelGraphicsRasterizerState = RasterizerState.CullCounterClockwise;
+        protected BlendState modelGraphicsBlendState = BlendState.AlphaBlend;
+
+        public void SetGraphicsRasterizerState(RasterizerState rasterizerState)
+        {
+            this.modelGraphicsRasterizerState = rasterizerState;
+        }
+        public void SetGraphicsBlendState(BlendState blendState)
+        {
+            this.modelGraphicsBlendState = blendState;
+        }
         abstract public void SetModelDiffuse(Vector3 color);
         abstract public void SetAmbientColor(Vector3 color);
         abstract public void SetLight0Enabled(bool enabled);
         abstract public void SetLight0Direction(Vector3 dir);
         abstract public void SetLight0Diffuse(Vector3 dir);
         abstract public void SetAlpha(float val);
-        abstract public void Draw();
+        abstract public void Draw(GraphicsDevice graphicsDevice);
     }
 }
 

@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using LSystemsMG.ModelFactory;
 using LSystemsMG.Util;
-using System.Diagnostics;
 
 namespace LSystemsMG.ModelRendering
 {
@@ -115,15 +116,15 @@ namespace LSystemsMG.ModelRendering
             }
         }
 
-        public void DrawModels()
+        public void DrawModels(GraphicsDevice graphicsDevice)
         {
             foreach (GameModel gameModel in models.Values)
             {
-                gameModel.Draw();
+                gameModel.Draw(graphicsDevice);
             }
             foreach (SceneGraphNode node in nodes.Values)
             {
-                node.DrawModels();
+                node.DrawModels(graphicsDevice);
             }
         }
 

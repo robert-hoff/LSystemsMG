@@ -47,11 +47,11 @@ namespace LSystemsMG.ModelRendering
             graphicsDevice.Clear(clearColor);
             if (showWorldAxes)
             {
-                worldAxes.Draw();
+                worldAxes.Draw(graphicsDevice);
             }
             foreach (SceneGraphNode node in nodes)
             {
-                node.DrawModels();
+                node.DrawModels(graphicsDevice);
             }
         }
 

@@ -21,7 +21,7 @@ namespace LSystemsMG.ModelFactory.ModelsPrimitive
 
         private const int AXIS_LEN = 1;
 
-        public override void Draw()
+        public override void Draw(GraphicsDevice graphicsDevice)
         {
             Vector3[] positiveX = new Vector3[2];
             positiveX[0] = new Vector3(0, 0, 0);

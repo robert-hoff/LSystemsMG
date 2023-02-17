@@ -20,6 +20,8 @@ namespace LSystemsMG.ModelFactory
             this.cameraTransform = cameraTransform;
         }
 
+        public readonly static RasterizerState DEFAULT_RASTERIZER_STATE = RasterizerState.CullCounterClockwise;
+        public readonly static BlendState DEFAULT_BLEND_STATE = BlendState.Opaque;
         public readonly static Vector3 DEFAULT_DIFFUSE_COLOR = new Vector3(0.4f, 0.3f, 0.3f);
         public readonly static float DEFAULT_ALPHA = 1.0F;
         public readonly static Vector3 DEFAULT_AMBIENT_COLOR = new Vector3(0.4f, 0.3f, 0.3f);
@@ -29,6 +31,8 @@ namespace LSystemsMG.ModelFactory
 
         public void RegisterModelFbx(string modelName, Model model)
         {
+            RasterizerState modelRasterizerState = DEFAULT_RASTERIZER_STATE;
+            BlendState modelBlendState = DEFAULT_BLEND_STATE;
             Vector3 modelAmbientColor = DEFAULT_AMBIENT_COLOR;
             bool modelLight0Enabled = DEFAULT_LIGHT0_ENABLED;
             Vector3 modelLight0Direction = DEFAULT_LIGHT0_DIRECTION;
@@ -40,6 +44,10 @@ namespace LSystemsMG.ModelFactory
             {
                 case "unitcube":
                     modelAlpha = 0.5f;
+                    modelBlendState = BlendState.AlphaBlend;
+                    break;
+                case "one-sided-flower":
+                    modelRasterizerState = RasterizerState.CullNone;
                     break;
                 case "acaciatree1":
                     baseTransform = Transforms.Ident().S(1.1f, 1.1f, 1.1f).Rz(-30).Get();
@@ -70,6 +78,8 @@ namespace LSystemsMG.ModelFactory
             {
                 ModelFbx gameModel = new ModelFbx(cameraTransform, modelName, model);
                 gameModel.SetBaseTransform(baseTransform);
+                gameModel.SetGraphicsRasterizerState(modelRasterizerState);
+                gameModel.SetGraphicsBlendState(modelBlendState);
                 gameModel.SetAlpha(modelAlpha);
                 gameModel.SetAmbientColor(modelAmbientColor);
                 gameModel.SetLight0Enabled(modelLight0Enabled);
