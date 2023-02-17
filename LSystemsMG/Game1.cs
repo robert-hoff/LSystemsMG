@@ -8,30 +8,6 @@ using LSystemsMG.ModelRendering;
 using LSystemsMG.ModelRendering.ModelGroups;
 using LSystemsMG.ModelRendering.TestScenes;
 
-/**
- *
- * <remarks>constructor</remarks>
- * - `new GraphicsDeviceManager(this)` attaches itself to this.GraphicsDevice
- * - removed 'spritebatch' (refer to template)
- *
- * <remarks>Initialize()</remarks>
- * - called once after constructor
- * - GraphicsDevice will be ready
- *
- * <remarks>method Update(GameTime gameTime)</remarks>
- * Called on each game-loop
- * - Target FPS (default) = 60
- * - gameTime.TotalGameTime = global clock
- * - gameTime.ElapsedTime, time since last update (1/60 seconds)
- *
- * <remarks>method Draw(GameTime gameTime)</remarks>
- * Same as Update. Called immediately after (on the execution thread)
- * - attaching an object of type `DrawableGameComponent`
- *   will have its Draw(GameTime gametime) method implicitly called at this step (needs to be registered)
- *
- *
- *
- */
 namespace LSystemsMG
 {
     public class Game1 : Game

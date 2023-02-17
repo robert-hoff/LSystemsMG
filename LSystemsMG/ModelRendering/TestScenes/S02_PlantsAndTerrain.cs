@@ -12,17 +12,6 @@ namespace LSystemsMG.ModelRendering.TestScenes
 
         public override void LoadModels()
         {
-            // FIXME - need to make the terrain rendering work with the scene graph
-            // TerrainRenderer terrainRenderer;
-            /*
-            for (int i = -7; i <= 7; i++)
-            {
-                for (int j = -7; j <= 7; j++)
-                {
-                    terrainRenderer.DrawRandom(i, j);
-                }
-            }
-            */
             GameModel reeds1 = gameModelRegister.CreateModel("reeds1");
             GameModel acaciaTree1 = gameModelRegister.CreateModel("acaciatree1");
             GameModel pineTree3 = gameModelRegister.CreateModel("pinetree3");
