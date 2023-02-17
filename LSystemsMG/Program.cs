@@ -9,9 +9,9 @@ namespace LSystemsMG
         [STAThread]
         public static void Main()
         {
-            // using Game1 game = new();
-            // game.Run();
-            RunOther();
+            using Game1 game = new();
+            game.Run();
+            // RunOther();
         }
 
         public static void RunOther()

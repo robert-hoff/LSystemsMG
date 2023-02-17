@@ -7,6 +7,8 @@ using LSystemsMG.ModelFactory;
 using LSystemsMG.ModelRendering;
 using LSystemsMG.ModelRendering.TestScenes;
 using LSystemsMG.ModelTransforms;
+using LSystemsMG.ModelRendering2;
+using LSystemsMG.ModelRendering2.testy;
 
 /**
  *
@@ -47,7 +49,8 @@ namespace LSystemsMG
         // -- models are instantiated on this class
         private GameModelRegister gameModelRegister;
         // -- models are assigned to sceneGraph as members of SceneGraphNode
-        private SceneGraph sceneGraph;
+        // private SceneGraph sceneGraph;
+        private SceneGraph2 sceneGraph;
 
         public Game1()
         {
@@ -114,8 +117,9 @@ namespace LSystemsMG
             // -- create scenes by extending SceneGraph,
             // expressing model placement and scene updates
             // sceneGraph = new Scene01RotatingPlatform(gameModelRegister);
-            sceneGraph = new Scene02PlantsAndTerrain(gameModelRegister);
+            // sceneGraph = new Scene02PlantsAndTerrain(gameModelRegister);
 
+            sceneGraph = new MyTestScene(gameModelRegister);
             if (SHOW_AXIS)
             {
                 sceneGraph.ShowWorldAxes(true, axesLen: 5);
@@ -229,8 +233,10 @@ namespace LSystemsMG
             // GraphicsDevice.BlendState = BlendState.NonPremultiplied;
             // GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
-            sceneGraph.Draw(GraphicsDevice);
+            // sceneGraph2.Draw(GraphicsDevice);
             // PreviousScene(gameTime);
+
+            sceneGraph.Draw(GraphicsDevice);
 
             base.Draw(gameTime);
         }
