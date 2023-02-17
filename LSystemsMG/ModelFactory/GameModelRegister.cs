@@ -31,6 +31,8 @@ namespace LSystemsMG.ModelFactory
 
         public void RegisterModelFbx(string modelName, Model model)
         {
+            Matrix baseTransform = Matrix.Identity;
+            bool modelDrawLast = false;
             RasterizerState modelRasterizerState = DEFAULT_RASTERIZER_STATE;
             BlendState modelBlendState = DEFAULT_BLEND_STATE;
             Vector3 modelAmbientColor = DEFAULT_AMBIENT_COLOR;
@@ -38,13 +40,13 @@ namespace LSystemsMG.ModelFactory
             Vector3 modelLight0Direction = DEFAULT_LIGHT0_DIRECTION;
             Vector3 modelLight0Diffuse = DEFAULT_LIGHT0_DIFFUSE;
             float modelAlpha = DEFAULT_ALPHA;
-            Matrix baseTransform = Matrix.Identity;
 
             switch (modelName)
             {
                 case "unitcube":
                     modelAlpha = 0.5f;
                     modelBlendState = BlendState.AlphaBlend;
+                    modelDrawLast = true;
                     break;
                 case "one-sided-flower":
                     modelRasterizerState = RasterizerState.CullNone;
@@ -77,9 +79,10 @@ namespace LSystemsMG.ModelFactory
             modelRegister.Add(modelName, (modelName) =>
             {
                 ModelFbx gameModel = new ModelFbx(cameraTransform, modelName, model);
+                gameModel.modelDrawLast = modelDrawLast;
                 gameModel.SetBaseTransform(baseTransform);
-                gameModel.SetGraphicsRasterizerState(modelRasterizerState);
-                gameModel.SetGraphicsBlendState(modelBlendState);
+                gameModel.modelGraphicsRasterizerState = modelRasterizerState;
+                gameModel.modelGraphicsBlendState = modelBlendState;
                 gameModel.SetAlpha(modelAlpha);
                 gameModel.SetAmbientColor(modelAmbientColor);
                 gameModel.SetLight0Enabled(modelLight0Enabled);

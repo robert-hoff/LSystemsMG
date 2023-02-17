@@ -42,8 +42,10 @@ namespace LSystemsMG.ModelRendering
             }
         }
 
+        public static List<GameModel> modelsDrawLast = new();
         public void Draw(GraphicsDevice graphicsDevice)
         {
+            modelsDrawLast = new();
             graphicsDevice.Clear(clearColor);
             if (showWorldAxes)
             {
@@ -52,6 +54,10 @@ namespace LSystemsMG.ModelRendering
             foreach (SceneGraphNode node in nodes)
             {
                 node.DrawModels(graphicsDevice);
+            }
+            foreach (GameModel model in modelsDrawLast)
+            {
+                model.Draw(graphicsDevice);
             }
         }
 

@@ -7,7 +7,8 @@ namespace LSystemsMG.ModelFactory
     abstract class GameModel
     {
         public string modelName { get; }
-        protected CameraTransform cameraTransform;
+        protected CameraTransform cameraTransform { get; set; }
+
         /**
          * <param>baseTransform<param>
          * Use baseTransform to fix isseues in rotation, scaling or translation with the
@@ -22,7 +23,7 @@ namespace LSystemsMG.ModelFactory
          *
          *
          */
-        public Matrix baseTransform {get; private set;}
+        public Matrix baseTransform { get; private set; }
         public Matrix modelTransform { get; private set; }
         public Matrix combinedTransform { get; private set; }
         public Matrix parentTransform { get; private set; } = Matrix.Identity;
@@ -79,17 +80,10 @@ namespace LSystemsMG.ModelFactory
             worldTransform = Matrix.Multiply(combinedTransform, parentTransform);
         }
 
-        protected RasterizerState modelGraphicsRasterizerState = RasterizerState.CullCounterClockwise;
-        protected BlendState modelGraphicsBlendState = BlendState.AlphaBlend;
+        public bool modelDrawLast { get; set; } = false;
+        public RasterizerState modelGraphicsRasterizerState { get; set; } = RasterizerState.CullCounterClockwise;
+        public BlendState modelGraphicsBlendState { get; set; } = BlendState.AlphaBlend;
 
-        public void SetGraphicsRasterizerState(RasterizerState rasterizerState)
-        {
-            this.modelGraphicsRasterizerState = rasterizerState;
-        }
-        public void SetGraphicsBlendState(BlendState blendState)
-        {
-            this.modelGraphicsBlendState = blendState;
-        }
         abstract public void SetModelDiffuse(Vector3 color);
         abstract public void SetAmbientColor(Vector3 color);
         abstract public void SetLight0Enabled(bool enabled);

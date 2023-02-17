@@ -120,7 +120,14 @@ namespace LSystemsMG.ModelRendering
         {
             foreach (GameModel gameModel in models.Values)
             {
-                gameModel.Draw(graphicsDevice);
+                if (gameModel.modelDrawLast)
+                {
+                    SceneGraph.modelsDrawLast.Add(gameModel);
+                }
+                else
+                {
+                    gameModel.Draw(graphicsDevice);
+                }
             }
             foreach (SceneGraphNode node in nodes.Values)
             {

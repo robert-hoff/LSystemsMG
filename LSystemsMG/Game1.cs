@@ -94,8 +94,8 @@ namespace LSystemsMG
             RegisterModel("geometries/cube-wedge1");
 
 
-            sceneGraph = new S01_RotatingPlatform(gameModelRegister);
-            // sceneGraph = new S02_PlantsAndTerrain(gameModelRegister);
+            // sceneGraph = new S01_RotatingPlatform(gameModelRegister);
+            sceneGraph = new S02_PlantsAndTerrain(gameModelRegister);
             // sceneGraph = new TestScene(gameModelRegister);
 
             if (SHOW_AXIS)
@@ -206,14 +206,7 @@ namespace LSystemsMG
 
         protected override void Draw(GameTime gameTime)
         {
-            // FIXME - need to toggle this on the models that require it
-            // GraphicsDevice.BlendState = BlendState.AlphaBlend;
-            // GraphicsDevice.BlendState = BlendState.NonPremultiplied;
-            // GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-
             sceneGraph.Draw(GraphicsDevice);
-            // PreviousScene(gameTime);
-
             base.Draw(gameTime);
         }
     }
