@@ -17,7 +17,7 @@ namespace LSystemsMG
         public static void RunOther()
         {
             GraphTest();
-            // RunFixLineEndings();
+            // FixLineEndings();
             // CSharpSnippets();
             // MatrixEvaluations();
             // AnalyseFiles();
