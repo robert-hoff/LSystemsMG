@@ -87,6 +87,13 @@ namespace LSystemsMG.ModelRendering
             this.needsUpdate = true;
         }
 
+        // for repeat update requires resetting coordinateTransform externally
+        public void ScaleCoordinateSystem(float sX, float sY, float sZ)
+        {
+            this.coordinateTransform = Transforms.ScaleCoordinateSystem(coordinateTransform, sX, sY, sZ);
+            this.needsUpdate = true;
+        }
+
         /*
          * When walking the tree, transforms are applied only if needsUpdate is true.
          * But if found propagateUpdate is set so all child nodes are updated too.

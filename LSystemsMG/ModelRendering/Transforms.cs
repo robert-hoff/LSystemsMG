@@ -1,6 +1,13 @@
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
+/*
+ *      m11     m21     m31     m41
+ *      m12     m22     m32     m42
+ *      m13     m23     m33     m43
+ *      m14     m24     m34     m44
+ *
+ */
 namespace LSystemsMG.ModelRendering
 {
     class Transforms
@@ -78,13 +85,17 @@ namespace LSystemsMG.ModelRendering
         /*
          * Scale the coordinate system without scaling its models. This is the same as
          * applying the scaling to the translational components only.
+         *
+         * the elements here sould be the right ones (not the ones along the bottom)
+         * m41 m42 m43
+         *
          */
-        public static Matrix ScaleCoordinateSystem(Matrix translation, Matrix scale)
+        public static Matrix ScaleCoordinateSystem(Matrix translation, float sX, float sY, float sZ)
         {
             Matrix result = translation;
-            result.M41 *= scale.M11;
-            result.M42 *= scale.M22;
-            result.M43 *= scale.M33;
+            result.M41 *= sX;
+            result.M42 *= sY;
+            result.M43 *= sZ;
             return result;
         }
 
@@ -108,10 +119,10 @@ namespace LSystemsMG.ModelRendering
          */
         public static void ShowMatrix(Matrix M)
         {
-            Debug.WriteLine($"{M.M11,5:##0.00} {M.M21,5:##0.00} {M.M31,5:##0.00} {M.M41,5:##0.00}");
-            Debug.WriteLine($"{M.M12,5:##0.00} {M.M22,5:##0.00} {M.M32,5:##0.00} {M.M42,5:##0.00}");
-            Debug.WriteLine($"{M.M13,5:##0.00} {M.M23,5:##0.00} {M.M33,5:##0.00} {M.M43,5:##0.00}");
-            Debug.WriteLine($"{M.M14,5:##0.00} {M.M24,5:##0.00} {M.M34,5:##0.00} {M.M44,5:##0.00}");
+            Debug.WriteLine($"M11 M21 M31 M41  {M.M11,5:##0.00} {M.M21,5:##0.00} {M.M31,5:##0.00} {M.M41,5:##0.00}");
+            Debug.WriteLine($"M12 M22 M32 M42  {M.M12,5:##0.00} {M.M22,5:##0.00} {M.M32,5:##0.00} {M.M42,5:##0.00}");
+            Debug.WriteLine($"M13 M23 M33 M43  {M.M13,5:##0.00} {M.M23,5:##0.00} {M.M33,5:##0.00} {M.M43,5:##0.00}");
+            Debug.WriteLine($"M14 M24 M34 M44  {M.M14,5:##0.00} {M.M24,5:##0.00} {M.M34,5:##0.00} {M.M44,5:##0.00}");
         }
     }
 }

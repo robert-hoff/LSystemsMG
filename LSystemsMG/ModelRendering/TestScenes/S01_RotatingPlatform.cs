@@ -1,6 +1,6 @@
+using System;
 using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
-using LSystemsMG.ModelRendering.ModelGroups;
 
 namespace LSystemsMG.ModelRendering.TestScenes
 {
@@ -28,10 +28,13 @@ namespace LSystemsMG.ModelRendering.TestScenes
         public override void Update(GameTime gameTime)
         {
             float rotZ = (float) gameTime.TotalGameTime.TotalMilliseconds / 30;
-            float rotY = (float) gameTime.TotalGameTime.TotalMilliseconds / 30;
+            float scaleZ = (MathF.Cos(rotZ / 30) + 3) * 5;
             node1.SetTransform(Transforms.Translate(2.5f, 2.5f, 0));
             node1["platform"].SetTransform(Transforms.RotZ(rotZ));
-            // node1["platform"].SetTransform(Transforms.Ident().Rz(rotZ).Ry(rotY).T(2.5f, 2.5f, 0).Get());
+            node1["platform"].models["cubebase"].SetTransform(Transforms.Scale(5f, 5f, 0.25f));
+            node1["platform"].models["cubebase"].AppendTransform(Transforms.ScaleZ(scaleZ));
+            node1["platform"]["plants"].SetTransform(Transforms.Translate(-2.5f, -2.5f, 0.25f));
+            node1["platform"]["plants"].ScaleCoordinateSystem(1, 1, scaleZ);
         }
     }
 }
