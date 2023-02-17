@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
 using LSystemsMG.Util;
+using System.Diagnostics;
 
 namespace LSystemsMG.ModelRendering
 {
     class SceneGraphNode
     {
-        private Matrix coordinateTransform;
+        public Matrix coordinateTransform { get; private set; }
         private Matrix worldTransform;
         public OrderedDictionary<string, SceneGraphNode> nodes = new();
         public OrderedDictionary<string, GameModel> models = new();

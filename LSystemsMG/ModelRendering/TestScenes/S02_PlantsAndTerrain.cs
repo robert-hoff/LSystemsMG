@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
+using LSystemsMG.ModelRendering.ModelGroups;
 
 namespace LSystemsMG.ModelRendering.TestScenes
 {
@@ -32,6 +33,7 @@ namespace LSystemsMG.ModelRendering.TestScenes
 
             root = CreateNode();
             root.AddModel(gameModelRegister.CreateModel("skybox"));
+            root.AddNode(new TerrainTiles(gameModelRegister));
             root.AddModel(acaciaTree1).AppendBaseTransform(Transforms.Translate(-4, -13, 0));
             root.AddModel(reeds1).AppendBaseTransform(Transforms.Ident().S(0.8f, 0.8f, 1.4f).Rz(40).T(4, 4, 0).Get());
             root.AddModel(pineTree3, "pinetree-01").SetTransform(Transforms.Ident().Rz(90).T(-5, -5, 0).Get());

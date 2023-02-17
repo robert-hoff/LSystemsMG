@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
+using LSystemsMG.ModelRendering.ModelGroups;
 
 namespace LSystemsMG.ModelRendering.TestScenes
 {
