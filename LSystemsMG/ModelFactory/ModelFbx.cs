@@ -25,8 +25,11 @@ namespace LSystemsMG.ModelFactory
             basicEffect.DirectionalLight0.Enabled = enabled;
         }
 
+        private Vector3 DiffuseColor;
+
         public override void SetLight0Diffuse(Vector3 color)
         {
+            this.DiffuseColor = color;
             basicEffect.DirectionalLight0.DiffuseColor = color;
         }
 
@@ -50,6 +53,7 @@ namespace LSystemsMG.ModelFactory
                     basicEffect.View = cameraTransform.viewMatrix;
                     basicEffect.Projection = cameraTransform.projectionMatrix;
                     basicEffect.World = Matrix.Multiply(worldTransform, basicEffect.World);
+                    basicEffect.DiffuseColor = DiffuseColor;
                 }
                 mesh.Draw();
             }

@@ -11,6 +11,10 @@ namespace LSystemsMG.Util
         {
             return random.Next(min, max);
         }
+        public static bool GetRandomBool()
+        {
+            return random.Next(0,2) % 2 == 0;
+        }
 
         public static string Random5LenHash()
         {

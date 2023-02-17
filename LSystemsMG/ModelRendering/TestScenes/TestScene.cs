@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
 using LSystemsMG.ModelRendering.ModelGroups;
-using Microsoft.Xna.Framework;
 
 namespace LSystemsMG.ModelRendering.TestScenes
 {
@@ -17,15 +11,11 @@ namespace LSystemsMG.ModelRendering.TestScenes
         public override void LoadModels()
         {
             SceneGraphNode root = CreateNode();
-            TerrainTiles terrain = new TerrainTiles(gameModelRegister);
-            root.AddNode(terrain);
-
-
+            StylizedGround stylizedGround = new StylizedGround(gameModelRegister);
+            root.AddNode(stylizedGround);
         }
 
-        public override void Update(GameTime gameTime)
-        {
-        }
+        public override void Update(GameTime gameTime) { }
     }
 }
 

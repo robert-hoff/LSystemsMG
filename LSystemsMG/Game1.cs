@@ -5,9 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using LSystemsMG.ModelFactory;
 using LSystemsMG.ModelRendering;
-using LSystemsMG.ModelRendering.TestScenes;
 using LSystemsMG.ModelRendering.ModelGroups;
-using System.Drawing.Text;
+using LSystemsMG.ModelRendering.TestScenes;
 
 /**
  *
@@ -115,10 +114,13 @@ namespace LSystemsMG
             {
                 RegisterModel($"terrain-tiles/terrain{i:000}");
             }
+            RegisterModel("geometries/cube-wedge0");
+            RegisterModel("geometries/cube-wedge1");
+
 
             // sceneGraph = new S01_RotatingPlatform(gameModelRegister);
-            sceneGraph = new S02_PlantsAndTerrain(gameModelRegister);
-            // sceneGraph = new TestScene(gameModelRegister);
+            // sceneGraph = new S02_PlantsAndTerrain(gameModelRegister);
+            sceneGraph = new TestScene(gameModelRegister);
 
 
             if (SHOW_AXIS)
