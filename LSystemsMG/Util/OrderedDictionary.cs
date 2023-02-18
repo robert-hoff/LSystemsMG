@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 using System.Linq;
 
 /*
- * this garbage is from https://github.com/mattmc3
+ * this garbage is from https://github.com/mattmc3/dotmore
  *
  */
 namespace LSystemsMG.Util

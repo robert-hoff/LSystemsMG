@@ -22,7 +22,7 @@ namespace LSystemsMG.Util.External
         {
             int nrTiles = BOARD_HEIGHT * BOARD_WIDTH;
             xOffsetToCentralTile = BOARD_HEIGHT / 2;
-            yOffsetToCentralTile = BOARD_HEIGHT / 2;
+            yOffsetToCentralTile = BOARD_WIDTH / 2;
 
             List<int> unassignedTiles = new();
             for (int i = 0; i < nrTiles; i++)
@@ -30,9 +30,9 @@ namespace LSystemsMG.Util.External
                 unassignedTiles.Add(i);
             }
             // Randomize the tiles at start
-            for (int i = 0; i < 441; i++)
+            for (int i = 0; i < nrTiles; i++)
             {
-                int randomIndex = RandomNum.GetRandomInt(0, 441 - i);
+                int randomIndex = RandomNum.GetRandomInt(0, nrTiles - i);
                 int randomTile = unassignedTiles[randomIndex];
                 unassignedTiles.RemoveAt(randomIndex);
                 freeTiles.Add(randomTile);
