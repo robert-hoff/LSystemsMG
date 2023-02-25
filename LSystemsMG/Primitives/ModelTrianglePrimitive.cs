@@ -1,7 +1,6 @@
-using System.Diagnostics;
+using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using LSystemsMG.ModelRendering;
 
 /**
  * <remarks>BasicEffect</remarks>
@@ -16,6 +15,7 @@ using LSystemsMG.ModelRendering;
  *
  *
  */
+#pragma warning disable CA1001 // Types that own disposable fields should be disposable
 namespace LSystemsMG.Primitives
 {
     class ModelTrianglePrimitive
@@ -43,14 +43,14 @@ namespace LSystemsMG.Primitives
             vertexList[2] = new VertexPositionColor(vertices[2], color);
             ApplyCameraTransform();
             basicEffect.CurrentTechnique.Passes[0].Apply();
-            graphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, vertexList, 0, 1);
+            graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, vertexList, 0, 1);
         }
 
         private void ApplyCameraTransform()
         {
-            basicEffect.World = cameraTransform.worldMatrix;
-            basicEffect.View = cameraTransform.viewMatrix;
-            basicEffect.Projection = cameraTransform.projectionMatrix;
+            basicEffect.World = cameraTransform.WorldMatrix;
+            basicEffect.View = cameraTransform.ViewMatrix;
+            basicEffect.Projection = cameraTransform.ProjectionMatrix;
         }
 
         public void DrawTestTriangle(GraphicsDevice graphicsDevice)

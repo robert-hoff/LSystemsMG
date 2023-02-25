@@ -1,7 +1,5 @@
-using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
-using LSystemsMG.ModelRendering.ModelGroups;
-using LSystemsMG.Util;
+using Microsoft.Xna.Framework;
 
 namespace LSystemsMG.ModelRendering.TestScenes
 {
@@ -11,7 +9,6 @@ namespace LSystemsMG.ModelRendering.TestScenes
 
         public override void LoadModels()
         {
-
         }
 
         public override void Update(GameTime gameTime) { }

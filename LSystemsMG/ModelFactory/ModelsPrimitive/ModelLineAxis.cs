@@ -1,6 +1,6 @@
+using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using LSystemsMG.ModelRendering;
 
 namespace LSystemsMG.ModelFactory.ModelsPrimitive
 {
@@ -54,9 +54,9 @@ namespace LSystemsMG.ModelFactory.ModelsPrimitive
             VertexPositionColor[] vertexList = new VertexPositionColor[2];
             vertexList[0] = new VertexPositionColor(vertices[0], color);
             vertexList[1] = new VertexPositionColor(vertices[1], color);
-            basicEffect.World = cameraTransform.worldMatrix;
-            basicEffect.View = cameraTransform.viewMatrix;
-            basicEffect.Projection = cameraTransform.projectionMatrix;
+            basicEffect.World = cameraTransform.WorldMatrix;
+            basicEffect.View = cameraTransform.ViewMatrix;
+            basicEffect.Projection = cameraTransform.ProjectionMatrix;
             basicEffect.World = Matrix.Multiply(worldTransform, basicEffect.World);
             basicEffect.CurrentTechnique.Passes[0].Apply();
             graphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, vertexList, 0, 1);

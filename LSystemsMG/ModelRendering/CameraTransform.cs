@@ -1,7 +1,8 @@
 using System;
-using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
+#pragma warning disable CS0162 // Unreachable code detected
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
 namespace LSystemsMG.ModelRendering
 {
     /*
@@ -13,8 +14,8 @@ namespace LSystemsMG.ModelRendering
     public class CameraTransform
     {
         // public Vector3 cameraPosition { get; private set; }  = new Vector3(3f, -7f, 3f);
-        public Vector3 cameraPosition { get; private set; } = new Vector3(8f, -19f, 8f);
-        public float cameraRotation { get; private set; } = MathHelper.ToRadians(-5f);
+        public Vector3 CameraPosition { get; private set; } = new Vector3(8f, -19f, 8f);
+        public float CameraRotation { get; private set; } = MathHelper.ToRadians(-5f);
         private int viewportWidth;
         private int viewportHeight;
 
@@ -23,9 +24,9 @@ namespace LSystemsMG.ModelRendering
         private float MIN_HEIGHT_DEGREES = 15;
         private float MAX_HEIGHT_DEGREES = 35;
 
-        public Matrix worldMatrix { get; private set; }
-        public Matrix viewMatrix { get; private set; }
-        public Matrix projectionMatrix { get; private set; }
+        public Matrix WorldMatrix { get; private set; }
+        public Matrix ViewMatrix { get; private set; }
+        public Matrix ProjectionMatrix { get; private set; }
 
         public CameraTransform(int viewportWidth, int viewportHeight)
         {
@@ -40,16 +41,16 @@ namespace LSystemsMG.ModelRendering
         // -- World matrix and related updates
         private void CalculateWorldMatrix()
         {
-            worldMatrix = Matrix.CreateRotationZ(cameraRotation);
+            WorldMatrix = Matrix.CreateRotationZ(CameraRotation);
         }
         public void SetCameraOrbitDegrees(float rotateDeg)
         {
-            cameraRotation = MathHelper.ToRadians(rotateDeg / 2f);
+            CameraRotation = MathHelper.ToRadians(rotateDeg / 2f);
             CalculateWorldMatrix();
         }
         public void IncrementCameraOrbitDegrees(float rotateDeg)
         {
-            cameraRotation += MathHelper.ToRadians(rotateDeg / 2f);
+            CameraRotation += MathHelper.ToRadians(rotateDeg / 2f);
             CalculateWorldMatrix();
         }
 
@@ -57,32 +58,33 @@ namespace LSystemsMG.ModelRendering
         // -- View matrix and related updates
         private void CalculateViewMatrix()
         {
-            viewMatrix = Matrix.CreateLookAt(cameraPosition, new Vector3(0, 0, 0), Vector3.UnitZ);
+            ViewMatrix = Matrix.CreateLookAt(CameraPosition, new Vector3(0, 0, 0), Vector3.UnitZ);
         }
         public void ZoomIn()
         {
             if (Game1.RESTRICT_CAMERA && ZoomDistance() < MIN_ZOOM_DISTANCE)
             { return; }
-            cameraPosition = Vector3.Multiply(cameraPosition, 0.90f);
+            CameraPosition = Vector3.Multiply(CameraPosition, 0.90f);
             CalculateViewMatrix();
         }
         public void ZoomOut()
         {
             if (Game1.RESTRICT_CAMERA && ZoomDistance() > MAX_ZOOM_DISTANCE)
             { return; }
-            cameraPosition = Vector3.Multiply(cameraPosition, 1.1f);
+            CameraPosition = Vector3.Multiply(CameraPosition, 1.1f);
             CalculateViewMatrix();
         }
         private float ZoomDistance()
         {
-            return Vector3.Distance(cameraPosition, new Vector3(0, 0, 0));
+            return Vector3.Distance(CameraPosition, new Vector3(0, 0, 0));
         }
 
         // instead of "orbit up" just raise the height (hacky)
         public void OrbitUpDown(float amount)
         {
-            float cameraHeight = cameraPosition.Z + amount * ScalarProjXY(cameraPosition) / 15;
-            float heightDegrees = MathHelper.ToDegrees(MathF.Atan(cameraPosition.Z / ScalarProjXY(cameraPosition)));
+            float cameraHeight = CameraPosition.Z + amount * ScalarProjXY(CameraPosition) / 15;
+
+            float heightDegrees = MathHelper.ToDegrees(MathF.Atan(CameraPosition.Z / ScalarProjXY(CameraPosition)));
             if (Game1.RESTRICT_CAMERA)
             {
                 if (amount > 0 && heightDegrees > MAX_HEIGHT_DEGREES)
@@ -94,10 +96,10 @@ namespace LSystemsMG.ModelRendering
                     return;
                 }
             }
-            cameraPosition = new Vector3(cameraPosition.X, cameraPosition.Y, cameraHeight);
+            CameraPosition = new Vector3(CameraPosition.X, CameraPosition.Y, cameraHeight);
             CalculateViewMatrix();
         }
-        private float ScalarProjXY(Vector3 v)
+        private static float ScalarProjXY(Vector3 v)
         {
             return MathF.Sqrt(v.X * v.X + v.Y * v.Y);
         }
@@ -111,7 +113,7 @@ namespace LSystemsMG.ModelRendering
         private void CalculateProjectionMatrix()
         {
             float viewPortAspectRatio = (float) viewportWidth / viewportHeight;
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(FOV, viewPortAspectRatio, NEAR_CLIP, FAR_CLIP);
+            ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(FOV, viewPortAspectRatio, NEAR_CLIP, FAR_CLIP);
         }
         public void UpdateViewportDimensions(int viewportWidth, int viewportHeight)
         {

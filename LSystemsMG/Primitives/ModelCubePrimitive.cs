@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using LSystemsMG.ModelRendering;
 
 /*
  * attempt at drawing a cube as a collection of primitives
  * method is too slow to be a suitable target for repeat calls
  *
  */
+#pragma warning disable CA1001 // Types that own disposable fields should be disposable
 namespace LSystemsMG.Primitives
 {
     class ModelCubePrimitive
@@ -42,12 +43,12 @@ namespace LSystemsMG.Primitives
             PopulateVerticesForSide(vertexList, cubeCenter, side / 2, side / 2, depth / 2, 0, -1, 0);
             PopulateVerticesForSide(vertexList, cubeCenter, depth / 2, side / 2, side / 2, 0, 0, 1);
             PopulateVerticesForSide(vertexList, cubeCenter, depth / 2, side / 2, side / 2, 0, 0, -1);
-            basicEffect.World = cameraTransform.worldMatrix;
-            basicEffect.View = cameraTransform.viewMatrix;
-            basicEffect.Projection = cameraTransform.projectionMatrix;
+            basicEffect.World = cameraTransform.WorldMatrix;
+            basicEffect.View = cameraTransform.ViewMatrix;
+            basicEffect.Projection = cameraTransform.ProjectionMatrix;
             basicEffect.CurrentTechnique.Passes[0].Apply();
             int primitiveCount = vertexList.Count / 3;
-            graphicsDevice.DrawUserPrimitives<VertexPositionColor>(TRIANGLE_LIST, vertexList.ToArray(), VERTEX_OFFSET, primitiveCount);
+            graphicsDevice.DrawUserPrimitives(TRIANGLE_LIST, vertexList.ToArray(), VERTEX_OFFSET, primitiveCount);
         }
 
         private void PopulateVerticesForSide(List<VertexPositionColor> vertexList,

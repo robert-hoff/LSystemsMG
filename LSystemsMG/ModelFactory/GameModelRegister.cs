@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using LSystemsMG.ModelFactory.ModelsPrimitive;
 using LSystemsMG.ModelRendering;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace LSystemsMG.ModelFactory
 {

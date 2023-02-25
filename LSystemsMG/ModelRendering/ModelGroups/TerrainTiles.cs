@@ -1,6 +1,6 @@
-using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
 using LSystemsMG.Util;
+using Microsoft.Xna.Framework;
 
 namespace LSystemsMG.ModelRendering.ModelGroups
 {
@@ -15,7 +15,7 @@ namespace LSystemsMG.ModelRendering.ModelGroups
 
         public TerrainTiles(GameModelRegister gameModelRegister, int terrainSide = 20) : base()
         {
-            this.terrainSide= terrainSide;
+            this.terrainSide = terrainSide;
             this.terrainModels = new GameModel[terrainSide * terrainSide];
             int offset = terrainSide * terrainSide / 2 + terrainSide / 2;
             for (int i = -terrainSide / 2; i < terrainSide / 2; i++)

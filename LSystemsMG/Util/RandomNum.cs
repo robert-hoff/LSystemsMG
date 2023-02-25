@@ -13,7 +13,7 @@ namespace LSystemsMG.Util
         }
         public static bool GetRandomBool()
         {
-            return random.Next(0,2) % 2 == 0;
+            return random.Next(0, 2) % 2 == 0;
         }
 
         public static string Random5LenHash()

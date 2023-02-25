@@ -1,8 +1,7 @@
 using System;
-using System.Diagnostics;
+using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using LSystemsMG.ModelRendering;
 
 namespace LSystemsMG.ModelFactory
 {
@@ -13,7 +12,8 @@ namespace LSystemsMG.ModelFactory
         public ModelPrimitive(
             GraphicsDevice graphicsDevice,
             CameraTransform cameraTransform,
-            string modelName) : base(cameraTransform, modelName) {
+            string modelName) : base(cameraTransform, modelName)
+        {
             this.graphicsDevice = graphicsDevice;
         }
 

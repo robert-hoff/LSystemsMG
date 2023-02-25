@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Globalization;
 using Microsoft.Xna.Framework;
 
@@ -15,7 +14,6 @@ namespace LSystemsMG.Util
             baseR = baseColor >> 16 & 0xff;
             baseG = baseColor >> 8 & 0xff;
             baseB = baseColor & 0xff;
-
         }
 
         public Color GetVariationColor()

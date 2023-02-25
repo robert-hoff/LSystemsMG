@@ -16,14 +16,16 @@ namespace LSystemsMG.Util.GraphDemo
             // OrderedDictionary();
         }
 
-        public static void CombiningGraphs() {
+        public static void CombiningGraphs()
+        {
             GraphNode graph1 = CreateComplexNode();
             GraphNode graph2 = CreateBasicNode();
             graph1[1][0][0][0].AddNode(graph2);
             Debug.WriteLine($"{graph1.ToString("")}");
         }
 
-        public static void GraphDemo2() {
+        public static void GraphDemo2()
+        {
             GraphNode rootNode = CreateComplexNode();
             Debug.WriteLine($"[root]");
             Debug.WriteLine($"{rootNode.ToString("")}");

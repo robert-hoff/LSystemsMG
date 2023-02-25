@@ -1,7 +1,8 @@
+using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using LSystemsMG.ModelRendering;
 
+#pragma warning disable CA1001 // Types that own disposable fields should be disposable
 namespace LSystemsMG.Primitives
 {
     class ModelLinePrimitive
@@ -24,11 +25,11 @@ namespace LSystemsMG.Primitives
             VertexPositionColor[] vertexList = new VertexPositionColor[2];
             vertexList[0] = new VertexPositionColor(vertices[0], color);
             vertexList[1] = new VertexPositionColor(vertices[1], color);
-            basicEffect.World = cameraTransform.worldMatrix;
-            basicEffect.View = cameraTransform.viewMatrix;
-            basicEffect.Projection = cameraTransform.projectionMatrix;
+            basicEffect.World = cameraTransform.WorldMatrix;
+            basicEffect.View = cameraTransform.ViewMatrix;
+            basicEffect.Projection = cameraTransform.ProjectionMatrix;
             basicEffect.CurrentTechnique.Passes[0].Apply();
-            graphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, vertexList, 0, 1);
+            graphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, vertexList, 0, 1);
         }
 
         public void DrawTestLine()
@@ -76,7 +77,6 @@ namespace LSystemsMG.Primitives
             negativeZ[0] = new Vector3(x, y, z);
             negativeZ[1] = new Vector3(x, y, z - axisLength);
             DrawLinePrimitive(negativeZ, Color.Black);
-
         }
     }
 }

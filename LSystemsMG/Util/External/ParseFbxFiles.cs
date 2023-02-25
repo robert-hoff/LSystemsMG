@@ -1,12 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace LSystemsMG.Util.External
 {
@@ -23,7 +18,6 @@ namespace LSystemsMG.Util.External
         public static void Test1()
         {
             // ConvertByteSequenceToString("30 50 51 52 53 5D"); // 0PQRS
-
         }
 
         public static void Test2()
@@ -39,7 +33,6 @@ namespace LSystemsMG.Util.External
             byte[] targetData = ConvertStringtoByteArray(targetString);
             ConvertByteArrayToString(targetData);
         }
-
 
         public static void RemoveStringFromBinaryFile(string filenamepath, string targetString)
         {
@@ -119,6 +112,4 @@ namespace LSystemsMG.Util.External
         }
     }
 }
-
-
 

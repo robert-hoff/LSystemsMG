@@ -1,6 +1,6 @@
+using LSystemsMG.ModelRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using LSystemsMG.ModelRendering;
 
 namespace LSystemsMG.ModelFactory
 {
@@ -60,9 +60,9 @@ namespace LSystemsMG.ModelFactory
                 foreach (Effect effect in mesh.Effects)
                 {
                     BasicEffect basicEffect = (BasicEffect) effect;
-                    basicEffect.World = cameraTransform.worldMatrix;
-                    basicEffect.View = cameraTransform.viewMatrix;
-                    basicEffect.Projection = cameraTransform.projectionMatrix;
+                    basicEffect.World = cameraTransform.WorldMatrix;
+                    basicEffect.View = cameraTransform.ViewMatrix;
+                    basicEffect.Projection = cameraTransform.ProjectionMatrix;
                     basicEffect.World = Matrix.Multiply(worldTransform, basicEffect.World);
                     // don't think it matters if these are assigned before or after transforms
                     basicEffect.DiffuseColor = this.modelDiffuseColor;

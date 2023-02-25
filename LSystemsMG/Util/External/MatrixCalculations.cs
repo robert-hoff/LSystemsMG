@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
-using Microsoft.Xna.Framework;
 using LSystemsMG.ModelRendering;
+using Microsoft.Xna.Framework;
 
 namespace LSystemsMG.Util.External
 {
@@ -179,14 +179,22 @@ namespace LSystemsMG.Util.External
         {
             Func<float, string> matrixToken = formatLen switch
             {
-                8 => delegate (float f) { return $"{f,8:0.000}"; },
-                7 => delegate (float f) { return $"{f,7:0.000}"; },
-                6 => delegate (float f) { return $"{f,6:0.00}"; },
-                5 => delegate (float f) { return $"{f,5:0.00}"; },
-                4 => delegate (float f) { return $"{f,4:0.0}"; },
-                3 => delegate (float f) { return $"{f,3:0.0}"; },
-                2 => delegate (float f) { return $"{f,2:0}"; },
-                1 => delegate (float f) { return $"{f,1:0}"; },
+                8 => delegate (float f) { return $"{f,8:0.000}"; }
+                ,
+                7 => delegate (float f) { return $"{f,7:0.000}"; }
+                ,
+                6 => delegate (float f) { return $"{f,6:0.00}"; }
+                ,
+                5 => delegate (float f) { return $"{f,5:0.00}"; }
+                ,
+                4 => delegate (float f) { return $"{f,4:0.0}"; }
+                ,
+                3 => delegate (float f) { return $"{f,3:0.0}"; }
+                ,
+                2 => delegate (float f) { return $"{f,2:0}"; }
+                ,
+                1 => delegate (float f) { return $"{f,1:0}"; }
+                ,
                 _ => throw new Exception("invalid formatLen")
             };
             float[] mValues = printAsMonogameIntended ?

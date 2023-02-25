@@ -25,7 +25,6 @@ namespace LSystemsMG.ModelRendering
         public static Matrix RotY(float rY) { return Matrix.CreateRotationY(MathHelper.ToRadians(rY)); }
         public static Matrix RotZ(float rZ) { return Matrix.CreateRotationZ(MathHelper.ToRadians(rZ)); }
 
-
         /*
          * Build matrices starting with `Transform.Ident()`
          *

@@ -1,22 +1,22 @@
 using System.Diagnostics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using LSystemsMG.ModelFactory;
 using LSystemsMG.ModelRendering;
 using LSystemsMG.ModelRendering.ModelGroups;
 using LSystemsMG.ModelRendering.TestScenes;
-using LSystemsMG.Util.Demos;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
+#pragma warning disable CS0162 // Unreachable code detected
 namespace LSystemsMG
 {
     public class Game1 : Game
     {
         // dev settings
         // --
-        private readonly static bool SHOW_AXIS = false;
-        public readonly static bool RESTRICT_CAMERA = false;
+        private const bool SHOW_AXIS = false;
+        public const bool RESTRICT_CAMERA = false;
         // --
 
         // -- cameraTransform is updated on changes in viewport and used to draw all models
@@ -152,9 +152,9 @@ namespace LSystemsMG
             // -- Show camera position
             if (keyEvent == Keys.P)
             {
-                Debug.WriteLine($"camera position {cameraTransform.cameraPosition}");
-                Debug.WriteLine($"rotation {MathHelper.ToDegrees(cameraTransform.cameraRotation)}");
-                Debug.WriteLine($"distance from origin {Vector3.Distance(cameraTransform.cameraPosition, new Vector3(0, 0, 0))}");
+                Debug.WriteLine($"camera position {cameraTransform.CameraPosition}");
+                Debug.WriteLine($"rotation {MathHelper.ToDegrees(cameraTransform.CameraRotation)}");
+                Debug.WriteLine($"distance from origin {Vector3.Distance(cameraTransform.CameraPosition, new Vector3(0, 0, 0))}");
             }
             if (keyEvent == Keys.S)
             {

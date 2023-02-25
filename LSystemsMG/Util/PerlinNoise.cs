@@ -86,7 +86,6 @@ namespace LSystemsMG.Util
 
             double v;
 
-
             if (h < 4)
                 v = y;
             else if (h == 12 || h == 14)

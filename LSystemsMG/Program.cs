@@ -15,12 +15,13 @@ namespace LSystemsMG
 
         public static void RunOther()
         {
-            FixLineEndings();
-            // CSharpSnippets();
+            // FixWhitespace();
+            CSharpSnippets();
             // MatrixEvaluations();
             // AnalyseFiles();
         }
-        public static void FixLineEndings() { FixLineEndingsCsFiles.Run(); }
+
+        public static void FixWhitespace() { FixCsWhiteSpaceIssues.FixSelf(); }
         public static void CSharpSnippets() { SortableItem.TrialRun(); }
         public static void MatrixEvaluations() { MatrixCalculations.Run(); }
         public static void AnalyseFiles() { ParseFbxFiles.Run(); }

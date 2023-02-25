@@ -1,7 +1,6 @@
-using System.Diagnostics;
-using Microsoft.Xna.Framework;
 using LSystemsMG.ModelFactory;
 using LSystemsMG.Util;
+using Microsoft.Xna.Framework;
 
 namespace LSystemsMG.ModelRendering.ModelGroups
 {
