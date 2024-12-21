@@ -7,7 +7,7 @@ _*
 *.lnk
 
 # visual studio compiled files
-/.vs/
+.vs/
 /LSystemsMG/bin/
 /LSystemsMG/obj/
 /LSystemsMG/Content/bin/

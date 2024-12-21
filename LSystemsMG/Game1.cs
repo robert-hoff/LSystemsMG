@@ -3,6 +3,7 @@ using LSystemsMG.ModelFactory;
 using LSystemsMG.ModelRendering;
 using LSystemsMG.ModelRendering.ModelGroups;
 using LSystemsMG.ModelRendering.TestScenes;
+using LSystemsMG.Util.Demos;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -95,8 +96,8 @@ namespace LSystemsMG
             RegisterModel("geometries/cube-wedge0");
             RegisterModel("geometries/cube-wedge1");
 
-            sceneGraph = new S01_RotatingPlatform(gameModelRegister);
-            // sceneGraph = new S02_PlantsAndTerrain(gameModelRegister);
+            // sceneGraph = new S01_RotatingPlatform(gameModelRegister);
+            sceneGraph = new S02_PlantsAndTerrain(gameModelRegister);
             // sceneGraph = new GrowingAndShrinkingPlatform(gameModelRegister);
             // sceneGraph = new FernsAndTiles(gameModelRegister);
             // sceneGraph = new TestScene(gameModelRegister);

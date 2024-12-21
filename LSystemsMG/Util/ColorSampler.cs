@@ -30,18 +30,12 @@ namespace LSystemsMG.Util
             int newR = baseR + deltaR;
             int newG = baseG + deltaG;
             int newB = baseB + deltaB;
-            if (newR < 0)
-            { newR = -newR; }
-            if (newG < 0)
-            { newG = -newG; }
-            if (newB < 0)
-            { newB = -newB; }
-            if (newR > 255)
-            { newR -= 255; }
-            if (newG > 255)
-            { newG -= 255; }
-            if (newB > 255)
-            { newB -= 255; }
+            if (newR < 0) { newR = -newR; }
+            if (newG < 0) { newG = -newG; }
+            if (newB < 0) { newB = -newB; }
+            if (newR > 255) { newR -= 255; }
+            if (newG > 255) { newG -= 255; }
+            if (newB > 255) { newB -= 255; }
             Vector3 colorV = new Vector3((newR - 0.1f) / 255f, (newG - 0.1f) / 255f, (newB - 0.1f) / 255f);
             return colorV;
         }
